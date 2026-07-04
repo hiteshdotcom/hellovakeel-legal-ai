@@ -4,9 +4,9 @@ import type { UIMessage } from "@/store/chat";
 import { useChat } from "@/store/chat";
 import { useUI } from "@/store/ui";
 import Answer from "./Answer";
+import ThinkingIndicator from "./ThinkingIndicator";
 import { cn } from "@/lib/cn";
-import { Brain, Search, Check, Warning, Copy, ThumbsUp, ThumbsDown, CaretRight } from "@/lib/icons";
-import { SkeletonLines } from "@/components/ui";
+import { Brain, Check, Warning, Copy, ThumbsUp, ThumbsDown, CaretRight } from "@/lib/icons";
 
 function Message({ m }: { m: UIMessage }) {
   if (m.role === "user") {
@@ -42,26 +42,7 @@ function Message({ m }: { m: UIMessage }) {
         </div>
       )}
 
-      {m.thinking && (
-        <>
-          <div className="flex items-center gap-2.5 text-[13.5px] text-ink-3">
-            <Search size={15} className="text-accent-ink" />
-            Searching the judgment graph
-            <span className="inline-flex gap-1">
-              {[0, 0.2, 0.4].map((d) => (
-                <span
-                  key={d}
-                  className="h-1 w-1 rounded-full bg-ink-3"
-                  style={{ animation: `1.2s ${d}s infinite dot` }}
-                />
-              ))}
-            </span>
-          </div>
-          <div className="mt-1.5">
-            <SkeletonLines />
-          </div>
-        </>
-      )}
+      {m.thinking && <ThinkingIndicator phase={m.phase} />}
 
       {m.text && (
         <Answer
