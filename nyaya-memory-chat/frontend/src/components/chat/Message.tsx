@@ -5,6 +5,7 @@ import { useChat } from "@/store/chat";
 import { useUI } from "@/store/ui";
 import Answer from "./Answer";
 import ThinkingIndicator from "./ThinkingIndicator";
+import ClarifyCard from "./ClarifyCard";
 import { cn } from "@/lib/cn";
 import { Brain, Check, Warning, Copy, ThumbsUp, ThumbsDown, CaretRight } from "@/lib/icons";
 
@@ -44,17 +45,21 @@ function Message({ m }: { m: UIMessage }) {
 
       {m.thinking && <ThinkingIndicator phase={m.phase} />}
 
-      {m.text && (
-        <Answer
-          text={m.text}
-          sources={m.sources}
-          warnings={m.warnings}
-          streaming={!m.done}
-          done={m.done}
-        />
+      {m.clarify ? (
+        <ClarifyCard preamble={m.clarify.preamble} questions={m.clarify.questions} />
+      ) : (
+        m.text && (
+          <Answer
+            text={m.text}
+            sources={m.sources}
+            warnings={m.warnings}
+            streaming={!m.done}
+            done={m.done}
+          />
+        )
       )}
 
-      {m.done && <MessageFooter m={m} />}
+      {m.done && !m.clarify && <MessageFooter m={m} />}
     </motion.div>
   );
 }

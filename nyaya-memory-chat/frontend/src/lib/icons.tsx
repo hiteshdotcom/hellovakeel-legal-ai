@@ -5,6 +5,7 @@ export {
   Scales,
   Plus,
   MagnifyingGlass as Search,
+  Question,
   List as Menu,
   X,
   Sun,
