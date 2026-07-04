@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Design tokens — ported from the original Nyaya.AI identity.
+   "Trust & Authority": warm paper canvas, navy + gold, legal
+   serif for prose. Every token flips under [data-theme="dark"]
+   so Tailwind's `bg-surface text-ink` auto-themes everywhere.
+   ============================================================ */
+:root {
+  --canvas: #f8f6f1;
+  --surface: #ffffff;
+  --surface-raised: #fdfbf7;
+  --ink: #1c1917;
+  --ink-2: #6b6560;
+  --ink-3: #9e9892;
+  --navy: #1e2a4a;
+  --gold: #c8a96e;
+  --gold-soft: #fbf6ec;
+  --divider: #e8e4dc;
+  --accent-soft: #eaecf3;
+  --accent-ink: #1e2a4a;
+  --good: #166534;
+  --good-bg: #dcfce7;
+  --good-bd: #86c89b;
+  --warn: #9a6700;
+  --warn-bg: #fbf1da;
+  --warn-bd: #e8c778;
+  --bad: #991b1b;
+  --bad-bg: #fee2e2;
+  --bad-bd: #e7a3a3;
+  --scrim: rgba(0, 0, 0, 0.5);
+  --focus: #c8a96e;
+}
+
+[data-theme="dark"] {
+  --canvas: #14181f;
+  --surface: #1b2029;
+  --surface-raised: #20262f;
+  --ink: #f1eee8;
+  --ink-2: #b8b2a9;
+  --ink-3: #847e75;
+  --gold-soft: #231c10;
+  --divider: #2c333d;
+  --accent-soft: #26303f;
+  --accent-ink: #aeb8d9;
+  --good-bg: #12281a;
+  --good-bd: #2e6b40;
+  --warn: #e8ba57;
+  --warn-bg: #332915;
+  --warn-bd: #6e5a2a;
+  --bad-bg: #2e1615;
+  --bad-bd: #7a3a36;
+  --scrim: rgba(0, 0, 0, 0.6);
+}
+
+@layer base {
+  * {
+    @apply border-divider;
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    margin: 0;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  /* tabular numerals for data columns / metrics */
+  .tnum {
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  .skel {
+    background: linear-gradient(
+      90deg,
+      var(--canvas) 25%,
+      var(--divider) 37%,
+      var(--canvas) 63%
+    );
+    background-size: 800px 100%;
+    animation: shimmer 1.4s linear infinite;
+    @apply rounded-md;
+  }
+  .ny-sc::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+  .ny-sc::-webkit-scrollbar-thumb {
+    background: var(--divider);
+    border-radius: 9px;
+  }
+  .ny-sc::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+@keyframes dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
