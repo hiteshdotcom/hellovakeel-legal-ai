@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nyaya.AI — Legal Memory Chat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+  :root{
+    --color-canvas:#F8F6F1; --color-surface:#FFFFFF; --color-surface-raised:#FDFBF7;
+    --color-ink:#1C1917; --color-ink-secondary:#6B6560; --color-ink-tertiary:#9E9892;
+    --color-brand-navy:#1E2A4A; --color-brand-gold:#C8A96E;
+    --color-good-law:#166534; --color-good-law-bg:#DCFCE7;
+    --color-bad-law:#991B1B; --color-bad-law-bg:#FEE2E2;
+    --color-divider:#E8E4DC; --color-focus:#C8A96E;
+    --font-serif:'Newsreader',Georgia,serif; --font-sans:Inter,system-ui,sans-serif; --font-mono:'JetBrains Mono',monospace;
+    /* ---- compatibility aliases: existing inline styles resolve onto the new palette ---- */
+    --paper:var(--color-canvas); --surface:var(--color-surface); --surface-2:var(--color-canvas); --raised:var(--color-surface-raised);
+    --ink:var(--color-ink); --ink-2:var(--color-ink-secondary); --ink-3:var(--color-ink-tertiary);
+    --hair:var(--color-divider); --hair-2:var(--color-divider);
+    --accent:var(--color-brand-navy); --accent-2:var(--color-brand-navy); --accent-soft:#EAECF3; --accent-ink:var(--color-brand-navy);
+    --good:var(--color-good-law); --good-bg:var(--color-good-law-bg); --good-bd:#86C89B;
+    --warn:#9A6700; --warn-bg:#FBF1DA; --warn-bd:#E8C778;
+    --bad:var(--color-bad-law); --bad-bg:var(--color-bad-law-bg); --bad-bd:#E7A3A3;
+    --userbg:var(--color-brand-navy); --userfg:#FFFFFF; --scrim:rgba(0,0,0,.5);
+    --nyaya-brand:var(--color-brand-navy); --nyaya-gold:var(--color-brand-gold); --nyaya-gold-soft:#FBF6EC;
+  }
+  [data-theme="dark"]{
+    --color-canvas:#14181F; --color-surface:#1B2029; --color-surface-raised:#20262F;
+    --color-ink:#F1EEE8; --color-ink-secondary:#B8B2A9; --color-ink-tertiary:#847E75;
+    --color-divider:#2C333D; --accent-soft:#26303F;
+    --good-bd:#2E6B40; --bad-bd:#7A3A36;
+    --warn:#E8BA57; --warn-bg:#332915; --warn-bd:#6E5A2A; --scrim:rgba(0,0,0,.6);
+    --good-bg:#12281A; --bad-bg:#2E1615;
+    --nyaya-gold-soft:#231C10;  /* dark warm tint for gold blockquote / chips */
+    --accent-ink:#AEB8D9;       /* light periwinkle so navy "ink" is legible on dark */
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{font-family:var(--font-sans);color:var(--color-ink);background:var(--color-canvas)}
+  @keyframes nyBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
+  @keyframes nyFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes nyDot{0%,80%,100%{opacity:.25}40%{opacity:1}}
+  @keyframes nyPulse{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+  @keyframes modalIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+  @keyframes pipeFlow{0%{background-position:0 0}100%{background-position:12px 0}}
+  @keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+  .skel{background:linear-gradient(90deg,var(--color-canvas) 25%,var(--color-divider) 37%,var(--color-canvas) 63%);background-size:800px 100%;animation:shimmer 1.4s linear infinite;border-radius:7px}
+  .ny-sc::-webkit-scrollbar{width:9px;height:9px}
+  .ny-sc::-webkit-scrollbar-thumb{background:var(--color-divider);border-radius:9px}
+  .ny-sc::-webkit-scrollbar-track{background:transparent}
+  .ny-fade{animation:nyFade .26s ease both}
+  .fade-up{animation:fadeUp .2s ease both}
+  .pulse-in{animation:nyPulse .3s ease both}
+  .modal-in{animation:modalIn .18s ease-out both}
+  .serif{font-family:var(--font-serif)}
+  .mono{font-family:var(--font-mono)}
+  .hoverbg:hover{background:var(--color-canvas)}
+  .jr-card{background:var(--color-surface);border:1px solid var(--color-divider);border-radius:16px;padding:16px}
+  .jr-chip{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 9px;font-size:11.5px;font-weight:700;border:1px solid var(--color-divider);line-height:1.1}
+  .jr-reader-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:12px}
+  .jr-citation-card:focus{outline:2px solid var(--color-focus);outline-offset:2px}
+  .clamp2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .row-actions{opacity:0;transition:opacity .15s ease}
+  .sess-row:hover .row-actions,.sess-row:focus-within .row-actions{opacity:1}
+  .md-body h2{font-size:19px;font-weight:700;margin:16px 0 6px;line-height:1.3}
+  .md-body h2:first-child{margin-top:2px}
+  .md-body ul{margin:6px 0;padding-left:20px}
+  .md-body li{margin:5px 0}
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  /* sources drawer slide (desktop = from right) */
+  .sources-drawer{transform:translateX(100%);transition:transform .24s ease-out}
+  .sources-drawer.open{transform:translateX(0)}
+  .drag-handle{align-self:center;width:40px;height:4px;border-radius:999px;background:var(--color-divider);flex:none;margin:-2px 0 6px}
+  /* keyboard skip link */
+  .skip-link{position:absolute;left:8px;top:-48px;z-index:300;background:var(--color-brand-navy);color:#fff;padding:8px 12px;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none}
+  .skip-link:focus{top:8px}
+  a{color:inherit}
+  textarea{font-family:var(--font-sans)}
+  button{font-family:inherit}
+  :focus-visible{outline:2px solid var(--color-focus);outline-offset:2px}
+  /* tactile press feedback on primary tappables */
+  .tap{transition:transform .12s ease}
+  .tap:active{transform:scale(.97)}
+  .mobile-only{display:none !important}
+  /* ---- tablet ---- */
+  @media (max-width: 980px){ .jr-reader-grid{grid-template-columns:1fr} }
+  /* ---- mobile ---- */
+  @media (max-width: 768px){
+    .mobile-only{display:flex !important}
+    .desktop-only{display:none !important}
+    /* left nav becomes an off-canvas drawer */
+    .leftnav{position:fixed !important;top:48px;left:0;width:min(84vw,300px) !important;
+      height:calc(100dvh - 48px);z-index:130;transform:translateX(-100%);
+      transition:transform .24s ease;box-shadow:2px 0 34px rgba(0,0,0,.20)}
+    .leftnav.open{transform:translateX(0)}
+    /* sources become a bottom sheet on mobile */
+    .sources-drawer{top:auto !important;bottom:0;left:0;right:0;width:100vw !important;max-width:100vw !important;
+      height:86dvh !important;border-radius:18px 18px 0 0;transform:translateY(100%)}
+    .sources-drawer.open{transform:translateY(0)}
+    .jmodal-overlay{padding:0 !important;align-items:stretch !important;justify-content:stretch !important}
+    .jmodal{width:100vw !important;max-width:100vw !important;height:100dvh !important;
+      max-height:100dvh !important;border-radius:0 !important;border:0 !important;box-shadow:none !important}
+    /* breathing room + comfortable reading width */
+    .chat-thread{padding:16px 14px 8px !important}
+    .chat-col{gap:14px !important}
+    .composer-wrap{padding:10px 12px 12px !important}
+    /* 16px inputs stop iOS from zooming on focus */
+    input,textarea{font-size:16px !important}
+    .pillars{gap:6px}
+  }
+  @media (prefers-reduced-motion: reduce){*{transition-duration:.01ms !important;animation-duration:.01ms !important}}
+</style>
+</head>
+<body>
+<div id="app" data-theme="light" style="position:relative;display:flex;flex-direction:column;height:100dvh;width:100%;background:var(--color-canvas);overflow:hidden"></div>
+
+<script>
+/* =========================================================================
+   Nyaya.AI Memory Chat — vanilla JS frontend wired to the FastAPI backend.
+   Cognee retrieves & remembers · Claude composes · grounding guard verifies.
+   ========================================================================= */
+const API = location.origin + "/api";
+
+// Two demo identities (for the isolation demo); user_id is otherwise arbitrary.
+const USERS = {
+  rohan: { initials:"RA", name:"Rohan Advani", sub:"Advocate · Bombay HC", tag:"returning · rich memory" },
+  meera: { initials:"MI", name:"Meera Iyer", sub:"New user", tag:"fresh · isolated" },
+};
+const EXAMPLES = [
+  "What did the Supreme Court hold on the basic structure doctrine?",
+  "I have a cheque-bounce dispute, ₹2,00,000, Maharashtra, no case filed yet.",
+  "Given my matter, what should I do next?",
+];
+
+const S = {
+  theme:"light", userId:"rohan", sessionId:null,
+  sessions:[], messages:[], sources:[], memory:{empty:true,groups:[]},
+  warnings:[], draft:"", streaming:false, userMenuOpen:false,
+  graphTab:"citation", selectedSource:null, selectedJudgment:null,
+  judgmentLoading:false, judgmentAskDraft:"", judgmentAskAnswer:"",
+  judgmentAskWarnings:[], judgmentAsking:false, judgmentTab:"overview",
+  judgmentSummary:null, judgmentSummaryLoading:false, judgmentTextQuery:"",
+  judgmentExpanded:false, splitView:false,
+  selectedCitation:null, citationPanelOpen:false,
+  pendingJudgmentSource:null, judgmentOpenError:"",
+  pulse:null, liveCursor:false,
+  // redesign UI state
+  sidebarCollapsed:false, sessionSearchOpen:false, sessionSearchQuery:"",
+  sourcesDrawerOpen:false, editingTitle:false, pillsExpanded:false,
+  sessionMenuId:null, groupOpen:{Today:true,Yesterday:true,"This week":true,Older:false},
+  _returnFocus:null, copiedIdx:null, feedback:{}, mobileNavOpen:false, sourcesTab:"graph",
+  // auth
+  authUser:null, authChecked:false, authMode:"login",
+  authEmail:"", authPassword:"", authName:"", authError:"", authBusy:false, googleEnabled:false,
+  // clerk (powers "Sign in with Google")
+  clerkEnabled:false, clerkPk:"", clerkFrontendApi:"", clerkBusy:false,
+};
+
+/* ---------- tiny DOM helpers ---------- */
+const el = (t,a={},...kids)=>{ const n=document.createElement(t);
+  for(const k in a){ if(k==="style") n.style.cssText=a[k];
+    else if(k.startsWith("on")) n.addEventListener(k.slice(2).toLowerCase(),a[k]);
+    else if(k==="html") n.innerHTML=a[k];
+    else if(a[k]!=null) n.setAttribute(k,a[k]); }
+  for(const c of kids.flat()){ if(c==null||c===false)continue; n.append(c.nodeType?c:document.createTextNode(c)); }
+  return n; };
+const ICON=(p,o={})=>{ const s=`<svg width="${o.w||16}" height="${o.w||16}" viewBox="0 0 24 24" fill="${o.fill||'none'}" stroke="${o.stroke||'currentColor'}" stroke-width="${o.sw||1.8}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+  const d=el("span",{style:"display:inline-flex;flex:none"}); d.innerHTML=s; return d.firstChild; };
+const I={
+  scales:'<path d="M12 3v18"/><path d="m5 7 7-2 7 2"/><path d="M5 7 2.5 14a3.5 3.5 0 0 0 7 0L7 7"/><path d="m17 7-2.5 7a3.5 3.5 0 0 0 7 0L19 7"/><path d="M5 21h14"/>',
+  plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',
+  msg:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+  brain:'<path d="M12 5a3 3 0 1 0-5.997.142 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.142 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>',
+  menu:'<line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+  moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  alert:'<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+  x:'<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>',
+  send:'<path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/>',
+  shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+  graph:'<circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M6.5 17.5 10.5 7"/><path d="m13.5 7 4 10.5"/><path d="M7 19h10"/>',
+  chev:'<path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
+  star:'<path d="m12 2 2.9 6.2 6.8.8-5 4.7 1.3 6.7-6-3.4-6 3.4 1.3-6.7-5-4.7 6.8-.8Z"/>',
+  sparkle:'<path d="m12 3 1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7Z"/><path d="M19 15v4"/><path d="M21 17h-4"/>',
+  bookmark:'<path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z"/>',
+  file:'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h6"/>',
+  target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3"/><path d="M12 19v3"/><path d="M2 12h3"/><path d="M19 12h3"/>',
+  lightbulb:'<path d="M15 14c.2-1 .9-1.7 1.5-2.4A5 5 0 1 0 7.5 11.6C8.1 12.3 8.8 13 9 14"/><path d="M9 18h6"/><path d="M10 22h4"/><path d="M10 14h4v4h-4z"/>',
+  expand:'<path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/>',
+  shrink:'<path d="M4 14h6v6"/><path d="M20 10h-6V4"/><path d="M14 10l7-7"/><path d="M3 21l7-7"/>',
+  chevLeft:'<path d="m15 18-6-6 6-6"/>',
+  chevRight:'<path d="m9 18 6-6-6-6"/>',
+  chevDown:'<path d="m6 9 6 6 6-6"/>',
+  dots:'<circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/>',
+  copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  thumbUp:'<path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/>',
+  thumbDown:'<path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/>',
+  split:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/>',
+  back:'<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+  zap:'<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
+};
+
+/* ---------- API ---------- */
+async function jget(path){
+  const r=await fetch(API+path);
+  if(!r.ok){
+    let detail=""; try{ const body=await r.json(); detail=body.error||body.detail||""; }catch(e){}
+    throw new Error("HTTP "+r.status+(detail?": "+detail:""));
+  }
+  return r.json();
+}
+
+async function loadSidebar(){
+  try{
+    const [sess] = await Promise.all([
+      jget("/sessions/"+S.userId)
+    ]);
+    S.sessions = sess.sessions||[];
+  }catch(e){ S.sessions=[]; }
+  render();
+}
+
+/* ---------- streaming chat ---------- */
+async function send(text){
+  text = (text!=null?text:S.draft).trim();
+  if(!text || S.streaming) return;
+  if(!S.sessionId) S.sessionId = "s_"+Math.random().toString(36).slice(2,12);
+  S.draft="";
+  S.messages.push({role:"user", text});
+  const asst = {role:"assistant", text:"", parts:null, thinking:true, recalled:[], done:false,
+                sources:[], warnings:[], verified:[]};
+  S.messages.push(asst);
+  S.streaming=true; render(); scrollThread();
+
+  try{
+    const resp = await fetch(API+"/chat",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({user_id:S.userId, session_id:S.sessionId, message:text})});
+    const reader = resp.body.getReader(); const dec=new TextDecoder(); let buf="";
+    while(true){
+      const {value,done}=await reader.read(); if(done)break;
+      buf += dec.decode(value,{stream:true});
+      let nl; while((nl=buf.indexOf("\n"))>=0){
+        const line=buf.slice(0,nl).trim(); buf=buf.slice(nl+1);
+        if(!line)continue; let ev; try{ev=JSON.parse(line);}catch(e){continue;}
+        handleEvent(ev, asst);
+      }
+    }
+  }catch(e){ asst.text+="\n\n[connection error: "+e.message+"]"; }
+  asst.thinking=false; asst.done=true; S.streaming=false;
+  render(); scrollThread();
+  loadSidebar();        // refresh sessions list after first turn
+  refreshGraphForSelection();
+}
+
+function handleEvent(ev, asst){
+  if(ev.type==="meta"){ S.sessionId=ev.session_id; asst.recalled=ev.recalled||[]; asst.thinking=true; }
+  else if(ev.type==="sources"){
+    S.sources=ev.sources||[];
+    S.selectedJudgment=null; S.judgmentAskAnswer=""; S.judgmentAskDraft="";
+    if(S.sources.length)S.selectedSource=sourceId(S.sources[0]);
+  }
+  else if(ev.type==="token"){ asst.thinking=false; asst.text+=ev.text; }
+  else if(ev.type==="final"){
+    asst.text=ev.answer; asst.sources=ev.sources||[]; asst.warnings=ev.warnings||[];
+    asst.verified=ev.verified||[]; S.warnings=ev.warnings||[];
+    if(ev.memory) S.memory=ev.memory;
+    if(asst.recalled&&asst.recalled.length){ S.pulse=true; setTimeout(()=>{S.pulse=false;render();},1800); }
+  }
+  render(); scrollThread();
+}
+
+function scrollThread(){ const t=document.getElementById("thread"); if(t)requestAnimationFrame(()=>t.scrollTop=t.scrollHeight); }
+
+/* ---------- answer formatting: citations + paragraphs + trust ---------- */
+function srcByCitation(label){
+  const norm=s=>(s||"").toLowerCase().replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+  const left=norm(label.split(/ v\.? /)[0]);
+  let best=null,bs=0;
+  for(const s of S.sources){ const t=norm(s.case_title);
+    let sc=0; if(left.length>5 && t.includes(left)) sc=0.95;
+    if(sc>bs){bs=sc;best=s;} }
+  return bs>0.6?best:null;
+}
+/* Section 5: lightweight Markdown — ## → h2, **bold** → strong, - / * → <ul>,
+   while still tokenizing [Case citations] into interactive pills. */
+function inlineInto(container, text, unver, reg){
+  const tokenRe=/(\*\*[^*]+\*\*|\[[^\]]+\])/g; let last=0,m;
+  while((m=tokenRe.exec(text))){
+    if(m.index>last) container.append(document.createTextNode(text.slice(last,m.index)));
+    const tok=m[0];
+    if(tok.startsWith("**")){ container.append(el("strong",{},tok.slice(2,-2))); }
+    else {
+      const label=tok.slice(1,-1).trim();
+      const looksCite=/ v\.? | vs /i.test(label) || /\b(19|20)\d{2}\b/.test(label);
+      if(looksCite) container.append(citeRef(label, unver.has(label.toLowerCase()), reg));
+      else container.append(document.createTextNode(tok));
+    }
+    last=tokenRe.lastIndex;
+  }
+  if(last<text.length) container.append(document.createTextNode(text.slice(last)));
+}
+/* Superscript reference that keeps prose readable; the full citation lives in a
+   numbered footnote strip + a hover popover. */
+function citeRef(label, unverified, reg){
+  const src=srcByCitation(label);
+  const key=src?(src.judgment_id||src.id||src.case_title):("u:"+label.toLowerCase());
+  let entry=reg.byKey.get(key);
+  if(!entry){ entry={num:reg.list.length+1, label, src, unverified}; reg.byKey.set(key,entry); reg.list.push(entry); }
+  const over=src&&src.good===false, tone=over?"--bad":(src?"--good":"--warn");
+  const span=el("span",{style:"position:relative;display:inline-block"});
+  const b=el("button",{"aria-label":"Citation "+entry.num+": "+label,
+    style:"vertical-align:super;font-size:10px;line-height:1;font-weight:800;margin:0 1px;padding:1px 4px;border-radius:5px;cursor:pointer;border:1px solid;font-family:var(--font-sans);"
+      +(unverified?"background:var(--bad-bg);color:var(--bad);border-color:var(--bad-bd);":"background:var(--accent-soft);color:var(--accent-ink);border-color:var(--color-divider);"),
+    onclick:()=>{ if(src) openJudgment(src); }}, String(entry.num));
+  span.append(b);
+  const pop=el("span",{class:"ny-fade",style:"position:absolute;bottom:calc(100% + 8px);left:0;z-index:25;width:270px;background:var(--color-surface);border:1px solid var(--color-divider);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:12px 14px;display:none;text-align:left;white-space:normal;font-family:var(--font-sans)"},
+    el("span",{style:"display:flex;align-items:center;gap:7px;margin-bottom:6px"},
+      el("span",{style:"width:8px;height:8px;border-radius:50%;flex:none;background:var("+tone+")"}),
+      el("span",{style:"font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var("+tone+")"}, over?"No longer good law":(src?"Good law":"Unverified"))),
+    el("span",{class:"serif",style:"display:block;font-weight:600;font-size:14.5px;line-height:1.3;color:var(--color-ink)"}, src?src.case_title:label),
+    src&&src.citation?el("span",{style:"display:block;font-size:12px;color:var(--color-ink-secondary);margin-top:4px"},src.citation):null,
+    src&&src.ratio?el("span",{style:"display:block;font-size:12px;color:var(--color-ink-secondary);margin-top:7px;line-height:1.5;font-style:italic"},src.ratio):null,
+    src?el("span",{style:"display:block;font-size:12px;font-weight:700;color:var(--accent-ink);margin-top:8px"},"→ Open full judgment"):null);
+  span.append(pop);
+  span.addEventListener("mouseenter",()=>pop.style.display="block");
+  span.addEventListener("mouseleave",()=>pop.style.display="none");
+  b.addEventListener("focus",()=>pop.style.display="block");
+  b.addEventListener("blur",()=>pop.style.display="none");
+  return span;
+}
+function footnoteStrip(reg){
+  const box=el("div",{style:"margin-top:16px;padding-top:12px;border-top:1px solid var(--color-divider);display:flex;flex-direction:column;gap:7px;font-family:var(--font-sans)"});
+  box.append(el("div",{style:"font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--color-ink-tertiary)"},"Sources"));
+  reg.list.forEach(e=>{
+    const src=e.src, over=src&&src.good===false, tone=over?"--bad":(src?"--good":"--warn");
+    box.append(el("button",{class:"tap",style:"display:flex;align-items:baseline;gap:9px;text-align:left;border:0;background:transparent;cursor:"+(src?"pointer":"default")+";padding:2px 0;color:var(--color-ink)",
+      onclick:()=>{ if(src) openJudgment(src); }},
+      el("span",{style:"flex:none;font-size:11px;font-weight:800;color:var(--accent-ink);min-width:16px"}, String(e.num)+"."),
+      el("span",{style:"min-width:0"},
+        el("span",{class:"serif",style:"font-weight:600;font-size:13.5px;color:var(--color-ink)"}, src?src.case_title:e.label),
+        src&&src.citation?el("span",{style:"font-size:12px;color:var(--color-ink-tertiary)"}, "  ·  "+src.citation):null,
+        el("span",{style:"font-size:11px;font-weight:700;margin-left:8px;color:var("+tone+")"}, over?"Overruled":(src?"Good law":"Unverified")))));
+  });
+  return box;
+}
+function renderAnswer(asst){
+  const wrap=el("div",{class:"answerbody md-body serif",style:"font-family:var(--font-serif);font-size:16.5px;line-height:1.7;color:var(--color-ink);max-width:70ch"});
+  const unver=new Set((asst.warnings||[]).filter(w=>w.kind==='unverified_citation').map(w=>(w.text||'').toLowerCase()));
+  const reg={list:[], byKey:new Map()};
+  const lines=(asst.text||"").split("\n");
+  let i=0;
+  while(i<lines.length){
+    const line=lines[i];
+    if(/^\s*##\s+/.test(line)){ const h=el("h2",{}); inlineInto(h, line.replace(/^\s*#{2,}\s+/,""), unver, reg); wrap.append(h); i++; continue; }
+    if(/^\s*[-*]\s+/.test(line)){
+      const ul=el("ul",{});
+      while(i<lines.length && /^\s*[-*]\s+/.test(lines[i])){ const li=el("li",{}); inlineInto(li, lines[i].replace(/^\s*[-*]\s+/,""), unver, reg); ul.append(li); i++; }
+      wrap.append(ul); continue;
+    }
+    if(!line.trim()){ i++; continue; }
+    const buf=[];
+    while(i<lines.length && lines[i].trim() && !/^\s*##\s+/.test(lines[i]) && !/^\s*[-*]\s+/.test(lines[i])){ buf.push(lines[i]); i++; }
+    const p=el("div",{style:"margin:8px 0"}); inlineInto(p, buf.join(" "), unver, reg); wrap.append(p);
+  }
+  if(asst.thinking===false && S.streaming && !asst.done)
+    wrap.append(el("span",{style:"display:inline-block;width:8px;height:17px;background:var(--color-brand-navy);border-radius:1px;vertical-align:-3px;margin-left:2px;animation:nyBlink 1s steps(1) infinite"}));
+  if(reg.list.length && asst.done) wrap.append(footnoteStrip(reg));
+  return wrap;
+}
+function citePill(label, unverified){
+  const src=srcByCitation(label);
+  const span=el("span",{style:"position:relative;display:inline-block"});
+  const a=el("button",{"aria-label":"Open "+label, style:
+    "display:inline;padding:1px 7px;margin:0 1px;border-radius:6px;font-weight:700;font-size:13.5px;cursor:pointer;border:1px solid;font-family:var(--font-sans);"
+    +(unverified?"background:var(--bad-bg);color:var(--bad);border-color:var(--bad-bd);"
+                :"background:var(--accent-soft);color:var(--accent-ink);border-color:var(--color-divider);"),
+    onclick:()=>{ if(src){openJudgment(src);} }
+  }, label);
+  span.append(a);
+  if(src){
+    const over = src.good===false;
+    const pop=el("span",{class:"ny-fade",style:"position:absolute;bottom:calc(100% + 8px);left:0;z-index:25;width:280px;background:var(--color-surface);border:1px solid var(--color-divider);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:13px 15px;display:none;text-align:left;white-space:normal"},
+      el("span",{style:"display:flex;align-items:center;gap:7px;margin-bottom:6px"},
+        el("span",{style:"width:9px;height:9px;border-radius:50%;flex:none;background:var("+(over?"--bad":"--good")+")"}),
+        el("span",{style:"font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var("+(over?"--bad":"--good")+")"}, over?"No longer good law":"Good law")),
+      el("span",{class:"serif",style:"display:block;font-weight:600;font-size:15px;line-height:1.3;color:var(--color-ink)"},src.case_title),
+      el("span",{style:"display:block;font-size:12px;color:var(--color-ink-secondary);margin-top:4px"},src.citation||""),
+      el("span",{style:"display:block;font-size:12px;color:var(--color-ink-tertiary);margin-top:2px"},src.courtdate||""),
+      el("span",{style:"display:block;font-size:12.5px;color:var(--color-ink-secondary);margin-top:8px;line-height:1.5;font-style:italic"},src.ratio||""));
+    span.append(pop);
+    span.addEventListener("mouseenter",()=>pop.style.display="block");
+    span.addEventListener("mouseleave",()=>pop.style.display="none");
+    a.addEventListener("focus",()=>pop.style.display="block");
+    a.addEventListener("blur",()=>pop.style.display="none");
+  }
+  return span;
+}
+function trustBanners(asst){
+  const out=[]; const w=asst.warnings||[];
+  if(!w.length){
+    out.push(banner("good", I.check, "All citations verified", "Every cited judgment was found in the retrieved corpus."));
+  } else {
+    for(const x of w){
+      if(x.kind==="unverified_citation")
+        out.push(banner("bad", I.x, "Unverified citation — "+(x.text||""), x.detail||"Not found in retrieved judgments; treat as unverified."));
+      else if(x.kind==="overruled")
+        out.push(banner("warn", I.alert, "Relies on overruled precedent", x.detail||((x.title||"A cited judgment")+" is no longer good law.")));
+    }
+  }
+  return out;
+}
+function banner(kind, icon, title, detail){
+  const c=kind==="good"?"--good":kind==="warn"?"--warn":"--bad";
+  return el("div",{style:`display:flex;gap:10px;align-items:flex-start;background:var(${c}-bg);border:1px solid var(${c}-bd);border-radius:10px;padding:10px 13px;align-self:flex-start`},
+    el("span",{style:`flex:none;margin-top:1px;color:var(${c})`}, ICON(icon,{w:16,sw:2.4})),
+    el("div",{style:"display:flex;flex-direction:column;gap:2px"},
+      el("div",{style:`font-weight:700;font-size:12.5px;color:var(${c})`},title),
+      el("div",{style:"font-size:13px;line-height:1.5;color:var(--ink-2)"},detail)));
+}
+
+/* ---------- graph ---------- */
+async function refreshGraphForSelection(){
+  if(S.selectedSource){
+    try{ S.corpusGraph=await jget("/graph-corpus/"+S.selectedSource); }catch(e){ S.corpusGraph={nodes:[],edges:[]}; }
+  } else {
+    S.corpusGraph={nodes:[],edges:[]};
+  }
+  render();
+}
+
+async function openJudgment(srcOrId){
+  const source = typeof srcOrId==="object" ? srcOrId : (S.sources||[]).find(s=>s&&(s.judgment_id===srcOrId||s.id===srcOrId));
+  const id = typeof srcOrId==="object" ? (srcOrId.judgment_id||srcOrId.id) : srcOrId;
+  if(!id) return;
+  S._returnFocus = (typeof document!=="undefined") ? document.activeElement : null;
+  S.sourcesDrawerOpen=false;
+  S.selectedSource=id; S.pendingJudgmentSource=source||{judgment_id:id}; S.graphTab='citation'; S.judgmentLoading=true;
+  S.judgmentOpenError=""; S.judgmentAskAnswer=""; S.judgmentAskWarnings=[]; S.judgmentAskDraft="";
+  S.judgmentSummary=null; S.selectedCitation=null; S.citationPanelOpen=false; S.judgmentTextQuery="";
+  S.judgmentTab="overview";
+  render(); setTimeout(scrollToJudgment,0);
+  try{
+    S.selectedJudgment = await jget("/judgments/"+encodeURIComponent(id));
+    S.pendingJudgmentSource=null;
+  }catch(e){
+    S.selectedJudgment = {error:"Could not load this judgment. "+(e.message||""), judgment_id:id, source:source||{judgment_id:id}};
+    S.judgmentOpenError = S.selectedJudgment.error;
+  }
+  S.judgmentLoading=false;
+  await refreshGraphForSelection();
+  setTimeout(scrollToJudgment,0);
+}
+
+async function askJudgment(){
+  const q=S.judgmentAskDraft.trim();
+  const id=S.selectedSource;
+  if(!q||!id||S.judgmentAsking) return;
+  S.judgmentAsking=true; S.judgmentAskAnswer=""; S.judgmentAskWarnings=[]; render();
+  try{
+    const resp=await fetch(API+"/judgments/"+id+"/ask",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({user_id:S.userId,message:q})});
+    const reader=resp.body.getReader(); const dec=new TextDecoder(); let buf="";
+    while(true){
+      const {value,done}=await reader.read(); if(done)break;
+      buf+=dec.decode(value,{stream:true});
+      let nl; while((nl=buf.indexOf("\n"))>=0){
+        const line=buf.slice(0,nl).trim(); buf=buf.slice(nl+1);
+        if(!line)continue; let ev; try{ev=JSON.parse(line);}catch(e){continue;}
+        if(ev.type==="token") S.judgmentAskAnswer+=ev.text;
+        else if(ev.type==="final") S.judgmentAskWarnings=ev.warnings||[];
+        render();
+      }
+    }
+  }catch(e){
+    S.judgmentAskAnswer+="\n\n[connection error: "+e.message+"]";
+  }
+  S.judgmentAsking=false; render();
+}
+function layout(nodes,edges){
+  // radial: pick the highest-degree (or 'you'/'act') node as center.
+  if(!nodes.length) return {nodes:[],edges:[]};
+  const deg={}; nodes.forEach(n=>deg[n.id]=0);
+  edges.forEach(e=>{deg[e.src]=(deg[e.src]||0)+1; deg[e.dst]=(deg[e.dst]||0)+1;});
+  let center=nodes.find(n=>n.kind==='you'||n.kind==='act')||nodes.reduce((a,b)=>deg[b.id]>deg[a.id]?b:a,nodes[0]);
+  const others=nodes.filter(n=>n.id!==center.id);
+  const cx=180,cy=150,R=108;
+  const pos={}; pos[center.id]={x:cx,y:cy};
+  others.forEach((n,i)=>{ const ang=(2*Math.PI*i)/Math.max(1,others.length)-Math.PI/2;
+    pos[n.id]={x:cx+R*Math.cos(ang), y:cy+R*Math.sin(ang)}; });
+  return {pos, center, nodes, edges};
+}
+function renderGraph(){
+  const g = S.corpusGraph || {nodes:[],edges:[]};
+  if(!g.nodes||!g.nodes.length)
+    return el("div",{style:"text-align:center;padding:30px 12px;font-size:13px;color:var(--ink-3);line-height:1.5"},
+      "Select a source to see its citation graph.");
+  const L=layout(g.nodes,g.edges); const P=pal();
+  const ns="http://www.w3.org/2000/svg";
+  const svg=document.createElementNS(ns,"svg"); svg.setAttribute("viewBox","0 0 360 300");
+  svg.setAttribute("style","width:100%;height:auto;display:block");
+  // edges
+  g.edges.forEach(e=>{ const a=L.pos[e.src],b=L.pos[e.dst]; if(!a||!b)return;
+    const ln=document.createElementNS(ns,"line");
+    ln.setAttribute("x1",a.x);ln.setAttribute("y1",a.y);ln.setAttribute("x2",b.x);ln.setAttribute("y2",b.y);
+    ln.setAttribute("stroke",P.edge);ln.setAttribute("stroke-width","1.3");ln.setAttribute("stroke-opacity","0.85");
+    svg.appendChild(ln); });
+  // nodes
+  g.nodes.forEach(n=>{ const p=L.pos[n.id]; if(!p)return;
+    const grp=document.createElementNS(ns,"g"); grp.style.cursor="pointer";
+    const isAct=n.kind==='act',over=n.kind==='over',fact=n.kind==='fact',you=n.kind==='you';
+    const r=you?22:(isAct?20:15);
+    let fill=P.jFill,stroke=P.jStroke,lc=P.label;
+    if(isAct){fill=P.actFill;} else if(over){fill=P.overFill;stroke=P.overStroke;}
+    else if(fact){fill=P.factFill;stroke=P.factStroke;} else if(you){fill=P.youFill;}
+    const c=document.createElementNS(ns,"circle");
+    c.setAttribute("cx",p.x);c.setAttribute("cy",p.y);c.setAttribute("r",r);
+    c.setAttribute("fill",fill);c.setAttribute("stroke",stroke);c.setAttribute("stroke-width","1.6");
+    grp.appendChild(c);
+    const t1=document.createElementNS(ns,"text");
+    t1.setAttribute("x",p.x);t1.setAttribute("y",you?p.y+4:p.y+r+12);t1.setAttribute("text-anchor","middle");
+    t1.setAttribute("font-family","Nunito Sans");t1.setAttribute("font-size","9.5");t1.setAttribute("font-weight","700");
+    t1.setAttribute("fill",you?P.youText:lc); t1.textContent=n.label; grp.appendChild(t1);
+    if(n.sub){ const t2=document.createElementNS(ns,"text");
+      t2.setAttribute("x",p.x);t2.setAttribute("y",p.y+r+22);t2.setAttribute("text-anchor","middle");
+      t2.setAttribute("font-family","Nunito Sans");t2.setAttribute("font-size","8");t2.setAttribute("fill",P.sub);
+      t2.textContent=n.sub; grp.appendChild(t2); }
+    svg.appendChild(grp); });
+  return svg;
+}
+function pal(){ return S.theme==='dark'
+  ? {jFill:'#1F1B15',jStroke:'#B7A9F1',actFill:'#4A3C9A',overFill:'#3A1E1C',overStroke:'#F08A82',factFill:'#2A2440',factStroke:'#B7A9F1',youFill:'#B7A9F1',youText:'#16130E',edge:'#403930',label:'#C7BEAE',sub:'#8C8474'}
+  : {jFill:'#FFFFFF',jStroke:'#180C44',actFill:'#180C44',overFill:'#FBE7E5',overStroke:'#B11717',factFill:'#ECEAF5',factStroke:'#180C44',youFill:'#180C44',youText:'#fff',edge:'#CFC8DC',label:'#5C5447',sub:'#928A7B'}; }
+
+function scrollToSources(){ const s=document.getElementById("sourcesCard"); if(s)s.scrollIntoView({behavior:"smooth",block:"start"}); }
+function scrollToJudgment(){ const s=document.getElementById("judgmentDetail"); if(s)s.scrollIntoView({behavior:"smooth",block:"start"}); }
+function sourceId(src){ return src ? (src.judgment_id||src.id||"") : ""; }
+
+/* ============================ RENDER ============================ */
+function render(){
+  const app=document.getElementById("app");
+  app.setAttribute("data-theme",S.theme);
+  if(!S.authUser){
+    app.style.cssText="position:relative;display:flex;flex-direction:column;min-height:100dvh;width:100%;background:var(--color-canvas);overflow:auto";
+    app.innerHTML=""; app.append(authScreen()); return;
+  }
+  app.style.cssText="position:relative;display:flex;flex-direction:column;height:100dvh;width:100%;background:var(--color-canvas);overflow:hidden";
+  app.innerHTML="";
+  app.append(skipLink(), topBar());
+  const body=el("div",{class:"app-body",style:"display:flex;flex:1;min-height:0;width:100%;position:relative"});
+  body.append(leftRail());
+  const useSplit = S.splitView && !isMobile() && (S.selectedJudgment||S.judgmentLoading);
+  if(useSplit){
+    const chat=mainCol(); chat.style.flex="1 1 0"; chat.style.maxWidth="50%";
+    body.append(chat, splitPanel());
+  } else {
+    body.append(mainCol());
+  }
+  app.append(body);
+  if(S.mobileNavOpen) app.append(mobileScrim());
+  app.append(sourcesDrawer());
+  if((S.judgmentLoading || S.selectedJudgment) && !useSplit) app.append(judgmentModal());
+}
+function isMobile(){ return (typeof window!=="undefined") && window.innerWidth < 768; }
+function mobileScrim(){
+  return el("div",{"aria-hidden":"true",style:"position:fixed;inset:48px 0 0 0;z-index:125;background:rgba(0,0,0,.34)",
+    onclick:()=>{S.mobileNavOpen=false;render();}});
+}
+
+/* Judgment reader modal (Section 8): centered overlay; backdrop click or Esc closes;
+   focus is trapped inside and returned to the trigger on close. */
+function judgmentModal(){
+  const overlay=el("div",{id:"judgmentOverlay",class:"ny-fade jmodal-overlay",role:"dialog","aria-modal":"true","aria-label":"Judgment detail",
+    style:"position:fixed;inset:0;z-index:1000;background:var(--scrim);display:flex;align-items:center;justify-content:center;padding:64px 4vw 4vh;overflow:auto",
+    onclick:e=>{ if(e.target===e.currentTarget) closeJudgment(); },
+    onkeydown:e=>trapFocus(e)});
+  overlay.append(judgmentDetailCard("modal"));
+  setTimeout(()=>focusFirst(overlay),20);
+  return overlay;
+}
+/* Split view: judgment fills the right 50% beside the chat, no backdrop. */
+function splitPanel(){
+  return el("section",{class:"ny-sc",style:"flex:1 1 0;max-width:50%;min-width:0;overflow:auto;background:var(--color-surface);border-left:1px solid var(--color-divider)"},
+    judgmentDetailCard("split"));
+}
+function toggleSplitView(){ S.splitView=!S.splitView; S.sourcesDrawerOpen=false; render(); }
+function backToSources(){ S.selectedJudgment=null; S.pendingJudgmentSource=null; S.judgmentSummary=null;
+  S.selectedCitation=null; S.citationPanelOpen=false; S.splitView=false; S.sourcesDrawerOpen=true; render(); }
+function closeJudgment(){
+  S.selectedJudgment=null; S.pendingJudgmentSource=null;
+  S.judgmentAskAnswer=""; S.judgmentOpenError=""; S.judgmentSummary=null;
+  S.selectedCitation=null; S.citationPanelOpen=false; S.judgmentExpanded=false; S.splitView=false;
+  const rf=S._returnFocus; S._returnFocus=null;
+  render();
+  if(rf && rf.focus) setTimeout(()=>{ try{rf.focus();}catch(e){} },0);
+}
+/* focus-trap helpers (Section 9) */
+function focusables(c){ return [...c.querySelectorAll('button,[href],input,textarea,select,[tabindex]:not([tabindex="-1"])')].filter(n=>!n.disabled && n.offsetParent!==null); }
+function focusFirst(c){ const f=focusables(c); if(f.length) f[0].focus(); }
+function trapFocus(e){
+  if(e.key!=="Tab") return;
+  const overlay=document.getElementById("judgmentOverlay"); if(!overlay) return;
+  const f=focusables(overlay); if(!f.length) return;
+  const first=f[0], last=f[f.length-1];
+  if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+  else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+}
+
+function skipLink(){
+  return el("a",{href:"#thread",class:"skip-link",onclick:()=>{const t=document.getElementById("thread"); if(t){t.setAttribute("tabindex","-1");t.focus();}}},"Skip to chat");
+}
+/* ---------- Section 2: brand top bar (spans all columns) ---------- */
+function topBar(){
+  const bar=el("header",{style:"height:48px;flex:none;position:sticky;top:0;z-index:200;background:var(--color-brand-navy);display:flex;align-items:center;gap:12px;padding:0 14px;color:#fff"});
+  bar.append(el("button",{class:"mobile-only tap","aria-label":S.mobileNavOpen?"Close menu":"Open menu",
+    style:"width:34px;height:34px;flex:none;border:0;background:transparent;color:#fff;align-items:center;justify-content:center;cursor:pointer;border-radius:8px;margin-left:-4px",
+    onclick:()=>{S.mobileNavOpen=!S.mobileNavOpen;render();}}, ICON(S.mobileNavOpen?I.x:I.menu,{w:20,sw:2})));
+  bar.append(el("div",{style:"display:flex;align-items:center;gap:10px"},
+    el("div",{style:"width:28px;height:28px;flex:none;border-radius:8px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center"},
+      ICON(I.scales,{w:17,stroke:"#fff",sw:1.8})),
+    el("div",{class:"serif",style:"font-weight:600;font-size:17px;letter-spacing:-.01em",html:'Nyaya<span style="color:var(--color-brand-gold)">.AI</span>'})));
+  bar.append(el("div",{style:"flex:1"}));
+  const au=S.authUser||{}; const name=au.name||au.email||"Account"; const initials=authInitials(au);
+  const userBtn=el("button",{"aria-label":"Account menu",style:"display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:4px 10px 4px 4px;color:#fff;cursor:pointer",
+    onclick:()=>{S.userMenuOpen=!S.userMenuOpen;render();}},
+    au.avatar_url
+      ? el("img",{src:au.avatar_url,alt:"",style:"width:28px;height:28px;flex:none;border-radius:50%;object-fit:cover"})
+      : el("span",{style:"width:28px;height:28px;flex:none;border-radius:50%;background:var(--color-brand-gold);color:var(--color-brand-navy);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px"},initials),
+    el("span",{class:"desktop-only",style:"font-weight:600;font-size:13px;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"},name),
+    ICON(I.chev,{w:14,stroke:"rgba(255,255,255,.7)",sw:2}));
+  const wrap=el("div",{style:"position:relative"},userBtn);
+  if(S.userMenuOpen){
+    const menu=el("div",{class:"ny-fade",style:"position:absolute;top:44px;right:0;width:260px;background:var(--color-surface);border:1px solid var(--color-divider);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.16);padding:6px;z-index:30"});
+    menu.append(el("div",{style:"display:flex;align-items:center;gap:10px;padding:10px;border-bottom:1px solid var(--color-divider);margin-bottom:6px"},
+      el("span",{style:"width:34px;height:34px;flex:none;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px"},initials),
+      el("div",{style:"display:flex;flex-direction:column;min-width:0"},
+        el("div",{style:"font-weight:700;font-size:13px;color:var(--color-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"},name),
+        el("div",{style:"font-size:11px;color:var(--color-ink-tertiary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"},au.email||""))));
+    menu.append(el("button",{style:"width:100%;text-align:left;display:flex;align-items:center;gap:9px;padding:9px 10px;border:0;border-radius:9px;cursor:pointer;background:transparent;color:var(--color-ink);font-size:13px;font-weight:600",
+      onmouseenter:e=>e.currentTarget.style.background="var(--color-canvas)", onmouseleave:e=>e.currentTarget.style.background="transparent",
+      onclick:doLogout}, ICON(I.back,{w:15,sw:2}), "Sign out"));
+    wrap.append(menu);
+  }
+  bar.append(wrap);
+  return bar;
+}
+function authInitials(u){
+  const s=((u&&(u.name||u.email))||"?").trim();
+  const parts=s.split(/\s+/);
+  if(parts.length>1 && parts[0] && parts[1]) return (parts[0][0]+parts[1][0]).toUpperCase();
+  return s.slice(0,2).toUpperCase();
+}
+
+/* ---------- Section 3: collapsible left sidebar ---------- */
+function iconBtn(icon,label,onClick,opts={}){
+  return el("button",{"aria-label":label,title:label,
+    style:"flex:none;width:34px;height:34px;border-radius:9px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:"+(opts.color||"var(--color-ink-secondary)"),
+    onclick:onClick}, ICON(icon,{w:opts.w||17,sw:opts.sw||2}));
+}
+function menuItem(label,onClick,danger){
+  const b=el("button",{style:"width:100%;text-align:left;border:0;background:transparent;padding:8px 9px;border-radius:7px;font-size:13px;cursor:pointer;color:"+(danger?"var(--bad)":"var(--color-ink)"),
+    onmouseenter:e=>b.style.background="var(--color-canvas)", onmouseleave:e=>b.style.background="transparent",
+    onclick:onClick}, label);
+  return b;
+}
+function groupSessions(sessions){
+  const out={Today:[],Yesterday:[],"This week":[],Older:[]};
+  const now=new Date(); const startToday=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime(); const dayMs=86400000;
+  sessions.forEach(s=>{
+    const t=s.last_active_at?new Date(s.last_active_at).getTime():0;
+    if(!t) out.Older.push(s);
+    else if(t>=startToday) out.Today.push(s);
+    else if(t>=startToday-dayMs) out.Yesterday.push(s);
+    else if(t>=startToday-6*dayMs) out["This week"].push(s);
+    else out.Older.push(s);
+  });
+  return out;
+}
+function commitRename(s,val){ const v=(val||"").trim(); if(v) s.title=v; S.renamingId=null; render(); }
+function renameSession(s){ S.renamingId=s.id; S.sessionMenuId=null; render(); }
+function deleteSession(s){ S.sessions=S.sessions.filter(x=>x.id!==s.id); if(S.sessionId===s.id) newSession(); else render(); }
+
+function sessionRow(s){
+  const active=s.id===S.sessionId;
+  const preview=(s.topic||s.preview||s.last_message||"").toString();
+  const row=el("div",{class:"sess-row",style:"position:relative;display:flex;gap:8px;padding:8px 8px 8px 9px;border-radius:9px;cursor:pointer;color:var(--color-ink);border-left:3px solid "+(active?"var(--color-brand-navy)":"transparent")+";"+(active?"background:var(--accent-soft);":""),
+    onclick:()=>{ if(S.renamingId!==s.id) openSession(s.id); }});
+  let titleEl;
+  if(S.renamingId===s.id){
+    titleEl=el("input",{value:s.title||"","aria-label":"Rename session",
+      style:"font-weight:600;font-size:13px;border:1px solid var(--color-brand-gold);border-radius:6px;padding:2px 5px;width:100%;outline:none;background:var(--color-surface);color:var(--color-ink)",
+      onclick:e=>e.stopPropagation(),
+      onkeydown:e=>{ if(e.key==="Enter"){e.preventDefault(); commitRename(s,e.target.value);} else if(e.key==="Escape"){S.renamingId=null;render();} },
+      onblur:e=>commitRename(s,e.target.value)});
+    setTimeout(()=>{titleEl.focus(); titleEl.select&&titleEl.select();},0);
+  } else {
+    titleEl=el("div",{style:"font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"},s.title||"Session");
+  }
+  row.append(el("div",{style:"display:flex;flex-direction:column;gap:2px;min-width:0;flex:1"},
+    titleEl,
+    el("div",{style:"font-size:11px;color:var(--color-ink-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"}, preview||fmtAgo(s.last_active_at))));
+  const more=el("button",{class:"row-actions","aria-label":"Session options",
+    style:"position:absolute;right:6px;top:50%;transform:translateY(-50%);background:var(--color-surface);border:1px solid var(--color-divider);border-radius:7px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--color-ink-secondary)",
+    onclick:e=>{e.stopPropagation(); S.sessionMenuId=S.sessionMenuId===s.id?null:s.id; render();}}, ICON(I.dots,{w:15,sw:2}));
+  row.append(more);
+  if(S.sessionMenuId===s.id){
+    row.append(el("div",{class:"ny-fade",style:"position:absolute;right:6px;top:calc(50% + 16px);z-index:20;width:150px;background:var(--color-surface);border:1px solid var(--color-divider);border-radius:10px;box-shadow:0 10px 26px rgba(0,0,0,.14);padding:5px",
+      onclick:e=>e.stopPropagation()},
+      menuItem("Rename",()=>renameSession(s)),
+      menuItem("Delete",()=>deleteSession(s),true)));
+  }
+  return row;
+}
+
+function leftRail(){
+  const collapsed=S.sidebarCollapsed && !isMobile();
+  const aside=el("aside",{class:"ny-sc leftnav"+(S.mobileNavOpen?" open":""),style:"display:flex;flex-direction:column;flex:none;background:var(--color-surface);border-right:1px solid var(--color-divider);width:"+(collapsed?"48px":"240px")+";transition:width 240ms ease-in-out;overflow:hidden"});
+  // top: collapse toggle + search
+  const top=el("div",{style:"display:flex;align-items:center;gap:6px;padding:10px 7px;border-bottom:1px solid var(--color-divider)"});
+  const collapseBtn=iconBtn(collapsed?I.chevRight:I.chevLeft, collapsed?"Expand sidebar":"Collapse sidebar", ()=>{S.sidebarCollapsed=!S.sidebarCollapsed;S.sessionSearchOpen=false;render();});
+  collapseBtn.classList.add("desktop-only");
+  top.append(collapseBtn);
+  if(!collapsed){
+    if(S.sessionSearchOpen){
+      const inp=el("input",{value:S.sessionSearchQuery,placeholder:"Search sessions","aria-label":"Search sessions",
+        style:"flex:1;min-width:0;border:1px solid var(--color-divider);border-radius:8px;padding:6px 9px;font-size:13px;background:var(--color-surface);color:var(--color-ink);outline:none",
+        oninput:e=>{S.sessionSearchQuery=e.target.value;render();}});
+      top.append(inp, iconBtn(I.x,"Close search",()=>{S.sessionSearchOpen=false;S.sessionSearchQuery="";render();},{w:15}));
+      setTimeout(()=>inp.focus(),0);
+    } else {
+      top.append(el("div",{style:"flex:1"}), iconBtn(I.search,"Search sessions",()=>{S.sessionSearchOpen=true;render();}));
+    }
+  }
+  aside.append(top);
+  // session list
+  const list=el("div",{class:"ny-sc",style:"flex:1;overflow-y:auto;padding:"+(collapsed?"8px 4px":"8px")+";display:flex;flex-direction:column;gap:4px"});
+  if(collapsed){
+    S.sessions.slice(0,14).forEach(s=>{ const active=s.id===S.sessionId;
+      list.append(el("button",{"aria-label":s.title||"Session",title:s.title||"Session",
+        style:"display:flex;align-items:center;justify-content:center;height:36px;border:0;border-radius:9px;cursor:pointer;color:var(--color-ink-secondary);background:"+(active?"var(--accent-soft)":"transparent"),
+        onclick:()=>openSession(s.id)}, ICON(I.msg,{w:16,sw:1.7}))); });
+  } else {
+    const q=(S.sessionSearchQuery||"").toLowerCase();
+    const filtered=S.sessions.filter(s=>!q || (s.title||"").toLowerCase().includes(q) || (s.topic||"").toLowerCase().includes(q));
+    if(!filtered.length) list.append(el("div",{style:"font-size:12.5px;color:var(--color-ink-tertiary);padding:8px"},S.sessions.length?"No matches.":"No sessions yet."));
+    const groups=groupSessions(filtered);
+    ["Today","Yesterday","This week","Older"].forEach(label=>{
+      const items=groups[label]; if(!items.length) return;
+      const det=el("details"); if(S.groupOpen[label]!==false) det.setAttribute("open","");
+      det.addEventListener("toggle",()=>{S.groupOpen[label]=det.open;});
+      det.append(el("summary",{style:"list-style:none;cursor:pointer;display:flex;align-items:center;gap:6px;padding:8px 8px 4px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-ink-tertiary)"},
+        ICON(I.chevDown,{w:12,sw:2.4}), label, el("span",{style:"margin-left:auto;font-weight:600"},String(items.length))));
+      items.forEach(s=>det.append(sessionRow(s)));
+      list.append(det);
+    });
+  }
+  aside.append(list);
+  // ghost New Session at bottom
+  const foot=el("div",{style:"padding:8px;border-top:1px solid var(--color-divider)"});
+  if(collapsed){ foot.append(iconBtn(I.plus,"New session",newSession)); }
+  else foot.append(el("button",{class:"tap",style:"width:100%;display:flex;align-items:center;justify-content:center;gap:8px;height:44px;border:1px solid var(--color-divider);background:transparent;color:var(--color-ink);border-radius:10px;font-weight:600;font-size:13.5px;cursor:pointer",
+    onclick:newSession}, ICON(I.plus,{w:16,sw:2.1}), "New Session"));
+  aside.append(foot);
+  return aside;
+}
+
+/* ---------- Section 4: chat header ---------- */
+function pipelineIndicator(){
+  const steps=["Recall","Retrieve","Compose"]; const active=S.streaming;
+  const wrap=el("div",{"aria-hidden":"true",style:"display:flex;align-items:center;gap:0"});
+  steps.forEach((label,i)=>{
+    if(i>0) wrap.append(el("span",{style:"width:14px;height:2px;border-radius:2px;margin:0 2px;background:"+(active?"var(--color-brand-gold)":"var(--color-divider)")}));
+    wrap.append(el("span",{title:label,style:"width:8px;height:8px;border-radius:50%;background:"+(active?"var(--color-brand-gold)":"var(--color-divider)")+";"+(active?"animation:nyPulse 1s ease-in-out infinite;animation-delay:"+(i*0.2)+"s":"")}));
+  });
+  return el("div",{class:"desktop-only",style:"display:flex;align-items:center;gap:8px"}, wrap,
+    el("span",{style:"font-size:11px;color:var(--color-ink-tertiary)"}, active?"Composing…":"Recall · Retrieve · Compose"));
+}
+function startTitleEdit(node){
+  node.setAttribute("contenteditable","true"); node.focus();
+  const sel=window.getSelection(); if(sel) sel.selectAllChildren(node);
+  let done=false;
+  const finish=(save)=>{ if(done)return; done=true; node.removeAttribute("contenteditable");
+    const v=node.textContent.trim();
+    if(save && v){ const s=S.sessions.find(x=>x.id===S.sessionId); if(s) s.title=v; }
+    render(); };
+  node.addEventListener("keydown",e=>{ if(e.key==="Enter"){e.preventDefault(); finish(true);} else if(e.key==="Escape"){finish(false);} });
+  node.addEventListener("blur",()=>finish(true),{once:true});
+}
+function toggleSourcesDrawer(){ S.sourcesDrawerOpen=!S.sourcesDrawerOpen; render(); }
+
+function mainCol(){
+  const main=el("main",{style:"flex:1;display:flex;flex-direction:column;min-width:0;background:var(--color-canvas);overflow:hidden"});
+  const dirty=S.warnings.length>0;
+  const title=el("div",{class:"serif",title:"Double-click to rename",
+    style:"font-weight:600;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;outline:none;border-radius:6px;padding:1px 4px",
+    ondblclick:e=>startTitleEdit(e.currentTarget)}, currentTitle());
+  main.append(el("header",{style:"height:56px;flex:none;border-bottom:1px solid var(--color-divider);display:flex;align-items:center;gap:14px;padding:0 18px;background:var(--color-surface)"},
+    el("div",{style:"display:flex;flex-direction:column;gap:3px;min-width:0;flex:1"}, title, pipelineIndicator()),
+    el("button",{class:"tap","aria-label":"Toggle sources panel",style:"display:flex;align-items:center;gap:7px;flex:none;font-weight:700;font-size:12px;padding:6px 11px;border-radius:999px;border:1px solid var(--color-divider);background:var(--color-surface);color:var(--color-ink);cursor:pointer",
+      onclick:toggleSourcesDrawer}, ICON(I.file,{w:14,sw:1.9}), "Sources ("+S.sources.length+")", ICON(I.chevRight,{w:13,sw:2.2})),
+    el("div",{class:"desktop-only",style:"display:flex;align-items:center;gap:6px;flex:none;font-weight:700;font-size:11.5px;padding:5px 11px;border-radius:999px;"
+      +(dirty?"color:var(--warn);background:var(--warn-bg);border:1px solid var(--warn-bd);":"color:var(--good);background:var(--good-bg);border:1px solid var(--good-bd);")},
+      ICON(dirty?I.alert:I.check,{w:13,sw:2.4}), dirty?(S.warnings.length+" to review"):"Verified"),
+    iconBtn(S.theme==='dark'?I.sun:I.moon,"Toggle theme",()=>{S.theme=S.theme==='light'?'dark':'light';render();})));
+  // thread
+  const thread=el("div",{id:"thread",class:"ny-sc chat-thread",role:"log","aria-live":"polite","aria-label":"Chat messages",style:"flex:1;overflow-y:auto;overflow-x:hidden;padding:30px 24px 14px"});
+  const col=el("div",{class:"chat-col",style:"max-width:760px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:20px"+(!S.messages.length?";justify-content:flex-start;padding-top:12px":"")});
+  if(!S.messages.length){
+    const hero=el("div",{style:"display:flex;flex-direction:column;align-items:center;gap:16px;padding:24px 8px;text-align:center"});
+    hero.append(
+      el("div",{style:"width:64px;height:64px;border-radius:16px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center"},ICON(I.scales,{w:30,stroke:"var(--accent-ink)",sw:1.6})),
+      el("div",{class:"serif",style:"font-size:26px;font-weight:500;letter-spacing:-.01em"},"Ask about Indian case law"),
+      el("div",{style:"font-size:14px;color:var(--color-ink-tertiary);max-width:440px;line-height:1.6"},"Every answer is grounded in retrieved judgments and verified before it reaches you. Your matter is remembered across sessions."));
+    const pillars=el("div",{class:"pillars",style:"width:100%;max-width:560px;margin-top:6px"});
+    [[I.shield,"Grounded","Every answer from real judgments"],
+     [I.check,"Verified","Citations checked before they reach you"],
+     [I.brain,"Remembered","Your matter across every session"]].forEach(([ic,t,d])=>
+      pillars.append(el("div",{style:"display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px"},
+        el("span",{style:"width:34px;height:34px;border-radius:10px;background:var(--color-canvas);border:1px solid var(--color-divider);display:flex;align-items:center;justify-content:center"},ICON(ic,{w:16,stroke:"var(--accent-ink)",sw:1.9})),
+        el("div",{style:"font-weight:700;font-size:12.5px;color:var(--color-ink)"},t),
+        el("div",{class:"desktop-only",style:"font-size:11.5px;color:var(--color-ink-tertiary);line-height:1.4;max-width:160px"},d))));
+    hero.append(pillars);
+    const chips=el("div",{style:"display:flex;flex-direction:column;gap:8px;width:100%;max-width:430px;margin-top:8px"});
+    EXAMPLES.slice(0,3).forEach(t=>chips.append(el("button",{class:"tap",style:"display:flex;align-items:center;gap:10px;text-align:left;border:1px solid var(--color-brand-gold);background:var(--nyaya-gold-soft);color:var(--color-ink);border-radius:11px;padding:11px 14px;font-size:13.5px;cursor:pointer;line-height:1.4",
+      onclick:()=>send(t)}, ICON(I.sparkle,{w:15,stroke:"var(--color-brand-gold)",sw:1.8}), el("span",{style:"min-width:0"},t))));
+    hero.append(chips);
+    col.append(hero);
+  }
+  S.messages.forEach((m,i)=>col.append(messageEl(m,i)));
+  thread.append(col); main.append(thread);
+  main.append(composer());
+  return main;
+}
+
+function messageEl(m,idx){
+  if(m.role==="user")
+    return el("div",{class:"fade-up",style:"display:flex;justify-content:flex-end"},
+      el("div",{style:"max-width:74%;background:var(--color-brand-navy);color:#fff;border-radius:16px 16px 4px 16px;padding:12px 16px;font-size:15px;line-height:1.55"},m.text));
+  // assistant card — gold left border, no floating avatar
+  const card=el("div",{class:"fade-up",style:"background:var(--color-surface);border:1px solid var(--color-divider);border-left:2px solid var(--color-brand-gold);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:12px"});
+  if(m.recalled&&m.recalled.length)
+    card.append(el("div",{class:"pulse-in",title:m.recalled.join(" · "),
+      style:"align-self:flex-start;display:inline-flex;align-items:center;gap:7px;background:var(--accent-soft);border:1px solid var(--color-divider);border-radius:999px;padding:4px 11px 4px 9px"},
+      ICON(I.brain,{w:14,stroke:"var(--accent-ink)"}),
+      el("span",{style:"font-weight:700;font-size:11.5px;color:var(--accent-ink)"},"Recalled "+m.recalled.length+" fact"+(m.recalled.length>1?"s":"")+" from memory")));
+  if(m.thinking){
+    card.append(el("div",{style:"display:flex;align-items:center;gap:9px;color:var(--color-ink-tertiary);font-size:13.5px"},
+      ICON(I.search,{w:15,stroke:"var(--accent-ink)"}),"Searching the judgment graph",
+      el("span",{html:'<span style="display:inline-flex;gap:3px"><span style="width:4px;height:4px;border-radius:50%;background:var(--color-ink-tertiary);animation:nyDot 1.2s infinite"></span><span style="width:4px;height:4px;border-radius:50%;background:var(--color-ink-tertiary);animation:nyDot 1.2s .2s infinite"></span><span style="width:4px;height:4px;border-radius:50%;background:var(--color-ink-tertiary);animation:nyDot 1.2s .4s infinite"></span></span>'})));
+    const sk=el("div",{style:"display:flex;flex-direction:column;gap:9px;margin-top:6px"});
+    [96,100,88,72].forEach(w=>sk.append(el("div",{class:"skel",style:"height:12px;width:"+w+"%"})));
+    card.append(sk);
+  }
+  if(m.text) card.append(renderAnswer(m));
+  if(m.done) card.append(messageFooter(m,idx));
+  return card;
+}
+function footBtn(icon,label,onClick,active){
+  return el("button",{"aria-label":label,title:label,
+    style:"display:inline-flex;align-items:center;justify-content:center;width:30px;height:28px;border:1px solid var(--color-divider);border-radius:8px;cursor:pointer;background:"+(active?"var(--accent-soft)":"transparent")+";color:"+(active?"var(--color-brand-navy)":"var(--color-ink-secondary)"),
+    onclick:onClick}, ICON(icon,{w:14,sw:2}));
+}
+function copyAnswer(m,idx){ try{ navigator.clipboard.writeText(m.text||""); S.copiedIdx=idx; render(); setTimeout(()=>{ if(S.copiedIdx===idx){S.copiedIdx=null;render();} },1400); }catch(e){} }
+function setFeedback(idx,v){ S.feedback[idx]=S.feedback[idx]===v?null:v; render(); }
+function messageFooter(m,idx){
+  const w=m.warnings||[], verified=!w.length;
+  const foot=el("div",{style:"display:flex;align-items:center;gap:6px;flex-wrap:wrap;border-top:1px solid var(--color-divider);padding-top:10px"});
+  foot.append(el("span",{style:"display:inline-flex;align-items:center;gap:5px;font-weight:700;font-size:11.5px;padding:4px 9px;border-radius:999px;"
+    +(verified?"color:var(--good);background:var(--good-bg);":"color:var(--warn);background:var(--warn-bg);")},
+    ICON(verified?I.check:I.alert,{w:12,sw:2.4}), verified?"All citations verified":(w.length+" to review")));
+  const copied=S.copiedIdx===idx;
+  foot.append(footBtn(copied?I.check:I.copy, copied?"Copied":"Copy answer", ()=>copyAnswer(m,idx)));
+  const fb=S.feedback[idx];
+  foot.append(footBtn(I.thumbUp,"Good response",()=>setFeedback(idx,"up"),fb==="up"));
+  foot.append(footBtn(I.thumbDown,"Poor response",()=>setFeedback(idx,"down"),fb==="down"));
+  const usable=(m.sources||[]).filter(s=>s&&typeof s==="object"&&(s.judgment_id||s.id));
+  if(usable.length) foot.append(el("button",{"aria-label":"View sources",
+    style:"margin-left:auto;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--color-divider);background:transparent;color:var(--color-ink-secondary);border-radius:8px;padding:5px 10px;font-weight:700;font-size:11.5px;cursor:pointer",
+    onclick:()=>{ S.sources=usable; S.sourcesDrawerOpen=true; render(); }}, "Sources", ICON(I.chevRight,{w:12,sw:2.2})));
+  return foot;
+}
+
+function messageSourceStrip(sources){
+  const usable=(sources||[]).filter(s=>s&&typeof s==="object"&&(s.judgment_id||s.id));
+  if(!usable.length) return null;
+  const strip=el("div",{style:"display:flex;flex-wrap:wrap;gap:7px;align-items:center;max-width:68ch"});
+  usable.slice(0,5).forEach(src=>strip.append(el("button",{style:"border:1px solid var(--hair);background:var(--surface);color:var(--accent-ink);border-radius:999px;padding:5px 10px;font-weight:800;font-size:11.5px;cursor:pointer;max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis",
+    title:src.case_title||src.judgment_id,
+    onclick:e=>{e.stopPropagation(); openJudgment(src);}},src.case_title||src.judgment_id||src.id)));
+  if(usable.length>5) strip.append(el("span",{style:"font-size:11px;color:var(--ink-3)"},"+"+(usable.length-5)+" more"));
+  return strip;
+}
+
+/* ---------- Section 6: input area ---------- */
+function composer(){
+  const wrap=el("div",{class:"composer-wrap",style:"flex:none;padding:12px 24px 16px;border-top:1px solid var(--color-divider);background:var(--color-surface)"});
+  const inner=el("div",{style:"max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:10px"});
+  if(!S.streaming && S.messages.length){
+    const ex=el("div",{style:"display:flex;gap:8px;flex-wrap:wrap"});
+    const shown=S.pillsExpanded?EXAMPLES:EXAMPLES.slice(0,2);
+    shown.forEach(t=>ex.append(el("button",{class:"tap",title:t,style:"font-size:12.5px;color:var(--color-ink-secondary);background:transparent;border:1px dashed var(--color-divider);border-radius:999px;padding:7px 13px;cursor:pointer;text-align:left;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis",
+      onclick:()=>send(t)},t)));
+    if(!S.pillsExpanded && EXAMPLES.length>2)
+      ex.append(el("button",{"aria-label":"Show more suggestions",style:"font-size:12.5px;color:var(--accent-ink);font-weight:700;background:transparent;border:1px dashed var(--color-divider);border-radius:999px;padding:6px 11px;cursor:pointer",
+        onclick:()=>{S.pillsExpanded=true;render();}},"+"+(EXAMPLES.length-2)+" more"));
+    inner.append(ex);
+  }
+  const cognee=el("button",{class:"tap","aria-label":"Cognee retrieval",title:"Cognee retrieves relevant judgments from its corpus",
+    style:"flex:none;display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 11px;border-radius:10px;border:1px solid var(--color-divider);background:var(--color-surface);color:var(--accent-ink);font-weight:700;font-size:12.5px;cursor:pointer"},
+    ICON(I.zap,{w:15,fill:"var(--color-brand-gold)",stroke:"var(--color-brand-gold)",sw:1.5}), el("span",{class:"desktop-only"},"Cognee"));
+  const ta=el("textarea",{rows:"1",placeholder:"Ask about a judgment, statute, or your matter…","aria-label":"Message",
+    style:"width:100%;border:none;outline:none;resize:none;font-size:15px;line-height:1.55;color:var(--color-ink);background:transparent;max-height:160px;padding:2px 2px 0",
+    oninput:e=>{S.draft=e.target.value; e.target.style.height='auto'; e.target.style.height=Math.min(160,e.target.scrollHeight)+'px';},
+    onkeydown:e=>{ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault(); send();} }});
+  ta.value=S.draft;
+  const canSend=S.draft.trim()&&!S.streaming;
+  const btn=el("button",{class:"tap","aria-label":"Send message",disabled:canSend?null:"",
+    style:"width:40px;height:40px;flex:none;border:0;border-radius:11px;display:flex;align-items:center;justify-content:center;transition:background .15s ease;"
+      +(canSend?"background:var(--color-brand-gold);color:var(--color-brand-navy);cursor:pointer;":"background:var(--color-divider);color:var(--color-ink-tertiary);opacity:.4;cursor:not-allowed;"),
+    onclick:()=>canSend&&send()}, ICON(I.send,{w:18,sw:2}));
+  // two-row composer card: full-width textarea on top, controls below
+  const controls=el("div",{style:"display:flex;align-items:center;justify-content:space-between;gap:8px"}, cognee, btn);
+  inner.append(el("div",{style:"display:flex;flex-direction:column;gap:8px;background:var(--color-surface);border:1.5px solid var(--color-divider);border-radius:14px;padding:10px 12px;box-shadow:0 2px 8px rgba(0,0,0,.05)"}, ta, controls));
+  inner.append(el("div",{style:"display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--color-ink-tertiary)"},
+    el("span",{style:"display:inline-flex;align-items:center;gap:6px"},ICON(I.shield,{w:12,stroke:"var(--good)",sw:2}),"Grounded · Citations verified"),
+    el("span",{class:"mono desktop-only"},"↵ Enter · Shift+↵ newline")));
+  wrap.append(inner);
+  setTimeout(()=>{ if(!S.streaming) ta.focus(); },0);
+  return wrap;
+}
+
+const AI_DISCLAIMER = "AI-assisted output - must be reviewed and verified by the Advocate of Record before filing or use.";
+const asArr = v => Array.isArray(v) ? v.filter(Boolean) : (v ? [v] : []);
+const first = (...xs) => xs.find(x => x !== undefined && x !== null && String(x).trim() !== "");
+const fmtDate = v => v ? String(v).slice(0,10) : "Date unavailable";
+const pretty = s => String(s||"").replace(/_/g," ").replace(/\b\w/g,m=>m.toUpperCase());
+const normGood = (meta={}, src={}) => {
+  const cls=meta.current_law_status;
+  if(cls && typeof cls==="object" && "ratio_still_good_law" in cls) return cls.ratio_still_good_law;
+  if("still_good_law" in src) return src.still_good_law;
+  if("good" in src) return src.good;
+  return null;
+};
+function safeMeta(d){ return d.metadata||d.source||{}; }
+function sourceMeta(d){
+  const m=safeMeta(d), s=d.source||{};
+  return {
+    judgment_id:d.judgment_id||m.judgment_id||s.judgment_id,
+    case_title:first(m.case_title,s.case_title,"Untitled judgment"),
+    citation:first(m.citation,s.citation,"Citation unavailable"),
+    court_level:first(m.court_level,m.court_name,m.court_type,s.court,"Court unavailable"),
+    court_name:first(m.court_name,m.court_level,s.court,"Court unavailable"),
+    judgment_date:first(m.judgment_date,s.judgment_date,""),
+    ratio_decidendi:first(m.ratio_decidendi,s.ratio_decidendi,s.ratio,""),
+    headnotes:first(m.headnotes,s.headnotes,""),
+    good_law:normGood(m,s),
+  };
+}
+function tinyButton(label, icon, onClick, primary=false){
+  return el("button",{style:"border:1px solid "+(primary?"var(--accent)":"var(--hair)")+";background:"+(primary?"var(--accent)":"var(--surface)")+";color:"+(primary?"var(--userfg)":"var(--ink-2)")+";border-radius:9px;padding:8px 10px;font-weight:800;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;min-height:36px",
+    onclick:onClick}, icon?ICON(icon,{w:14,sw:2}):null, label);
+}
+function sectionTitle(label, icon){
+  return el("div",{style:"display:flex;align-items:center;gap:8px;font-weight:900;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)"},
+    icon?ICON(icon,{w:14,stroke:"var(--accent-ink)",sw:2}):null,label);
+}
+function goodLawBadge(value){
+  const label=value===true?"GOOD LAW":value===false?"OVERRULED":"TREATMENT UNCLEAR";
+  const kind=value===true?"good":value===false?"bad":"warn";
+  return el("span",{class:"jr-chip",style:"color:var(--"+kind+");background:var(--"+kind+"-bg);border-color:var(--"+kind+"-bd)"},
+    ICON(I.shield,{w:13,stroke:"var(--"+kind+")",sw:2.2}),label);
+}
+function simpleChip(label, tone="neutral"){
+  const map={act:["#eff6ff","#1E2F63","#bfdbfe"],section:["#f5f3ff","#5b21b6","#ddd6fe"],gold:["var(--nyaya-gold-soft)","#7D5012","#E7DFC4"],neutral:["var(--surface-2)","var(--ink-2)","var(--hair)"]};
+  const c=map[tone]||map.neutral;
+  return el("span",{class:"jr-chip",style:`background:${c[0]};color:${c[1]};border-color:${c[2]}`},label);
+}
+function ratioCard(text){
+  return el("div",{style:"background:var(--nyaya-gold-soft);border:1px solid #E7DFC4;border-radius:16px;padding:18px;display:flex;gap:13px;align-items:flex-start"},
+    el("div",{style:"width:36px;height:36px;border-radius:12px;background:#CFA235;color:#07003D;display:flex;align-items:center;justify-content:center;flex:none"},ICON(I.star,{w:18,sw:2.2})),
+    el("div",{style:"min-width:0"},
+      el("div",{style:"font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#7D5012"},"Ratio Decidendi"),
+      el("div",{class:"serif",style:"font-size:18px;line-height:1.45;color:var(--ink);font-style:italic;margin-top:5px"},text||"No ratio decidendi returned by the backend.")));
+}
+function legalDisclaimer(){
+  return el("div",{style:"font-size:11px;color:var(--color-ink-tertiary);display:flex;align-items:center;gap:6px"},
+    "⚠ AI-assisted output · verify before filing or use");
+}
+function twoColDetails(items){
+  const grid=el("div",{class:"jr-card",style:"display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px"});
+  items.forEach(([k,v])=>grid.append(el("div",{style:"min-width:0"},
+    el("div",{style:"font-size:10.5px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)"},k),
+    el("div",{style:"font-size:13px;font-weight:750;color:var(--ink);margin-top:3px;line-height:1.35;word-break:break-word"},v||"Not returned"))));
+  return grid;
+}
+function listBlock(title, items, icon, numbered=false){
+  const box=el("div",{class:"jr-card",style:"display:flex;flex-direction:column;gap:10px"},sectionTitle(title,icon));
+  const arr=asArr(items);
+  if(!arr.length){ box.append(el("div",{style:"font-size:13px;color:var(--ink-3)"},"No data returned.")); return box; }
+  const list=el(numbered?"ol":"div",{style:(numbered?"margin:0;padding-left:20px;":"display:flex;flex-direction:column;gap:8px;")});
+  arr.forEach(item=>list.append(el(numbered?"li":"div",{style:"font-size:13px;line-height:1.55;color:var(--ink-2)"},typeof item==="string"?item:JSON.stringify(item))));
+  box.append(list); return box;
+}
+async function generateJudgmentSummary(d){
+  if(S.judgmentSummaryLoading) return;
+  S.judgmentSummaryLoading=true; S.judgmentSummary=null; render();
+  const id=d.judgment_id;
+  try{
+    const r=await fetch(API+"/judgments/"+encodeURIComponent(id)+"/summarise",{method:"POST"});
+    if(!r.ok) throw new Error("summary endpoint unavailable");
+    S.judgmentSummary=await r.json();
+  }catch(e){
+    const m=safeMeta(d), s=sourceMeta(d);
+    S.judgmentSummary={
+      what_happened:m.headnotes||"The backend did not return a generated summary yet.",
+      what_was_decided:m.disposition||m.final_order||"Decision details were not returned.",
+      key_legal_principle:s.ratio_decidendi||"No ratio decidendi returned.",
+      why_it_matters:m.precedential_weight||m.citator_note||"Use the analysis and citations tabs to assess precedential value."
+    };
+  }
+  S.judgmentSummaryLoading=false; render();
+}
+function summaryCard(d){
+  const box=el("div",{class:"jr-card",style:"display:flex;flex-direction:column;gap:12px"});
+  box.append(el("div",{style:"display:flex;align-items:center;gap:8px"},
+    sectionTitle("AI Summary",I.sparkle),
+    el("div",{style:"margin-left:auto"},tinyButton(S.judgmentSummaryLoading?"Generating...":"Generate",I.sparkle,()=>generateJudgmentSummary(d),true))));
+  box.append(legalDisclaimer());
+  const sm=S.judgmentSummary;
+  if(S.judgmentSummaryLoading){
+    box.append(el("div",{style:"height:72px;border-radius:12px;background:linear-gradient(90deg,var(--surface-2),var(--surface),var(--surface-2));animation:nyFade .4s ease both"}));
+  }else if(sm){
+    [["What happened","what_happened"],["What was decided","what_was_decided"],["Key principle","key_legal_principle"],["Why it matters","why_it_matters"]]
+      .forEach(([label,key])=>box.append(el("div",{style:"border-top:1px solid var(--hair);padding-top:10px"},
+        el("div",{style:"font-size:11px;font-weight:900;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.07em"},label),
+        el("div",{style:"font-size:13px;line-height:1.6;color:var(--ink-2);margin-top:3px"},sm[key]||"Not returned"))));
+  }else{
+    box.append(el("div",{style:"font-size:13px;color:var(--ink-3);line-height:1.55"},"Generate a structured summary from the judgment fields returned by the backend."));
+  }
+  return box;
+}
+
+function judgmentDetailCard(context){
+  const split = context==="split";
+  const cardStyle = split
+    ? "background:var(--color-surface);display:flex;flex-direction:column;gap:14px;padding:18px;min-height:100%"
+    : "background:var(--color-surface);border:1px solid var(--color-divider);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:14px;box-shadow:0 24px 70px rgba(0,0,0,.28);width:min(1040px,92vw);max-height:calc(100dvh - 96px);overflow:auto";
+  const card=el("div",{id:"judgmentDetail",class:(split?"ny-sc":"ny-sc modal-in jmodal"),style:cardStyle});
+  const d=S.selectedJudgment;
+  const title = d&&!d.error ? (sourceMeta(d).case_title||d.judgment_id) : ((S.pendingJudgmentSource&&S.pendingJudgmentSource.case_title)||"Judgment");
+  const good = d&&!d.error ? sourceMeta(d).good_law : null;
+  const hbtn=(t,icon,label,onClick,strong)=>el("button",{"aria-label":label,title:t,
+    style:"flex:none;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--color-divider);border-radius:8px;padding:5px 9px;font-weight:700;font-size:11.5px;cursor:pointer;"
+      +(strong?"background:var(--color-brand-navy);color:#fff;border-color:var(--accent-ink);":"background:var(--color-surface);color:var(--color-ink-secondary);"),
+    onclick:onClick}, ICON(icon,{w:13,sw:2}), label);
+  // header: [← Back] {Title} [● status] [⊞ Split] [✕ Close]
+  const header=el("div",{style:"display:flex;align-items:center;gap:8px;flex-wrap:wrap"});
+  header.append(hbtn("Back to sources",I.back,"Back",backToSources));
+  header.append(el("div",{class:"serif",style:"font-weight:600;font-size:16px;flex:1;min-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"},title));
+  if(good!=null) header.append(el("span",{class:"jr-chip desktop-only",style:"color:var("+(good===false?"--bad":"--good")+");background:var("+(good===false?"--bad":"--good")+"-bg);border-color:transparent"},
+    el("span",{style:"width:7px;height:7px;border-radius:50%;background:var("+(good===false?"--bad":"--good")+")"}), good===false?"NO LONGER GOOD LAW":"GOOD LAW"));
+  if(!isMobile()) header.append(hbtn(split?"Exit split view":"Open split view",I.split,split?"Exit split":"Split",toggleSplitView, split));
+  header.append(hbtn("Close judgment",I.x,"Close",closeJudgment));
+  card.append(header);
+
+  if(S.judgmentLoading){
+    const src=S.pendingJudgmentSource||{};
+    card.append(el("div",{style:"display:flex;flex-direction:column;gap:8px;padding:12px 2px"},
+      el("div",{class:"serif",style:"font-size:18px;font-weight:600;line-height:1.25"},src.case_title||"Opening judgment"),
+      el("div",{style:"font-size:13px;color:var(--color-ink-tertiary);line-height:1.5"},"Loading metadata, pages, citations, and analytics...")));
+    return card;
+  }
+  if(!d){ card.append(el("div",{style:"font-size:13px;color:var(--color-ink-tertiary)"},"Click any source to open the full judgment.")); return card; }
+  if(d.error){ card.append(el("div",{style:"font-size:13px;color:var(--bad)"},d.error)); return card; }
+
+  const src=sourceMeta(d), meta=safeMeta(d);
+  card.append(el("div",{style:"display:flex;flex-direction:column;gap:7px"},
+    el("div",{class:"serif",style:"font-size:20px;font-weight:600;line-height:1.25"},src.case_title||d.judgment_id),
+    el("div",{style:"display:flex;gap:7px;flex-wrap:wrap;align-items:center"},
+      src.citation?el("span",{style:"font-size:12px;font-weight:600;color:var(--color-ink-secondary);border:1px solid var(--color-divider);border-radius:999px;padding:4px 9px"},src.citation):null,
+      meta.neutral_citation?el("span",{style:"font-size:12px;font-weight:600;color:var(--color-ink-secondary);border:1px solid var(--color-divider);border-radius:999px;padding:4px 9px"},meta.neutral_citation):null),
+    el("div",{style:"font-size:12.5px;color:var(--color-ink-tertiary)"},[src.court_name,fmtDate(src.judgment_date),meta.disposition,asArr(meta.bench).join(", ")].filter(Boolean).join(" · ")||"Court/date unavailable")));
+
+  card.append(judgmentTabs());
+  if(S.judgmentTab==="overview") card.append(overviewTab(d));
+  else if(S.judgmentTab==="analysis") card.append(analysisTab(d));
+  else if(S.judgmentTab==="text") card.append(fullTextTab(d));
+  else if(S.judgmentTab==="citations") card.append(citationsTab(d));
+  else if(S.judgmentTab==="ask") card.append(judgmentAskBox());
+  else card.append(overviewTab(d));
+  card.append(el("div",{style:"font-size:11px;color:var(--color-ink-tertiary);padding-top:8px;border-top:1px solid var(--color-divider)"},"⚠ AI-assisted output · verify before filing or use"));
+  return card;
+}
+
+function judgmentTabs(){
+  const tabs=[["overview","Overview"],["analysis","Analysis"],["text","Full Text"],["citations","Citations"],["ask","Ask AI"]];
+  const wrap=el("div",{role:"tablist",style:"display:grid;grid-template-columns:repeat(5,minmax(72px,1fr));gap:4px;background:var(--color-canvas);border:1px solid var(--color-divider);border-radius:10px;padding:3px;overflow:auto"});
+  tabs.forEach(([id,label])=>wrap.append(el("button",{role:"tab","aria-selected":String(S.judgmentTab===id),
+    style:"border:0;border-radius:7px;padding:7px 4px;font-weight:700;font-size:12px;cursor:pointer;background:"+(S.judgmentTab===id?"var(--color-surface)":"transparent")+";color:"+(S.judgmentTab===id?"var(--color-brand-navy)":"var(--color-ink-tertiary)")+";box-shadow:"+(S.judgmentTab===id?"0 1px 2px rgba(0,0,0,.08)":"none"),
+    onclick:()=>{S.judgmentTab=id;render();}},label)));
+  return wrap;
+}
+
+function coreHoldingBlock(text){
+  return el("div",{style:"display:flex;flex-direction:column;gap:6px"},
+    el("div",{style:"display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-ink-tertiary)"},
+      ICON(I.star,{w:13,fill:"var(--color-brand-gold)",stroke:"var(--color-brand-gold)",sw:1.2}), "Core holding"),
+    el("div",{class:"serif",style:"font-family:var(--font-serif);font-style:italic;font-size:18px;line-height:1.55;border-left:4px solid var(--color-brand-gold);background:var(--nyaya-gold-soft);border-radius:0 12px 12px 0;padding:14px 18px;color:var(--color-ink)"},
+      text||"No ratio decidendi returned by the backend."));
+}
+function ovSectionHeading(label,icon){
+  return el("div",{style:"display:flex;align-items:center;gap:8px"},
+    icon?ICON(icon,{w:14,stroke:"var(--accent-ink)",sw:2}):null,
+    el("div",{style:"font-weight:700;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--color-ink-tertiary);flex:1"},label),
+    el("button",{"aria-label":"Bookmark "+label,title:"Bookmark this section",style:"border:0;background:transparent;cursor:pointer;color:var(--color-ink-tertiary);display:inline-flex"},
+      ICON(I.star,{w:14,sw:1.8})));
+}
+function metaGrid(items){
+  const grid=el("div",{style:"display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px"});
+  items.filter(([k,v])=>v!=null && String(v).trim()!=="").forEach(([k,v])=>grid.append(el("div",{style:"min-width:0"},
+    el("div",{style:"font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-ink-tertiary)"},k),
+    el("div",{style:"font-size:14px;font-weight:500;color:var(--color-ink);margin-top:3px;line-height:1.35;word-break:break-word"},v))));
+  return grid;
+}
+function pillTag(text){
+  return el("span",{style:"border-radius:999px;padding:2px 10px;background:var(--color-canvas);border:1px solid var(--color-divider);font-size:12px;color:var(--color-ink-secondary)"},text);
+}
+function overviewTab(d){
+  const m=safeMeta(d), s=sourceMeta(d), box=el("div",{style:"display:flex;flex-direction:column;gap:16px"});
+  box.append(coreHoldingBlock(s.ratio_decidendi));
+  const metaCard=el("div",{class:"jr-card",style:"display:flex;flex-direction:column;gap:12px"});
+  metaCard.append(ovSectionHeading("Case details",I.file));
+  metaCard.append(metaGrid([
+    ["Court",s.court_name],["Level",s.court_level],["Date",fmtDate(s.judgment_date)],["Disposition",m.disposition],
+    ["Final order",m.final_order],["Bench",asArr(m.bench).join(", ")||m.bench_strength],
+    ["Petitioner / Appellant",asArr(m.petitioner_names).join(", ")],["Respondent",asArr(m.respondent_names).join(", ")],
+    ["Case number",m.case_number],["CNR",m.cnr_number],
+  ]));
+  box.append(metaCard);
+  box.append(listBlock("Legal Issues",m.legal_issues,I.scales,true));
+  const chips=el("div",{class:"jr-card",style:"display:flex;flex-direction:column;gap:12px"});
+  chips.append(ovSectionHeading("Acts, Sections, Keywords",I.file));
+  [["Acts",asArr(m.acts_cited).slice(0,8)],["Sections",asArr(m.sections_cited).slice(0,10)],["Keywords",asArr(m.keywords||m.subject_tags).slice(0,10)]]
+    .forEach(([label,items])=>chips.append(el("div",{style:"display:flex;gap:7px;align-items:flex-start;flex-wrap:wrap"},
+      el("span",{style:"font-size:11px;font-weight:700;color:var(--color-ink-tertiary);min-width:64px;padding-top:4px"},label),
+      ...(items.length?items.map(x=>pillTag(x)):[el("span",{style:"font-size:13px;color:var(--color-ink-tertiary);padding-top:3px"},"No data returned")]))));
+  box.append(chips);
+  return box;
+}
+
+function authorityScore(meta){
+  const rank={Supreme:5,"Supreme Court":5,"Privy Council":4,"High Court":3,Tribunal:1};
+  const level=meta.court_level||meta.court_name||"";
+  let score=Object.keys(rank).find(k=>String(level).includes(k));
+  let base=score?rank[score]:2;
+  const unanimous=JSON.stringify(meta.bench_detail||meta.unanimity_weight||"").toLowerCase().includes("unanim");
+  if(unanimous) base+=1;
+  const y=parseInt(String(meta.judgment_date||"").slice(0,4),10);
+  if(y>=1947) base+=Math.min(1,(y-1947)/80);
+  return Math.max(0,Math.min(8,base));
+}
+function authorityMeter(score){
+  const wrap=el("div",{class:"jr-card",style:"display:flex;flex-direction:column;gap:10px"},sectionTitle("Authority Score",I.scales));
+  const seg=el("div",{style:"display:grid;grid-template-columns:repeat(8,1fr);gap:4px"});
+  for(let i=1;i<=8;i++) seg.append(el("span",{style:"height:10px;border-radius:4px;background:"+(i<=Math.round(score)?"var(--accent)":"var(--surface-2)")+";border:1px solid var(--hair)"}));
+  wrap.append(seg,el("div",{style:"font-size:13px;color:var(--ink-2);font-weight:800"},score.toFixed(1)+" / 8"));
+  return wrap;
+}
+function riskFlagList(flags){
+  const box=el("div",{class:"jr-card",style:"display:flex;flex-direction:column;gap:9px"},sectionTitle("Risk Flags",I.alert));
+  if(!flags.length){ box.append(el("div",{style:"font-size:13px;color:var(--ink-3)"},"No risk flags returned for this judgment.")); return box; }
+  flags.forEach(f=>{
+    const kind=f.severity==="high"?"bad":f.severity==="medium"?"warn":"warn";
+    box.append(el("div",{style:"display:flex;gap:8px;align-items:flex-start;border:1px solid var(--"+kind+"-bd);background:var(--"+kind+"-bg);border-radius:10px;padding:9px 10px"},
+      ICON(I.alert,{w:14,stroke:"var(--"+kind+")",sw:2.2}),
+      el("div",{},el("div",{style:"font-size:12.5px;font-weight:900;color:var(--"+kind+")"},f.label||pretty(f.code||"risk")),
+        el("div",{style:"font-size:12px;line-height:1.45;color:var(--ink-2);margin-top:2px"},f.detail||"Review manually."))));
+  });
+  return box;
+}
+function analysisTab(d){
+  const m=safeMeta(d), box=el("div",{style:"display:flex;flex-direction:column;gap:12px"});
+  box.append(summaryCard(d));
+  box.append(authorityMeter(authorityScore(m)));
+  box.append(riskFlagList(asArr(m.risk_flags)));
+  box.append(listBlock("Material Facts",m.material_facts,I.file,true));
+  box.append(travelBlock(m.travel_of_case));
+  box.append(provisionsBlock(m.acts_and_provisions));
+  box.append(ratioPropsBlock(m.ratio_propositions));
+  box.append(listBlock("Obiter Dicta",asArr(m.obiter_dicta).map(o=>o.observation?o.observation+" - "+o.why_obiter:o),I.scales));
+  box.append(listBlock("Defeated Arguments",m.defeated_arguments,I.x,true));
+  box.append(listBlock("Open Questions",m.open_questions,I.search,true));
+  box.append(statusBlock(m));
+  box.append(howToCiteBlock(m.how_to_cite));
+  return box;
+}
+function travelBlock(items){
+  const box=el("div",{class:"jr-card",style:"display:flex;flex-direction:column;gap:10px"},sectionTitle("Travel of the Case",I.graph));
+  const arr=asArr(items);
+  if(!arr.length){ box.append(el("div",{style:"font-size:13px;color:var(--ink-3)"},"No procedural history returned.")); return box; }
+  arr.forEach((it,i)=>box.append(el("div",{style:"display:grid;grid-template-columns:24px 1fr;gap:9px"},
+    el("div",{style:"width:22px;height:22px;border-radius:999px;background:var(--accent);color:var(--userfg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900"},String(i+1)),
+    el("div",{style:"font-size:13px;line-height:1.5;color:var(--ink-2)"},[it.stage,it.forum,it.case_ref,it.order,it.outcome_for_appellant].filter(Boolean).join(" · ")))));
+  return box;
+}
+function provisionsBlock(items){
+  const box=el("div",{class:"jr-card",style:"display:flex;flex-direction:column;gap:10px"},sectionTitle("Acts & Provisions",I.file));
+  const arr=asArr(items);
+  if(!arr.length){ box.append(el("div",{style:"font-size:13px;color:var(--ink-3)"},"No provision analysis returned.")); return box; }
+  arr.forEach(it=>box.append(el("div",{style:"border-top:1px solid var(--hair);padding-top:9px"},
+    simpleChip(it.provision||"Provision","section"),
+    el("div",{style:"font-size:13px;line-height:1.55;color:var(--ink-2);margin-top:7px"},first(it.what_it_provides,it.relevance_in_this_case,"")),
+    it.relevance_in_this_case?el("div",{style:"font-size:12.5px;line-height:1.5;color:var(--ink-3);margin-top:4px"},it.relevance_in_this_case):null)));
+  return box;
+}
+function ratioPropsBlock(items){
+  const box=el("div",{class:"jr-card",style:"display:flex;flex-direction:column;gap:10px"},sectionTitle("Ratio Propositions",I.star));
+  const arr=asArr(items);
+  if(!arr.length){ box.append(el("div",{style:"font-size:13px;color:var(--ink-3)"},"No proposition extraction returned.")); return box; }
+  arr.forEach(it=>box.append(el("div",{style:"display:flex;gap:10px;align-items:flex-start"},
+    el("span",{style:"width:12px;height:12px;border-radius:50%;margin-top:5px;border:2px solid #CFA235;background:"+(it.binding?"#CFA235":"transparent")+";flex:none"}),
+    el("div",{style:"font-size:13px;line-height:1.55;color:var(--ink-2)"},el("b",{style:"color:var(--ink)"},(it.number||"")+" "),it.proposition||JSON.stringify(it),
+      it.provision_it_interprets?el("div",{style:"font-size:12px;color:var(--ink-3);margin-top:3px"},it.provision_it_interprets):null))));
+  return box;
+}
+function statusBlock(m){
+  const cls=m.current_law_status||{};
+  const box=el("div",{class:"jr-card",style:"display:flex;flex-direction:column;gap:10px"},sectionTitle("Current Law Status",I.shield),goodLawBadge(normGood(m,{})));
+  box.append(el("div",{style:"font-size:13px;line-height:1.55;color:var(--ink-2)"},cls.subsequent_treatment_summary||"No subsequent-treatment summary returned."));
+  if(cls.governing_statute_today) box.append(simpleChip("Governing statute today: "+cls.governing_statute_today,"act"));
+  return box;
+}
+function howToCiteBlock(h){
+  h=h||{};
+  const box=el("div",{class:"jr-card",style:"display:flex;flex-direction:column;gap:10px"},sectionTitle("How to Cite",I.scales));
+  const grid=el("div",{style:"display:grid;grid-template-columns:1fr 1fr;gap:10px"});
+  grid.append(listBlock("Safe to cite for",h.safe_to_cite_for,I.check,true),listBlock("Do not cite for",h.do_not_cite_for,I.x,true));
+  box.append(grid);
+  box.append(listBlock("Distinguishing Factors",h.distinguishing_factors,I.alert,true));
+  if(h.best_used_by) box.append(el("div",{style:"font-size:13px;color:var(--ink-2);line-height:1.5"},el("b",{},"Best used by: "),h.best_used_by));
+  return box;
+}
+
+function analyticsGrid(a,src){
+  const grid=el("div",{style:"display:grid;grid-template-columns:1fr 1fr;gap:8px"});
+  [
+    ["Pages",a.pages||0],
+    ["Words",(a.words||0).toLocaleString()],
+    ["Citations",a.citations_total||0],
+    ["External cites",a.citations_external||0],
+    ["Outgoing",a.citations_outgoing||0],
+    ["Incoming",a.citations_incoming||0],
+    ["Ratio",a.has_ratio?"Yes":"No"],
+    ["Law status",src.good?"Good":"Review"],
+  ].forEach(([k,v])=>grid.append(metricTile(k,v)));
+  return grid;
+}
+
+function metricTile(k,v){
+  return el("div",{style:"background:var(--surface-2);border:1px solid var(--hair);border-radius:10px;padding:9px 10px;min-width:0"},
+    el("div",{style:"font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"},k),
+    el("div",{style:"font-size:14px;font-weight:800;color:var(--ink);margin-top:3px;word-break:break-word"},String(v)));
+}
+
+function topTermsBlock(terms){
+  const box=el("div",{style:"border-top:1px solid var(--hair);padding-top:11px;display:flex;flex-direction:column;gap:8px"},
+    el("div",{style:"font-weight:800;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)"},"Analytics"));
+  if(!terms.length){ box.append(el("div",{style:"font-size:13px;color:var(--ink-3)"},"No term analytics available.")); return box; }
+  const max=Math.max(...terms.map(t=>t.count||0),1);
+  terms.forEach(t=>box.append(el("div",{style:"display:grid;grid-template-columns:86px 1fr 32px;gap:8px;align-items:center;font-size:12.5px;color:var(--ink-2)"},
+    el("div",{style:"font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"},t.term),
+    el("div",{style:"height:7px;border-radius:999px;background:var(--surface-2);overflow:hidden"},
+      el("div",{style:"height:100%;width:"+Math.max(8,Math.round((t.count/max)*100))+"%;background:var(--accent);border-radius:999px"})),
+    el("div",{style:"text-align:right;font-weight:800;color:var(--ink)"},String(t.count)))));
+  return box;
+}
+
+function highlightText(text,q){
+  if(!q) return document.createTextNode(text||"");
+  const frag=document.createDocumentFragment();
+  const re=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"ig");
+  let last=0,m;
+  text=String(text||"");
+  while((m=re.exec(text))){
+    if(m.index>last) frag.append(document.createTextNode(text.slice(last,m.index)));
+    frag.append(el("mark",{style:"background:#FDE68A;color:#2B2D3A;border-radius:3px;padding:0 2px"},m[0]));
+    last=re.lastIndex;
+  }
+  if(last<text.length) frag.append(document.createTextNode(text.slice(last)));
+  return frag;
+}
+function fullTextTab(d){
+  const pages=d.pages||[], box=el("div",{style:"display:flex;flex-direction:column;gap:12px"});
+  const toolbar=el("div",{class:"jr-card",style:"display:flex;align-items:center;gap:8px;flex-wrap:wrap"},
+    ICON(I.search,{w:15,stroke:"var(--accent-ink)",sw:2}),
+    el("input",{value:S.judgmentTextQuery||"",placeholder:"Search judgment text",style:"flex:1;min-width:180px;border:1px solid var(--hair);border-radius:10px;padding:9px 10px;background:var(--surface);color:var(--ink);outline:none",
+      oninput:e=>{S.judgmentTextQuery=e.target.value;render();}}),
+    simpleChip((pages.length||d.page_count||0)+" pages","neutral"),
+    simpleChip("Select text to highlight","gold"));
+  box.append(toolbar);
+  if(!pages.length){
+    box.append(detailBlock("Judgment Text",d.full_text||d.text_preview||"No page text available.", true, 520));
+    return box;
+  }
+  const grid=el("div",{class:"jr-reader-grid"});
+  const pdf=el("div",{class:"jr-card",style:"min-height:360px;background:linear-gradient(180deg,var(--surface-2),var(--surface));display:flex;flex-direction:column;gap:10px"},
+    sectionTitle("PDF View",I.file),
+    el("div",{style:"border:1px dashed var(--hair-2);border-radius:12px;min-height:300px;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--ink-3);font-size:13px;line-height:1.5;padding:18px"},"PDF stream is served by /judgments/{id}/pdf when available. Structured text remains readable here without fabricating page images."));
+  const text=el("div",{class:"jr-card ny-sc",style:"max-height:620px;overflow:auto;display:flex;flex-direction:column;gap:12px"},sectionTitle("Structured Page Text",I.file));
+  pages.forEach(p=>{
+    const page=el("section",{id:"page-"+p.page_number,style:"border-top:1px solid var(--hair);padding-top:10px"},
+      el("div",{style:"display:flex;align-items:center;gap:8px;margin-bottom:8px"},simpleChip("Page "+(p.page_number||""),"gold"),
+        el("button",{style:"margin-left:auto;border:1px solid var(--hair);background:var(--surface);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:800;color:var(--ink-2);cursor:pointer"}, "Bookmark")),
+      el("div",{style:"white-space:pre-wrap;font-size:13px;line-height:1.72;color:var(--ink-2)"},highlightText(p.text||"",S.judgmentTextQuery)));
+    text.append(page);
+  });
+  grid.append(pdf,text); box.append(grid); return box;
+}
+function bookmarksTab(d){
+  const box=el("div",{style:"display:flex;flex-direction:column;gap:12px"});
+  box.append(el("div",{class:"jr-card",style:"display:flex;flex-direction:column;gap:8px"},
+    sectionTitle("Bookmarks & Annotations",I.bookmark),
+    el("div",{style:"font-size:13px;line-height:1.55;color:var(--ink-3)"},"No saved bookmarks returned yet. When the annotations/bookmarks endpoints are enabled, selected paragraph highlights and notes will appear here.")));
+  const pages=d.pages||[];
+  pages.slice(0,4).forEach(p=>box.append(el("button",{style:"text-align:left;border:1px solid var(--hair);background:var(--surface);border-radius:12px;padding:12px;cursor:pointer;color:var(--ink-2)",
+    onclick:()=>{S.judgmentTab="text";S.judgmentTextQuery="";render();setTimeout(()=>{const n=document.getElementById("page-"+p.page_number); if(n)n.scrollIntoView({behavior:"smooth",block:"start"});},0);}},
+    el("div",{style:"font-weight:900;color:var(--accent-ink);font-size:12px"},"Page "+p.page_number),
+    el("div",{style:"font-size:12.5px;line-height:1.5;margin-top:4px"},String(p.text||"").slice(0,180)))));
+  return box;
+}
+function scoreTone(score){ return score>=70?"good":score>=40?"warn":"bad"; }
+function applicabilityMeter(c){
+  const score=Number(c.applicability_score ?? c.score ?? 0);
+  const tone=scoreTone(score), b=c.applicability_breakdown||{};
+  const box=el("div",{style:"display:flex;flex-direction:column;gap:7px"},
+    el("div",{style:"display:flex;align-items:center;gap:8px"},ICON(I.target,{w:14,stroke:"var(--"+tone+")",sw:2}),el("b",{style:"font-size:13px;color:var(--ink)"},"Applicability "+score+"%")),
+    el("div",{style:"height:8px;border-radius:999px;background:var(--surface-2);overflow:hidden"},el("div",{style:"height:100%;width:"+Math.max(3,Math.min(100,score))+"%;background:var(--"+tone+");border-radius:999px"})));
+  const chips=el("div",{style:"display:flex;gap:5px;flex-wrap:wrap"});
+  [["Subject",b.subject_overlap],["Statute",b.statute_overlap],["Type",b.case_type_match],["Authority",b.authority_strength]].forEach(([k,v])=>chips.append(simpleChip(k+": "+(v??"n/a"),"neutral")));
+  box.append(chips); return box;
+}
+function treatmentChain(chain){
+  const wrap=el("div",{style:"display:flex;gap:6px;flex-wrap:wrap"});
+  asArr(chain).forEach(t=>{
+    const code=t.code||t.label||"R";
+    const tone=code==="O"?"bad":code==="D"?"warn":"good";
+    wrap.append(el("span",{class:"jr-chip",style:"color:var(--"+tone+");background:var(--"+tone+"-bg);border-color:var(--"+tone+"-bd)"},code, t.ref?el("span",{style:"font-weight:600;opacity:.8"},t.ref):null));
+  });
+  if(!wrap.childNodes.length) wrap.append(simpleChip("Treatment not returned","neutral"));
+  return wrap;
+}
+function citationTitle(c){
+  return first(c.case_title,c.cited_citation,c.citation_text,c.cited_id,c.shallow_proposition,"Cited authority");
+}
+function citationCard(c,direction){
+  const good = "good_law" in c ? c.good_law : null;
+  return el("button",{class:"jr-citation-card",style:"text-align:left;border:1px solid var(--hair);background:var(--surface);border-radius:14px;padding:13px;cursor:pointer;display:flex;flex-direction:column;gap:9px;color:inherit",
+    onclick:()=>{S.selectedCitation=c;S.citationPanelOpen=true;render();}},
+    el("div",{style:"display:flex;gap:10px;align-items:flex-start"},
+      ICON(I.scales,{w:17,stroke:"var(--accent-ink)",sw:2}),
+      el("div",{style:"flex:1;min-width:0"},
+        el("div",{class:"serif",style:"font-size:16px;font-weight:600;line-height:1.25;color:var(--ink)"},citationTitle(c)),
+        el("div",{style:"display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"},simpleChip(direction,"gold"),simpleChip(c.citation_type||"Citation edge","neutral"),goodLawBadge(good))),
+      el("div",{style:"font-weight:900;font-size:13px;color:var(--accent-ink)"},(c.applicability_score??"n/a")+"%")),
+    treatmentChain(c.treatment_chain),
+    c.ratio_decidendi?el("div",{style:"font-size:12.5px;line-height:1.5;color:var(--ink-2);font-style:italic"},c.ratio_decidendi):null);
+}
+function citationsTab(d){
+  const all=d.citations||[], id=String(d.judgment_id);
+  const citing=all.filter(c=>String(c.citing_id)===id);
+  const citedBy=all.filter(c=>String(c.cited_id)===id);
+  const box=el("div",{style:"display:flex;flex-direction:column;gap:12px"});
+  const grid=el("div",{style:"display:grid;grid-template-columns:1fr 1fr;gap:12px"});
+  [["Citing",citing],["Cited by",citedBy]].forEach(([label,items])=>{
+    const col=el("div",{class:"jr-card",style:"display:flex;flex-direction:column;gap:10px"},sectionTitle(label,I.graph));
+    if(!items.length) col.append(el("div",{style:"font-size:13px;color:var(--ink-3)"},"No "+label.toLowerCase()+" cases found yet."));
+    items.forEach(c=>col.append(citationCard(c,label)));
+    grid.append(col);
+  });
+  box.append(grid);
+  if(S.citationPanelOpen && S.selectedCitation) box.append(citationPanel(S.selectedCitation));
+  return box;
+}
+function citationPanel(c){
+  const box=el("aside",{class:"jr-card",style:"border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);display:flex;flex-direction:column;gap:12px"},
+    el("div",{style:"display:flex;align-items:flex-start;gap:8px"},
+      sectionTitle("Citation Intelligence",I.brain),
+      el("button",{style:"margin-left:auto;border:1px solid var(--hair);background:var(--surface);border-radius:8px;padding:5px 8px;font-size:11px;font-weight:800;cursor:pointer;color:var(--ink-2)",
+        onclick:()=>{S.citationPanelOpen=false;S.selectedCitation=null;render();}},"Close")),
+    el("div",{class:"serif",style:"font-size:18px;font-weight:600;line-height:1.25"},citationTitle(c)),
+    applicabilityMeter(c),
+    riskFlagList(asArr(c.risk_flags)),
+    el("div",{style:"display:flex;flex-direction:column;gap:7px"},sectionTitle("Treatment Chain",I.graph),treatmentChain(c.treatment_chain)),
+    goodLawBadge("good_law" in c ? c.good_law : null));
+  if(c.distinguishing_factor) box.append(el("div",{style:"font-size:13px;line-height:1.55;color:var(--ink-2)"},el("b",{},"Distinguishing factor: "),c.distinguishing_factor));
+  if(c.subsequent_treatment_summary) box.append(el("div",{style:"font-size:13px;line-height:1.55;color:var(--ink-2)"},c.subsequent_treatment_summary));
+  if(c.stronger_precedent) box.append(strongerPrecedentBox(c.stronger_precedent));
+  return box;
+}
+function strongerPrecedentBox(sp){
+  return el("div",{style:"border:1px solid var(--good-bd);background:var(--good-bg);border-radius:12px;padding:12px;display:flex;gap:9px;align-items:flex-start"},
+    ICON(I.lightbulb,{w:17,stroke:"var(--good)",sw:2}),
+    el("div",{},el("div",{style:"font-size:12px;font-weight:900;color:var(--good);text-transform:uppercase;letter-spacing:.06em"},"A stronger authority exists"),
+      el("div",{class:"serif",style:"font-size:15px;font-weight:600;color:var(--ink);margin-top:3px"},sp.case_title||"Stronger precedent"),
+      el("div",{style:"font-size:12.5px;color:var(--ink-2);line-height:1.45;margin-top:3px"},sp.reason||sp.citation||"")));
+}
+
+function pageTextBlock(d){
+  const pages=d.pages||[];
+  const box=el("div",{style:"display:flex;flex-direction:column;gap:10px"});
+  if(!pages.length){
+    box.append(detailBlock("Judgment Text",d.full_text||d.text_preview||"No page text available.", true, 420));
+    return box;
+  }
+  pages.forEach(p=>box.append(el("details",{open:Number(p.page_number)===1,style:"border:1px solid var(--hair);border-radius:10px;padding:10px 11px;background:var(--surface)"},
+    el("summary",{style:"cursor:pointer;font-weight:800;font-size:12px;color:var(--accent-ink)"},"Page "+(p.page_number||"")),
+    el("div",{class:"ny-sc",style:"max-height:320px;overflow:auto;white-space:pre-wrap;font-size:13px;line-height:1.65;color:var(--ink-2);margin-top:9px"},p.text||""))));
+  return box;
+}
+
+function citationsBlock(d){
+  const cits=d.citations||[];
+  const box=el("div",{style:"display:flex;flex-direction:column;gap:9px"});
+  if(!cits.length){ box.append(el("div",{style:"font-size:13px;color:var(--ink-3)"},"No citation edges found for this judgment.")); return box; }
+  cits.forEach(c=>box.append(el("div",{style:"border:1px solid var(--hair);border-radius:10px;padding:10px 11px;font-size:12.5px;line-height:1.45;color:var(--ink-2)"},
+    el("div",{style:"display:flex;gap:8px;align-items:flex-start"},
+      el("div",{style:"font-weight:800;color:var(--ink);flex:1"},c.cited_citation||c.citation_text||c.cited_id||"Cited authority"),
+      el("span",{style:"font-size:10px;font-weight:800;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:3px 7px"},c.citation_type||"edge")),
+    c.context?el("div",{style:"margin-top:5px"},c.context):null)));
+  return box;
+}
+
+function detailBlock(title,text,mono=false,maxH=160){
+  return el("details",{open:title!=="Judgment Text Preview",style:"border-top:1px solid var(--hair);padding-top:11px"},
+    el("summary",{style:"cursor:pointer;font-weight:700;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px"},title),
+    el("div",{class:"ny-sc",style:"max-height:"+maxH+"px;overflow:auto;white-space:pre-wrap;font-size:13px;line-height:1.6;color:var(--ink-2);font-family:"+(mono?"ui-monospace, SFMono-Regular, Consolas, monospace":"inherit")},text));
+}
+
+function judgmentAskBox(){
+  const box=el("div",{style:"border-top:1px solid var(--hair);padding-top:13px;display:flex;flex-direction:column;gap:10px"});
+  box.append(el("div",{style:"font-weight:700;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)"},"Ask About This Judgment"));
+  box.append(legalDisclaimer());
+  const ta=el("textarea",{rows:"2",placeholder:"Ask a question about this judgment...",
+    style:"width:100%;border:1px solid var(--hair-2);border-radius:12px;outline:none;resize:vertical;min-height:64px;font-size:13.5px;line-height:1.5;color:var(--ink);background:var(--surface);padding:10px 11px",
+    oninput:e=>{S.judgmentAskDraft=e.target.value;},
+    onkeydown:e=>{ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault(); askJudgment();} }});
+  ta.value=S.judgmentAskDraft;
+  const can=S.judgmentAskDraft.trim()&&!S.judgmentAsking;
+  box.append(ta);
+  box.append(el("div",{style:"display:flex;align-items:center;gap:8px"},
+    el("button",{style:"border:none;border-radius:10px;padding:9px 12px;font-weight:800;font-size:12.5px;color:var(--userfg);background:"+(can?"var(--accent)":"var(--hair-2)")+";cursor:"+(can?"pointer":"default"),
+      onclick:()=>can&&askJudgment()},S.judgmentAsking?"Reading...":"Ask"),
+    el("div",{style:"font-size:11.5px;color:var(--ink-3);line-height:1.35"},"Answers use this selected judgment only.")));
+  if(S.judgmentAskAnswer||S.judgmentAsking){
+    box.append(el("div",{style:"border:1px solid var(--hair);border-radius:12px;padding:12px;background:var(--surface-2)"},
+      renderAnswer({text:S.judgmentAskAnswer, warnings:S.judgmentAskWarnings, thinking:false, done:!S.judgmentAsking})));
+  }
+  return box;
+}
+
+/* ---------- Section 7: sources overlay drawer ---------- */
+function sourceCard(src){
+  const over=!src.good;
+  const card=el("div",{style:"background:var(--color-surface);border:1px solid "+(over?"var(--bad-bd)":"var(--color-divider)")+";border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px"});
+  card.append(el("div",{style:"display:flex;align-items:center;gap:8px"},
+    el("span",{style:"display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:10.5px;letter-spacing:.03em;padding:3px 9px;border-radius:999px;color:var("+(over?"--bad":"--good")+");background:var("+(over?"--bad":"--good")+"-bg)"},
+      el("span",{style:"width:7px;height:7px;border-radius:50%;background:var("+(over?"--bad":"--good")+")"}), over?"NO LONGER GOOD LAW":"GOOD LAW"),
+    el("span",{style:"margin-left:auto;font-size:11.5px;color:var(--color-ink-tertiary);text-align:right"},src.courtdate||"")));
+  card.append(el("div",{style:"font-family:var(--font-sans);font-weight:600;font-size:14.5px;line-height:1.3;color:var(--color-ink)"},src.case_title));
+  if(src.citation) card.append(el("div",{style:"font-size:12px;color:var(--color-ink-secondary)"},src.citation));
+  if(src.ratio) card.append(el("div",{class:"serif clamp2",style:"font-size:13px;color:var(--color-ink-secondary);line-height:1.5;font-style:italic"},src.ratio));
+  card.append(el("button",{class:"tap","aria-label":"Open judgment: "+(src.case_title||""),
+    style:"align-self:flex-start;margin-top:2px;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--color-divider);background:transparent;color:var(--accent-ink);border-radius:9px;padding:9px 13px;font-weight:700;font-size:12.5px;cursor:pointer",
+    onclick:()=>openJudgment(src)}, "→ Open judgment"));
+  return card;
+}
+function sourcesDrawer(){
+  const open=S.sourcesDrawerOpen;
+  const wrap=el("div",{"aria-hidden":open?"false":"true"});
+  if(open) wrap.append(el("div",{style:"position:fixed;inset:48px 0 0 0;z-index:99;background:rgba(0,0,0,.28)",onclick:()=>{S.sourcesDrawerOpen=false;render();}}));
+  const drawer=el("aside",{class:"ny-sc sources-drawer"+(open?" open":""),"aria-label":"Sources",role:"dialog","aria-modal":"true",
+    style:"position:fixed;top:48px;right:0;height:calc(100dvh - 48px);width:400px;max-width:92vw;background:var(--color-surface);box-shadow:-4px 0 24px rgba(0,0,0,.12);z-index:100;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px"});
+  drawer.append(el("div",{class:"mobile-only drag-handle","aria-hidden":"true"}));
+  drawer.append(el("div",{style:"display:flex;align-items:center;gap:8px"},
+    el("div",{class:"serif",style:"font-weight:600;font-size:17px;flex:1"},"Sources"),
+    el("span",{style:"font-size:11px;color:var(--color-ink-tertiary)"},S.sources.length?(S.sources.length+" judgments"):""),
+    iconBtn(I.x,"Close sources",()=>{S.sourcesDrawerOpen=false;render();},{w:16})));
+  if(!S.sources.length){
+    drawer.append(el("div",{id:"sourcesCard",style:"font-size:13px;color:var(--color-ink-tertiary);padding:10px 2px;line-height:1.5"},"No sources yet. Ask a question and the judgments behind the answer appear here."));
+    wrap.append(drawer); return wrap;
+  }
+  // tab switcher — Citation Map leads (the differentiator), then the list
+  const tab=S.sourcesTab||"graph";
+  const tabs=el("div",{role:"tablist",style:"display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--color-canvas);border:1px solid var(--color-divider);border-radius:10px;padding:3px"});
+  [["graph","Citation Map",I.graph],["list","List",I.file]].forEach(([id,label,ic])=>
+    tabs.append(el("button",{role:"tab","aria-selected":String(tab===id),class:"tap",
+      style:"display:flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:7px;padding:8px 4px;font-weight:700;font-size:12px;cursor:pointer;background:"+(tab===id?"var(--color-surface)":"transparent")+";color:"+(tab===id?"var(--color-brand-navy)":"var(--color-ink-tertiary)")+";box-shadow:"+(tab===id?"0 1px 2px rgba(0,0,0,.08)":"none"),
+      onclick:()=>{S.sourcesTab=id;render();}}, ICON(ic,{w:14,sw:1.9}), label)));
+  drawer.append(tabs);
+  if(tab==="graph"){
+    drawer.append(graphPanel());
+  } else {
+    const sc=el("div",{id:"sourcesCard",style:"display:flex;flex-direction:column;gap:10px"});
+    S.sources.forEach(src=>sc.append(sourceCard(src)));
+    drawer.append(sc);
+  }
+  wrap.append(drawer);
+  return wrap;
+}
+function graphPanel(){
+  const gc=el("div",{style:"background:var(--color-surface);border:1px solid var(--color-divider);border-radius:16px;padding:16px"});
+  gc.append(el("div",{style:"display:flex;align-items:center;gap:9px;margin-bottom:11px"},
+    ICON(I.graph,{w:17,stroke:"var(--accent-ink)"}),
+    el("div",{class:"serif",style:"font-weight:600;font-size:16px;flex:1"},"Citation Graph"),
+    el("span",{style:"font-size:11px;color:var(--color-ink-tertiary)"}, String(S.sources.length)+" judgments")));
+  gc.append(renderGraph());
+  const P=pal();
+  const legend=[["Root statute/case",P.actFill,P.actFill],["Cited authority",P.jFill,P.jStroke],["Overruled",P.overFill,P.overStroke]];
+  const lg=el("div",{style:"display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:6px;padding-top:11px;border-top:1px solid var(--color-divider)"});
+  legend.forEach(([lab,f,s])=>lg.append(el("div",{style:"display:flex;align-items:center;gap:6px;font-size:11px;color:var(--color-ink-secondary)"},
+    el("span",{style:"width:11px;height:11px;border-radius:50%;background:"+f+";border:1.5px solid "+s+";display:inline-block"}),lab)));
+  gc.append(lg);
+  return gc;
+}
+
+/* ---------- actions ---------- */
+function newSession(){ S.sessionId=null; S.messages=[]; S.sources=[]; S.warnings=[]; S.selectedSource=null; S.selectedJudgment=null; S.mobileNavOpen=false; render(); }
+async function openSession(id){
+  S.sessionId=id; S.sources=[]; S.warnings=[]; S.selectedSource=null; S.selectedJudgment=null; S.mobileNavOpen=false;
+  try{ const data=await jget("/sessions/"+S.userId+"/"+id);
+    S.messages=(data.messages||[]).filter(m=>m.role!=='recall').map(m=>({
+      role:m.role, text:m.content, done:true, recalled:[],
+      sources:m.sources||[], warnings:m.warnings||[]}));
+    S.sources = data.sources || latestMessageSources(S.messages);
+    S.selectedSource = S.sources.length ? sourceId(S.sources[0]) : null;
+    const lastWarn = [...S.messages].reverse().find(m=>(m.warnings||[]).length);
+    S.warnings = lastWarn ? lastWarn.warnings : [];
+  }catch(e){ S.messages=[]; }
+  render(); scrollThread();
+}
+function latestMessageSources(messages){
+  const msg=[...messages].reverse().find(m=>(m.sources||[]).length);
+  return msg ? msg.sources.filter(s=>s&&typeof s==="object") : [];
+}
+function switchUser(id){ S.userId=id; S.userMenuOpen=false; S.sessionId=null; S.messages=[]; S.sources=[]; S.warnings=[]; S.selectedSource=null; S.selectedJudgment=null; S.graphTab='citation'; render(); loadSidebar(); }
+function fmtAgo(ts){ if(!ts)return""; const d=new Date(ts); const m=Math.round((Date.now()-d)/60000);
+  if(m<1)return"just now"; if(m<60)return m+"m ago"; const h=Math.round(m/60); if(h<24)return h+"h ago"; return Math.round(h/24)+"d ago"; }
+function currentTitle(){ const s=S.sessions.find(x=>x.id===S.sessionId); if(s)return s.title;
+  return S.messages.length?(S.messages[0].text.slice(0,46)):"New Session"; }
+
+/* ---------- Auth (sign in / sign up + Google OAuth) ---------- */
+function setAuthUser(u){ S.authUser=u||null; if(u&&u.id) S.userId=u.id; }
+function switchAuthMode(m){ S.authMode=m; S.authError=""; render(); }
+function authErr(data){
+  if(!data) return "";
+  if(typeof data.error==="string") return data.error;
+  if(Array.isArray(data.detail)) return data.detail.map(d=>(d&&d.msg)||"").filter(Boolean).join(" ");
+  if(typeof data.detail==="string") return data.detail;
+  return "";
+}
+async function fetchProviders(){
+  try{
+    const r=await fetch(API+"/auth/providers");
+    if(r.ok){ const p=await r.json();
+      S.googleEnabled=!!p.google; S.clerkEnabled=!!p.clerk;
+      S.clerkPk=p.clerk_publishable_key||""; S.clerkFrontendApi=p.clerk_frontend_api||"";
+    }
+  }catch(e){}
+}
+async function refreshMe(){
+  try{ const r=await fetch(API+"/auth/me"); if(r.ok){ const d=await r.json(); setAuthUser(d.user); } }
+  catch(e){}
+  S.authChecked=true;
+}
+/* ---- Clerk: load the SDK, finish the OAuth redirect, exchange for our cookie ---- */
+function loadClerkScript(){
+  return new Promise((resolve,reject)=>{
+    if(window.Clerk){ resolve(); return; }
+    if(!S.clerkFrontendApi||!S.clerkPk){ reject(new Error("clerk not configured")); return; }
+    const sc=document.createElement("script");
+    sc.async=true; sc.setAttribute("crossorigin","anonymous");
+    sc.setAttribute("data-clerk-publishable-key",S.clerkPk);
+    sc.src="https://"+S.clerkFrontendApi+"/npm/@clerk/clerk-js@5/dist/clerk.browser.js";
+    let done=false;
+    const to=setTimeout(()=>{ if(!done){ done=true; reject(new Error("clerk load timeout")); } },7000);
+    sc.onload=()=>{ if(!done){ done=true; clearTimeout(to); resolve(); } };
+    sc.onerror=()=>{ if(!done){ done=true; clearTimeout(to); reject(new Error("failed to load Clerk")); } };
+    document.head.appendChild(sc);
+  });
+}
+async function initClerk(){
+  const onCallback=/\/sso-callback\/?$/.test(location.pathname);
+  if(onCallback){ S.clerkBusy=true; render(); }
+  try{
+    await loadClerkScript();
+    if(!window.Clerk) return;
+    await window.Clerk.load();
+    if(onCallback){
+      try{ await window.Clerk.handleRedirectCallback({}); }catch(e){}
+      // handleRedirectCallback navigates to redirectUrlComplete ("/"). If it
+      // didn't, fall through and try to exchange whatever session we have.
+    }
+    if(window.Clerk.user && window.Clerk.session){
+      const token=await window.Clerk.session.getToken();
+      if(token) await exchangeClerk(token);
+    }
+  }catch(e){ /* Clerk is optional; email/password still works */ }
+  finally{ S.clerkBusy=false; }
+}
+async function exchangeClerk(token){
+  try{
+    const r=await fetch(API+"/auth/clerk",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token})});
+    let d={}; try{ d=await r.json(); }catch(e){}
+    if(r.ok && d.user){ setAuthUser(d.user); }
+    else if(!r.ok){ S.authError=authErr(d)||"Could not complete Google sign-in."; }
+  }catch(e){ S.authError="Could not reach the server to finish sign-in."; }
+}
+function clerkGoogle(){
+  if(!window.Clerk || !window.Clerk.client){ S.authError="Google sign-in is still loading — try again in a moment."; render(); return; }
+  const back=location.origin+"/sso-callback", done=location.origin+"/";
+  try{
+    window.Clerk.client.signIn.authenticateWithRedirect({strategy:"oauth_google", redirectUrl:back, redirectUrlComplete:done})
+      .catch(err=>{ S.authError="Could not start Google sign-in: "+((err&&err.message)||err); render(); });
+  }catch(err){ S.authError="Could not start Google sign-in."; render(); }
+}
+async function doAuth(){
+  if(S.authBusy) return;
+  const mode=S.authMode, email=(S.authEmail||"").trim();
+  if(!email||!S.authPassword){ S.authError="Enter your email and password."; render(); return; }
+  if(mode==="signup"&&S.authPassword.length<8){ S.authError="Password must be at least 8 characters."; render(); return; }
+  S.authError=""; S.authBusy=true; render();
+  try{
+    const body=mode==="signup"?{email,password:S.authPassword,name:(S.authName||"").trim()}:{email,password:S.authPassword};
+    const r=await fetch(API+"/auth/"+(mode==="signup"?"signup":"login"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+    let data={}; try{ data=await r.json(); }catch(e){}
+    if(!r.ok){ S.authError=authErr(data)||("Request failed ("+r.status+")"); S.authBusy=false; render(); return; }
+    setAuthUser(data.user); S.authBusy=false; S.authPassword=""; S.authError="";
+    render(); loadSidebar(); refreshGraphForSelection();
+  }catch(e){ S.authError="Network error. Is the server running?"; S.authBusy=false; render(); }
+}
+async function doLogout(){
+  try{ await fetch(API+"/auth/logout",{method:"POST"}); }catch(e){}
+  S.authUser=null; S.userId=null; S.userMenuOpen=false; S.messages=[]; S.sessions=[];
+  S.sources=[]; S.sessionId=null; S.selectedJudgment=null; S.sourcesDrawerOpen=false; S.authMode="login"; render();
+}
+function googleLogin(){ if(S.googleEnabled) location.href=API+"/auth/google/login"; }
+function googleG(){
+  const s='<svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.76h3.56c2.08-1.92 3.28-4.74 3.28-8.09Z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.56-2.76c-.98.66-2.23 1.06-3.72 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23Z"/><path fill="#FBBC05" d="M5.84 14.11a6.6 6.6 0 0 1 0-4.22V7.05H2.18a11 11 0 0 0 0 9.9l3.66-2.84Z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.05l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38Z"/></svg>';
+  const d=el("span",{style:"display:inline-flex;flex:none"}); d.innerHTML=s; return d.firstChild;
+}
+function authScreen(){
+  const signup=S.authMode==="signup";
+  const shell=el("div",{style:"flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px"});
+  if(S.clerkBusy){
+    shell.append(el("div",{class:"fade-up",style:"display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center"},
+      el("div",{style:"width:48px;height:48px;border-radius:13px;background:var(--color-brand-navy);display:flex;align-items:center;justify-content:center"},ICON(I.scales,{w:26,stroke:"#fff",sw:1.7})),
+      el("div",{class:"serif",style:"font-size:19px;font-weight:600"},"Completing sign-in…"),
+      el("div",{style:"font-size:13px;color:var(--color-ink-tertiary)"},"One moment while we finish signing you in.")));
+    return shell;
+  }
+  const card=el("div",{class:"fade-up",style:"width:100%;max-width:400px;background:var(--color-surface);border:1px solid var(--color-divider);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.10);padding:30px 28px;display:flex;flex-direction:column;gap:16px"});
+  card.append(el("div",{style:"display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center"},
+    el("div",{style:"width:48px;height:48px;border-radius:13px;background:var(--color-brand-navy);display:flex;align-items:center;justify-content:center"},ICON(I.scales,{w:26,stroke:"#fff",sw:1.7})),
+    el("div",{},
+      el("div",{class:"serif",style:"font-weight:600;font-size:24px;letter-spacing:-.01em",html:'Nyaya<span style="color:var(--accent-ink)">.AI</span>'}),
+      el("div",{style:"font-size:13px;color:var(--color-ink-secondary);margin-top:4px"}, signup?"Create your account":"Sign in to your legal memory"))));
+  const googleReady = S.clerkEnabled || S.googleEnabled;
+  const onGoogle = S.clerkEnabled ? clerkGoogle : googleLogin;
+  const g=el("button",{class:"tap","aria-label":"Continue with Google",disabled:googleReady?null:"",
+    title:googleReady?"Sign in with Google"+(S.clerkEnabled?" (via Clerk)":""):"Configure Clerk or Google to enable Google sign-in",
+    style:"display:flex;align-items:center;justify-content:center;gap:10px;height:44px;border:1px solid var(--color-divider);border-radius:11px;background:var(--color-surface);color:var(--color-ink);font-weight:600;font-size:14px;cursor:"+(googleReady?"pointer":"not-allowed")+";opacity:"+(googleReady?"1":".55"),
+    onclick:onGoogle}, googleG(), "Continue with Google");
+  card.append(g);
+  if(!googleReady) card.append(el("div",{style:"font-size:11px;color:var(--color-ink-tertiary);text-align:center;margin-top:-6px"},"Google sign-in activates once Clerk (or Google) is configured."));
+  card.append(el("div",{style:"display:flex;align-items:center;gap:10px;color:var(--color-ink-tertiary);font-size:12px"},
+    el("span",{style:"flex:1;height:1px;background:var(--color-divider)"}),"or",el("span",{style:"flex:1;height:1px;background:var(--color-divider)"})));
+  const form=el("div",{style:"display:flex;flex-direction:column;gap:12px"});
+  const mkField=(label,type,key,ph,autofill)=>{
+    const inp=el("input",{type,value:S[key],placeholder:ph,autocomplete:autofill,"aria-label":label,
+      style:"width:100%;border:1px solid var(--color-divider);border-radius:11px;padding:11px 13px;font-size:14px;background:var(--color-surface);color:var(--color-ink);outline:none",
+      oninput:e=>{S[key]=e.target.value;},
+      onkeydown:e=>{ if(e.key==="Enter") doAuth(); }});
+    return el("label",{style:"display:flex;flex-direction:column;gap:6px"},
+      el("span",{style:"font-size:12px;font-weight:600;color:var(--color-ink-secondary)"},label), inp);
+  };
+  if(signup) form.append(mkField("Name","text","authName","Your name","name"));
+  form.append(mkField("Email","email","authEmail","you@example.com","email"));
+  form.append(mkField("Password","password","authPassword",signup?"At least 8 characters":"Your password",signup?"new-password":"current-password"));
+  card.append(form);
+  if(S.authError) card.append(el("div",{style:"font-size:12.5px;color:var(--bad);background:var(--bad-bg);border:1px solid var(--bad-bd);border-radius:9px;padding:9px 11px;line-height:1.4"},S.authError));
+  card.append(el("button",{class:"tap",disabled:S.authBusy?"":null,
+    style:"height:46px;border:0;border-radius:11px;background:var(--color-brand-gold);color:var(--color-brand-navy);font-weight:700;font-size:15px;transition:opacity .15s ease;cursor:"+(S.authBusy?"default":"pointer")+";opacity:"+(S.authBusy?".7":"1"),
+    onclick:doAuth}, S.authBusy?"Please wait…":(signup?"Create account":"Sign in")));
+  card.append(el("div",{style:"text-align:center;font-size:13px;color:var(--color-ink-secondary)"},
+    signup?"Already have an account? ":"New here? ",
+    el("button",{style:"border:0;background:transparent;color:var(--accent-ink);font-weight:700;font-size:13px;cursor:pointer;padding:0",
+      onclick:()=>switchAuthMode(signup?"login":"signup")}, signup?"Sign in":"Create an account")));
+  card.append(el("div",{style:"text-align:center;font-size:11px;color:var(--color-ink-tertiary);line-height:1.5"},"Your judgments memory is private to your account."));
+  shell.append(card);
+  return shell;
+}
+
+/* ---------- boot ---------- */
+document.addEventListener("keydown",e=>{ if(e.key!=="Escape") return;
+  if(S.selectedJudgment||S.judgmentLoading){ closeJudgment(); return; }
+  if(S.sourcesDrawerOpen||S.userMenuOpen||S.sessionMenuId!=null||S.mobileNavOpen){
+    S.sourcesDrawerOpen=false; S.userMenuOpen=false; S.sessionMenuId=null; S.mobileNavOpen=false; render(); }
+});
+// re-render only when crossing the mobile breakpoint (rotation / resize)
+let _rzT=null, _wasMobile=isMobile();
+window.addEventListener("resize",()=>{
+  clearTimeout(_rzT);
+  _rzT=setTimeout(()=>{ const m=isMobile(); if(m!==_wasMobile){ _wasMobile=m; if(!m) S.mobileNavOpen=false; if(S.authUser) render(); } },150);
+});
+async function boot(){
+  try{ const p=new URLSearchParams(location.search); const ae=p.get("auth_error");
+    if(ae){ S.authError=ae; history.replaceState({},document.title,location.pathname); } }catch(e){}
+  render();                         // paint the sign-in screen immediately — never a blank canvas
+  await fetchProviders();
+  await refreshMe();                // already signed in? show the app right away
+  if(!S.authUser && S.clerkEnabled){ await initClerk(); await refreshMe(); }
+  S.clerkBusy=false;
+  render();
+  if(S.authUser){ loadSidebar(); refreshGraphForSelection(); }
+}
+boot();
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+# ── Web framework ──
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+
+# ── Config / settings ──
+pydantic==2.10.4
+pydantic-settings==2.7.1
+python-dotenv==1.0.1
+
+# ── Auth: Clerk session-token verification (JWKS / RS256) ──
+PyJWT==2.13.0
+cryptography>=42            # required by PyJWT for RS256
+
+# ── Database (our own asyncpg pool + memchat writes; read-only judgments) ──
+asyncpg==0.30.0
+
+# ── Supabase client (RPC: hybrid_search) ──
+supabase==2.11.0
+
+# ── AI providers ──
+anthropic==0.42.0          # Claude — final legal answer (opus reasoning / sonnet fast)
+openai==1.59.6             # embeddings (text-embedding-3-large) + Cognee's internal LLM
+cohere==5.13.6             # optional rerank
+
+# ── Memory engine ──
+# Cognee is heavy and version-sensitive. Install separately with the postgres extra:
+#     pip install "cognee[postgres]"
+# The service degrades gracefully to a Postgres-backed local memory backend
+# (MEMORY_BACKEND=local) when cognee is not importable. See app/memory/cognee_setup.py.
+
+# ── Utilities ──
+httpx==0.28.1
+numpy==2.2.1
+tenacity==9.0.0
+pypdf==5.1.0
+
+# ── Tests ──
+pytest==8.3.4
+pytest-asyncio==0.25.2
