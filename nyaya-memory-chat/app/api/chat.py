@@ -30,6 +30,7 @@ from ..memory import user_memory
 from ..memory.corpus_retrieval import CorpusRetriever
 from ..memory.legal_retrieval import LegalKnowledgeRetriever
 from ..prompts import SYSTEM, build_user_prompt
+from ..clarify import clarify_gate, render_clarify_text
 
 logger = logging.getLogger("nyaya.api.chat")
 router = APIRouter()
@@ -48,6 +49,25 @@ class JudgmentAskRequest(BaseModel):
 
 def _ndjson(obj: dict[str, Any]) -> str:
     return json.dumps(obj, ensure_ascii=False) + "\n"
+
+
+def _dedup_judgments(retrieved: list) -> list:
+    """Collapse repeated judgments to their first occurrence, keyed by
+    judgment_id (falling back to a normalised case title). Prevents the same
+    case appearing twice in the source list under inconsistent labels."""
+    seen: set[str] = set()
+    out: list = []
+    for r in retrieved:
+        d = r.as_dict() if hasattr(r, "as_dict") else {}
+        key = str(d.get("judgment_id") or "").strip()
+        if not key:
+            key = re.sub(r"\s+", " ", str(d.get("case_title") or "")).strip().lower()
+        if key and key in seen:
+            continue
+        if key:
+            seen.add(key)
+        out.append(r)
+    return out
 
 
 @router.post("/chat")
@@ -79,11 +99,42 @@ async def chat(req: ChatRequest, background: BackgroundTasks, request: Request):
         retrieval_query = message
         if recalled:
             retrieval_query = f"{message}\ncontext: " + "; ".join(recalled[:5])
-        # Judgments (curated corpus) + statutes (ingested Central Acts) in parallel.
-        retrieved, statutes = await asyncio.gather(
+        # Judgments + statutes retrieval AND the clarify gate all run in parallel,
+        # so the gate adds no perceived latency. The gate decides, from the bare
+        # question + remembered facts, whether a controlling fact is missing.
+        retrieved, statutes, clarify = await asyncio.gather(
             retriever.retrieve(retrieval_query),
             statute_retriever.retrieve(retrieval_query),
+            clarify_gate(llm, message, recalled),
         )
+        # Dedup judgments by id — the same case must never appear twice in the
+        # source list (it read as broken citation hygiene: "1 and 4 are the same
+        # case, one tagged Good law and its duplicate Unverified").
+        retrieved = _dedup_judgments(retrieved)
+
+        # If a controlling fact is missing, ask instead of answering. Emit the
+        # structured clarify card, persist the turn as text, and stop — no
+        # sources, no tokens, no grounding.
+        if clarify.get("needs"):
+            preamble = clarify["preamble"]
+            questions = clarify["questions"]
+            yield _ndjson(
+                {"type": "clarify", "preamble": preamble, "questions": questions}
+            )
+            await store.ensure_session(session_id, user_id, title=_title_from(message))
+            uid_msg = f"m_{uuid.uuid4().hex[:12]}"
+            aid_msg = f"m_{uuid.uuid4().hex[:12]}"
+            await store.save_message(uid_msg, session_id, user_id, "user", message)
+            await store.save_message(
+                aid_msg, session_id, user_id, "assistant",
+                render_clarify_text(preamble, questions),
+            )
+            background.add_task(
+                user_memory.remember_turn, user_id, session_id, "user", message
+            )
+            yield _ndjson({"type": "done"})
+            return
+
         yield _ndjson(
             {
                 "type": "sources",
@@ -97,7 +148,10 @@ async def chat(req: ChatRequest, background: BackgroundTasks, request: Request):
         prompt = build_user_prompt(message, recalled, retrieved, statutes)
         answer_parts: list[str] = []
         try:
-            async for tok in llm.stream_answer(SYSTEM, prompt):
+            # A grounded legal answer (controlling rule + branch + limitation +
+            # citations + next steps) needs headroom; 1500 tokens truncated it
+            # mid-sentence. Opus handles far more.
+            async for tok in llm.stream_answer(SYSTEM, prompt, max_tokens=4096):
                 answer_parts.append(tok)
                 yield _ndjson({"type": "token", "text": tok})
         except Exception as exc:  # noqa: BLE001
