@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { api } from "@/lib/api";
-import type { SessionRow, Source, Statute, Warning } from "@/lib/types";
+import type { ClarifyQuestion, SessionRow, Source, Statute, Warning } from "@/lib/types";
 
 export interface UIMessage {
   role: "user" | "assistant";
@@ -11,6 +11,8 @@ export interface UIMessage {
   sources: Source[];
   warnings: Warning[];
   verified: string[];
+  phase: "recall" | "retrieve" | "compose";
+  clarify?: { preamble: string; questions: ClarifyQuestion[] };
 }
 
 const rid = () => "s_" + Math.random().toString(36).slice(2, 12);
@@ -71,6 +73,7 @@ export const useChat = create<ChatState>((set, get) => ({
           sources: m.sources || [],
           warnings: m.warnings || [],
           verified: [],
+          phase: "compose",
         }));
       const lastWarn = [...messages].reverse().find((m) => m.warnings.length);
       set({
@@ -101,6 +104,7 @@ export const useChat = create<ChatState>((set, get) => ({
       sources: [],
       warnings: [],
       verified: [],
+      phase: "recall",
     };
     const asst: UIMessage = {
       role: "assistant",
@@ -111,6 +115,7 @@ export const useChat = create<ChatState>((set, get) => ({
       sources: [],
       warnings: [],
       verified: [],
+      phase: "recall",
     };
     set({ messages: [...get().messages, user, asst], streaming: true });
 
@@ -133,9 +138,19 @@ export const useChat = create<ChatState>((set, get) => ({
           patchAsst((m) => {
             m.recalled = ev.recalled || [];
             m.thinking = true;
+            m.phase = "retrieve";
           });
         } else if (ev.type === "sources") {
           set({ sources: ev.sources || [], statutes: ev.statutes || [] });
+          patchAsst((m) => {
+            m.phase = "compose";
+          });
+        } else if (ev.type === "clarify") {
+          patchAsst((m) => {
+            m.thinking = false;
+            m.done = true;
+            m.clarify = { preamble: ev.preamble, questions: ev.questions };
+          });
         } else if (ev.type === "token") {
           patchAsst((m) => {
             m.thinking = false;

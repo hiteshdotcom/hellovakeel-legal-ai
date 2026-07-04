@@ -87,6 +87,15 @@ export interface FinalEvent {
 export interface DoneEvent {
   type: "done";
 }
+export interface ClarifyQuestion {
+  q: string;
+  chips: string[];
+}
+export interface ClarifyEvent {
+  type: "clarify";
+  preamble: string;
+  questions: ClarifyQuestion[];
+}
 /** Judgment-scoped Q&A emits a `source` event first. */
 export interface SourceEvent {
   type: "source";
@@ -98,7 +107,8 @@ export type ChatEvent =
   | TokenEvent
   | FinalEvent
   | DoneEvent
-  | SourceEvent;
+  | SourceEvent
+  | ClarifyEvent;
 
 // ---- sessions ----
 export interface SessionRow {
