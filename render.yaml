@@ -1,0 +1,50 @@
+# Render Blueprint — deploys the nyaya-memory-chat FastAPI service (serves the
+# React SPA + /api) against the existing external Supabase Postgres.
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: nyaya-memory-chat
+    runtime: docker
+    plan: starter                 # 512 MB RAM; bump to standard if you enable Cognee
+    region: singapore             # closest Render region to Supabase ap-southeast-2
+    rootDir: nyaya-memory-chat    # service lives in this subdirectory of the repo
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    autoDeploy: true              # redeploy on push to the connected branch
+    envVars:
+      # ── Service ──
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: MEMORY_BACKEND
+        value: local
+      # Keep well under Supabase's 15-connection pooler cap.
+      - key: DB_POOL_MAX
+        value: "5"
+
+      # ── Secrets: set these in the Render dashboard (sync:false = not in git) ──
+      - key: DATABASE_URL          # Supabase POOLER DSN (session mode, port 5432)
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: COHERE_API_KEY        # optional rerank; leave blank to disable
+        sync: false
+
+      # ── Optional: Google / Clerk OAuth (email+password works without these) ──
+      - key: OAUTH_REDIRECT_BASE   # e.g. https://nyaya-memory-chat.onrender.com
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: CLERK_PUBLISHABLE_KEY
+        sync: false
+      - key: CLERK_SECRET_KEY
+        sync: false

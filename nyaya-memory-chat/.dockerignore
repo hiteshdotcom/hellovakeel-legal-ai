@@ -1,0 +1,25 @@
+# Never ship the 281 MB of source PDFs — already ingested into Supabase.
+data/
+*.pdf
+
+# Build artifacts / local envs rebuilt inside the image.
+.venv/
+frontend/node_modules/
+frontend/dist/
+frontend/*.log
+node_modules/
+__pycache__/
+**/__pycache__/
+*.pyc
+.pytest_cache/
+.pycache_tmp/
+
+# Secrets and local-only files (env is injected by Render, not baked in).
+.env
+.env.*
+logs/
+tests/
+scripts/
+docs/
+*.md
+.git/
