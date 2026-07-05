@@ -1,0 +1,4 @@
+
+> nyaya-frontend@1.0.0 build
+> tsc --noEmit && vite build
+

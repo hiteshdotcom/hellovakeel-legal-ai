@@ -1,0 +1,432 @@
+{
+  "run_id": 1783198728,
+  "summary": {
+    "n": 14,
+    "errors": 0,
+    "fulfillment": 0.571,
+    "retrieval_recall": 0.857,
+    "retrieval_recall_statute": 0.8,
+    "citation_rate": 0.929,
+    "hallucination_rate": 0.214,
+    "avg_judge_score": 67.5,
+    "avg_latency_ms": 54238
+  },
+  "results": [
+    {
+      "qid": "stat-12",
+      "kind": "statute",
+      "question": "My husband, who was a member of Parliament, passed away last year. I want to know if I am entitled to any benefits or allowances as his spouse, and what specific provisions apply to me regarding residence and medical treatment after his death.",
+      "expected": "The Salaries and Allowances of Officers of Parliament Act, 1953",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Salary, Allowances and Pension of Members of Parliament Act, 1954",
+        "The Hindu Adoptions and Maintenance  Act, 1956",
+        "The Salaries and Allowances of Officers of Parliament Act, 1953",
+        "The Provident Funds Act, 1925",
+        "The Salary and Allowances of Leaders of Opposition in Parliament Act, 1977",
+        "The Vice-President s Pension Act, 1997"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": true,
+        "score": 45,
+        "notes": "The answer fails to cite the correct controlling authority and invents a statute, undermining its reliability."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 1,
+      "latency_ms": 68087,
+      "passed": false,
+      "answer_preview": "I'm sorry for your loss. Here is what the material provided does — and does not — cover.\n\n## Controlling law: the MP-specific statutes, not the general succession or maintenance Acts\n\nThe benefits payable to the spouse of a deceased Member of Parliament are governed by the **Sala",
+      "error": ""
+    },
+    {
+      "qid": "stat-3",
+      "kind": "statute",
+      "question": "My client, a resident of Haryana, has been denied a government job despite being a member of a community that has been recognized as a Backward Class by the State Government. What steps can we take to challenge this decision based on the provisions of the relevant Act?",
+      "expected": "The Haryana Backward Classes Commission Act, 2016 (9 of 2016)",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Constitution of India",
+        "The Haryana Backward Classes Commission Act, 2016 (9 of 2016)",
+        "THE UTTAR PRADESH STATE COMMISSION FOR BACKWARD CLASSES ACT, 1996",
+        "THE UTTAR PRADESH ADMISSION TO EDUCATIONAL INSTITUTIONS ACT, 2006",
+        "The Gujarat Scheduled Castes, Scheduled Tribes and Other Backward Classes (Regulation of Issuance and Verification of Caste Certificates) Act, 2018",
+        "The Central Educational Institutions (Reservation in Admission) Act, 2006"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 60,
+        "notes": "The answer correctly identifies the need for a Gazette notification and constitutional grounds but fails to apply the expected controlling authority."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 7,
+      "latency_ms": 75154,
+      "passed": false,
+      "answer_preview": "## Controlling-law caveat first\n\nThe Act you've named — the **Haryana Backward Classes Commission Act, 2016** — is, on the excerpt provided, only a **constituting statute**. It sets up the Haryana Backward Classes Commission (s.3) and defines \"Backward Classes\" as those notified ",
+      "error": ""
+    },
+    {
+      "qid": "stat-4",
+      "kind": "statute",
+      "question": "My client owns a piece of land in Kerala and has been extracting minerals from it for years. Recently, they received a notice from the government stating that all mineral rights have been vested in the government. Can you clarify if this notice is valid and what rights my client has regarding the minerals on their land?",
+      "expected": "THE KERALA MINERALS (VESTING OF RIGHTS) ACT, 2021",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Mines and Minerals (Development and Regulation) Act, 1957",
+        "The Maharashtra Land Revenue Code, 1966",
+        "The Nagaland (Ownership & Transfer of Land and its Resources Act,1990",
+        "THE KERALA MINERALS (VESTING OF RIGHTS) ACT, 2021",
+        "The Coal Bearing Areas (Acquisition and Development) Act, 1957",
+        "The Bihar Land Reforms Laws (Regulating Mines and Minerals) Validation Act, 1969."
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer is thorough and correctly applies the controlling authority, but lacks specific limitation period details."
+      },
+      "grounding_unsupported": 3,
+      "grounding_total": 8,
+      "latency_ms": 50009,
+      "passed": true,
+      "answer_preview": "## Controlling provision\n\nThe notice is, on its face, backed by statute. **Section 3 of the Kerala Minerals (Vesting of Rights) Act, 2021** provides that *\"Notwithstanding anything contained in any other law or in any judgment or decree or order of any court or proclamation, all ",
+      "error": ""
+    },
+    {
+      "qid": "stat-5",
+      "kind": "statute",
+      "question": "My client, a member of a backward class in Haryana, has been absent from three consecutive meetings of the Haryana Backward Classes Commission without obtaining leave. Can the State Government remove him from his position, and what process must be followed before such removal?",
+      "expected": "The Haryana Backward Classes Commission Act, 2016 (9 of 2016)",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Haryana Backward Classes Commission Act, 2016 (9 of 2016)",
+        "The Telangana Municipalities Act, 2019",
+        "The State Commission for the Scheduled Castes Act, 2018",
+        "The Protection of Human Rights Act, 1993",
+        "The Delhi Municipal Corporation Act, 1957",
+        "The West Bengal Panchayat Act, 1973"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies the controlling authority and provides a thorough analysis, but could improve clarity on the limitation aspect."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 3,
+      "latency_ms": 45700,
+      "passed": true,
+      "answer_preview": "## Controlling provision\n\nYour client's removal is governed by **Section 4(3) of the Haryana Backward Classes Commission Act, 2016** [Haryana Backward Classes Commission Act, 2016, s.4(3)], read with its proviso. That provision is squarely on point and disposes of the question.\n\n",
+      "error": ""
+    },
+    {
+      "qid": "stat-8",
+      "kind": "statute",
+      "question": "A member of a Grama Panchayat in Odisha has been informed that their term of office will be reduced due to a recent decision by the state government. Can they challenge this decision, and what are the implications of such a reduction on their current responsibilities?",
+      "expected": "The  Odisha Grama Panchayats (Reduction of Term of Office) Act, 1981",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The  Odisha Grama Panchayats (Reduction of Term of Office) Act, 1981",
+        "The Manipur Panchayati Raj Act, 1994",
+        "The West Bengal Panchayat Act, 1973",
+        "The Gorkhaland Territorial Administration Act, 2011",
+        "The Telangana Municipalities Act, 2019",
+        "Constitution of India"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer correctly identifies the controlling authority and discusses legal implications, but could be more concise."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 5,
+      "latency_ms": 53490,
+      "passed": true,
+      "answer_preview": "## Controlling provision — and the corpus gap\n\nThe decision you are describing is governed by **The Orissa Grama Panchayats (Reduction of Term of Office) Act, 1981 (Orissa Act 10 of 1981)**, whose very title and Table of Contents (Section 3, \"Reduction of term of…\") show that the",
+      "error": ""
+    },
+    {
+      "qid": "stat-10",
+      "kind": "statute",
+      "question": "My client has been repeatedly involved in public disturbances and has been warned by the police multiple times. Now, the police have issued a directive for him to leave Delhi for a specified period. Can he challenge this order, and on what grounds?",
+      "expected": "The Delhi Police Act, 1978",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "The Delhi Police Act, 1978",
+        "The Madras District Police Act, 1859",
+        "Constitution of India",
+        "The Police Act, 1861",
+        "The Indo-Tibetan Border Police Force Act, 1992"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 70,
+        "notes": "The answer correctly identifies grounds for challenge but fails to cite the specific section of the Delhi Police Act that empowers externment."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 2,
+      "latency_ms": 58573,
+      "passed": true,
+      "answer_preview": "## Controlling law — a gap in the provided corpus\n\nFirst, an honest caveat: an externment order (a police directive to leave a defined area for a fixed period) is issued under a **specific externment/expulsion power** in a police law. For Delhi, the controlling statute is the **D",
+      "error": ""
+    },
+    {
+      "qid": "jud-3",
+      "kind": "judgment",
+      "question": "How does the place of receipt by agents influence the taxability of income for non-residents under the Income Tax Act?",
+      "expected": "Keshav Mills Ltd. v. Commissioner of Income-tax, Bombay",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Keshav Mills Ltd. v. Commissioner of Income-tax, Bombay",
+        "Turner Morrison & Co., Ltd. v. Commissioner of Income-tax, West Bengal",
+        "Commissioner of Income-tax, Bombay City v. Messrs. Bhogilal Laherchand & Co.",
+        "Anglo-French Textile Co. Ltd. v. Commissioner of Income-Tax, Madras",
+        "Commissioner of Income-Tax, Bombay South v. Messrs Ogale Glass Works Ltd.",
+        "Commissioner of Income-tax, Bombay v. Ahmedbhai Umarbhai & Co., Bombay"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 70,
+        "notes": "The answer correctly discusses the legal principles but fails to cite the expected authority, Keshav Mills Ltd., directly."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 5,
+      "latency_ms": 45461,
+      "passed": true,
+      "answer_preview": "## Controlling rule: place of *actual receipt* in India — s.4(1)(a), not the deemed-income provision — governs\n\nThe taxability of a non-resident's income turns on **Section 4(1)(a) of the Income-tax Act** (charge on income \"received … in India\"), and the settled position is that ",
+      "error": ""
+    },
+    {
+      "qid": "jud-0",
+      "kind": "judgment",
+      "question": "What are the implications of the Supreme Court's order granting special leave under Article 136 in terms of the appeal process and the necessity of formal admission by the High Court?",
+      "expected": "Shiva Jute Baling Ltd. v. Hindley & Co. Ltd.",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Shiva Jute Baling Ltd. v. Hindley & Co. Ltd.",
+        "Pritam Singh v. The State",
+        "Durga Shankar Mehta v. Thakur Raghuraj Singh and Others",
+        "The Bharat Bank Ltd., Delhi v. Employees of The Bharat Bank Ltd., Delhi"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer is comprehensive and correctly applies the controlling authority, but could be more concise."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 3,
+      "latency_ms": 43455,
+      "passed": true,
+      "answer_preview": "## Controlling Rule\n\n**Once the Supreme Court grants special leave under Article 136 of the Constitution, the leave order itself operates as admission of the appeal on compliance with the security/deposit conditions — a separate formal admission by the High Court is unnecessary.*",
+      "error": ""
+    },
+    {
+      "qid": "jud-5",
+      "kind": "judgment",
+      "question": "Does the formal appointment as a Section Officer automatically qualify an individual for promotion to Under Secretary, regardless of merit grades?",
+      "expected": "Director General, CSIR v. J.K. Prashar & Ors.",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Director General, CSIR v. J.K. Prashar & Ors.",
+        "Radhey Shyam Yadav & Anr. v. State of U.P. & Ors.",
+        "All India Judges Association v Union of India & Ors",
+        "The State of Assam and others v. Binod Kumar and others"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer correctly cites the controlling authority and addresses limitations, but could be more concise."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 2,
+      "latency_ms": 44955,
+      "passed": true,
+      "answer_preview": "## Controlling authority\n\nThe question is answered directly by **[Director General, CSIR v. J.K. Prashar & Ors., 2024 INSC 65, Supreme Court of India]** (GOOD LAW). On the point you raise, the controlling rule is:\n\n- **Formal appointment as a Section Officer satisfies the eligibi",
+      "error": ""
+    },
+    {
+      "qid": "stat-0",
+      "kind": "statute",
+      "question": "A local grocery store owner has been accused of selling rice using a measuring scale that is not calibrated according to the prescribed standards. If the owner claims that the scale was provided by a supplier who assured them it was compliant, what legal implications could arise under the relevant legislation?",
+      "expected": "The Sikkim Weight And Measures Act 1980",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Legal Metrology Act, 2009",
+        "The Sikkim Weight And Measures Act 1980",
+        "The Bureau of Indian Standards Act, 2016.",
+        "The Food Safety and Standards Act, 2006",
+        "The Consumer Protection Act, 2019",
+        "The Geographical Indications of Goods (Registration and Protection) Act, 1999"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 60,
+        "notes": "The answer fails to identify the Sikkim Weight And Measures Act 1980 as the controlling authority, despite providing relevant legal principles."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 2,
+      "latency_ms": 50532,
+      "passed": false,
+      "answer_preview": "## Controlling law — and a gap you must note\n\n**The offence here is governed by The Legal Metrology Act, 2009 (and its Rules), which is the Central law regulating weights and measures used in trade.** However, the excerpt of that Act provided to me contains only *definitions* (sa",
+      "error": ""
+    },
+    {
+      "qid": "jud-2",
+      "kind": "judgment",
+      "question": "What are the limits of the Supreme Court's jurisdiction in reviewing the Election Commission's discretion to condone delays under Section 85 of the Representation of the People Act, 1951?",
+      "expected": "Dinabandhu Sahu v. Jadumoni Mangaraj and Others",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Dinabandhu Sahu v. Jadumoni Mangaraj and Others",
+        "Sangram Singh v. Election Tribunal, Kotah & Bhurey Lal Baya",
+        "N.P. Ponnuswami v. Returning Officer, Namakkal Constituency and Others",
+        "Durga Shankar Mehta v. Thakur Raghuraj Singh and Others",
+        "Hari Vishnu Kamath v. Syed Ahmad Ishaque and Others",
+        "Jagan Nath v. Jaswant Singh and Others"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer is comprehensive but could be more concise and focused on the core question."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 5,
+      "latency_ms": 52951,
+      "passed": true,
+      "answer_preview": "## Controlling authority\n\nThe direct answer comes from **[Dinabandhu Sahu v. Jadumoni Mangaraj, 1954, Supreme Court of India]**, which is the only retrieved authority addressing Section 85 condonation of delay in terms.\n\n**The controlling rule:** The Election Commission's discret",
+      "error": ""
+    },
+    {
+      "qid": "stat-3",
+      "kind": "statute",
+      "question": "My factory was inspected by the fire force, and they found that we had not taken adequate fire safety precautions. They have now issued a notice for compliance. Can I claim compensation for any damages caused during their inspection?",
+      "expected": "The Kerala Fire Force Act, 1962",
+      "retrieval_hit": false,
+      "retrieved_acts": [
+        "The Occupational Safety, Health and Working Conditions Code, 2020",
+        "The Public Liability Insurance Act, 1991",
+        "The Telangana Municipalities Act, 2019",
+        "The Bharatiya Vayuyan Adhiniyam, 2024",
+        "The Export (Quality Control and Inspection) Act, 1963",
+        "The Disaster Management Act, 2005"
+      ],
+      "cited": false,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": false,
+        "limitation_flagged": true,
+        "hallucination": true,
+        "score": 20,
+        "notes": "The answer fails to identify the Kerala Fire Force Act, 1962, and incorrectly states that no compensation can be claimed without addressing the controlling authority."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 0,
+      "latency_ms": 56617,
+      "passed": false,
+      "answer_preview": "## Short answer up front\n\nThe controlling law for your problem is **State fire-safety legislation and your State's fire-service / municipal rules** — and that governing statute is **NOT among the materials provided to me.** None of the statutes or judgments in front of me actuall",
+      "error": ""
+    },
+    {
+      "qid": "stat-15",
+      "kind": "statute",
+      "question": "My son, who is a Coast Guard officer, was recently taken into custody for a minor infraction. He has been held for over 48 hours without any investigation or charges being presented. What can we do to ensure that he is either released or that the charges are formally brought against him?",
+      "expected": "The Coast Guard Act, 1978",
+      "retrieval_hit": false,
+      "retrieved_acts": [
+        "Constitution of India",
+        "The Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "The Indo-Tibetan Border Police Force Act, 1992",
+        "The Air Force Act, 1950",
+        "The Geneva Conventions Act, 1960",
+        "Jharkhand Control of Crimes Act, 2002"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": true,
+        "score": 40,
+        "notes": "The answer fails to cite the Coast Guard Act, 1978, and invents a new statute (BNSS) that does not exist."
+      },
+      "grounding_unsupported": 1,
+      "grounding_total": 3,
+      "latency_ms": 54805,
+      "passed": false,
+      "answer_preview": "## Short answer first: the controlling law is NOT in the material provided\n\nYour son is a **Coast Guard officer**, so his detention on a service \"infraction\" is governed by the **Coast Guard Act, 1978** and the rules/regulations framed under it — a statute that is **NOT among the",
+      "error": ""
+    },
+    {
+      "qid": "stat-4",
+      "kind": "statute",
+      "question": "My client, a government employee, was recently dismissed from service after being accused of corruption. They believe the dismissal was unjust and not in line with the proper procedures. Can they challenge this dismissal based on the requirement for consultation with the Central Vigilance Commission before any disciplinary action is taken?",
+      "expected": "The Central Vigilance Commission Act, 2003",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Constitution of India",
+        "The Lokpal and Lokayuktas Act, 2013",
+        "The New Delhi Municipal Council Act, 1994",
+        "The Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "The Central Vigilance Commission Act, 2003",
+        "THE KARNATAKA MUNICIPAL CORPORATIONS ACT, 1976."
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 60,
+        "notes": "The answer correctly identifies Article 311(2) but fails to address the CVC Act as the controlling authority."
+      },
+      "grounding_unsupported": 1,
+      "grounding_total": 3,
+      "latency_ms": 59554,
+      "passed": false,
+      "answer_preview": "## Controlling provision: Article 311(2) of the Constitution — not the CVC Act\n\nThe safeguard your client can actually enforce is **Article 311(2) of the Constitution of India**, which bars dismissal, removal or reduction in rank of a person holding a civil post under the Union o",
+      "error": ""
+    }
+  ]
+}

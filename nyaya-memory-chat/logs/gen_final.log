@@ -1,0 +1,27 @@
+2026-07-06 01:09:31,271 INFO Connected to Postgres pool.
+2026-07-06 01:09:32,475 INFO Applied migration 001_memchat.sql
+2026-07-06 01:10:04,824 WARNING Could not connect to Postgres (). DB features degraded.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\HP\Documents\hs\cognee-assignment\nyaya-memory-chat\scripts\eval_harness.py", line 651, in <module>
+    main()
+  File "C:\Users\HP\Documents\hs\cognee-assignment\nyaya-memory-chat\scripts\eval_harness.py", line 646, in main
+    rc = args.func(args)
+         ^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Documents\hs\cognee-assignment\nyaya-memory-chat\scripts\eval_harness.py", line 634, in <lambda>
+    g.set_defaults(func=lambda a: asyncio.run(generate(a)))
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Documents\hs\cognee-assignment\nyaya-memory-chat\scripts\eval_harness.py", line 239, in generate
+    async with db.pool.acquire() as conn:
+               ^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'acquire'

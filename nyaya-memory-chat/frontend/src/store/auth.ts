@@ -105,6 +105,14 @@ export const useAuth = create<AuthState>((set, get) => ({
     }
     set({ user: null, authError: "" });
     void get; // keep signature parity
+    // Hard-reload to a clean origin so the app re-boots and re-checks /me against
+    // the server (the session is now invalidated). Guarantees logout "sticks"
+    // even if any client state or a stale cookie lingers.
+    try {
+      window.location.assign("/");
+    } catch {
+      /* non-browser env (tests) */
+    }
   },
 }));
 

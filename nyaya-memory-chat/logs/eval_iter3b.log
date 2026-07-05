@@ -1,0 +1,280 @@
+2026-07-05 03:27:16,144 INFO Connected to Postgres pool.
+2026-07-05 03:27:17,295 INFO Applied migration 001_memchat.sql
+2026-07-05 03:27:18,070 INFO Applied migration 002_legal_knowledge.sql
+2026-07-05 03:27:18,839 INFO Applied migration 003_auth.sql
+2026-07-05 03:27:20,487 INFO Applied migration 004_acts_pipeline.sql
+2026-07-05 03:27:20,492 INFO Using local (Postgres) memory backend.
+2026-07-05 03:27:20,494 INFO Evaluating 31 questions (concurrency 2, pass bar 70)…
+2026-07-05 03:27:26,294 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:27:29,913 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:27:29,925 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:27:29,928 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:27:29,930 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:27:30,431 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:27:31,120 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:27:31,145 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:28:01,979 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:28:03,455 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:28:34,660 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:28:36,417 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:28:37,186 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:28:38,172 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:28:38,180 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:28:38,676 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:28:38,778 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:28:40,499 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:28:40,964 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:28:42,855 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:28:42,861 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:28:43,305 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:28:57,205 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:29:16,967 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:29:37,277 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:29:39,237 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:29:39,776 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:29:41,203 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:29:41,211 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:29:41,650 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:29:50,468 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:29:53,587 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:29:55,464 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:29:55,755 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:29:57,302 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:29:57,306 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:29:58,010 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:30:17,325 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:30:21,992 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:30:24,450 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:30:24,458 INFO   5/31 done
+2026-07-05 03:30:24,774 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:30:26,352 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:30:26,358 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:30:27,109 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:30:38,115 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:30:56,474 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:30:58,560 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:30:58,945 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:31:00,641 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:31:00,655 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:31:01,202 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:31:12,066 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:31:13,168 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:31:14,948 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:31:15,487 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:31:16,021 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:31:16,286 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:31:16,601 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:31:31,248 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:31:48,314 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:31:49,793 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:31:50,329 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:31:51,727 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:31:51,743 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:31:52,385 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:32:03,117 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:32:05,125 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:32:06,266 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:32:07,070 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:32:07,079 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:32:08,029 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:32:12,601 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:32:23,459 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:32:51,687 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:32:53,446 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:32:53,501 INFO   10/31 done
+2026-07-05 03:32:53,975 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:32:54,824 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:32:54,857 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:32:55,367 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:32:55,566 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:32:57,388 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:32:57,880 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:32:58,162 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:32:59,000 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:32:59,674 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:33:09,630 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:33:27,020 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:33:45,057 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:33:47,303 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:33:47,875 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:33:49,287 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:33:49,295 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:33:49,717 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:34:04,101 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:34:08,401 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:34:10,489 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:34:11,204 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:34:12,785 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:34:12,797 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:34:13,134 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:34:25,333 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:34:44,583 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:34:46,348 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:34:47,528 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:34:48,775 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:34:48,781 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:34:49,326 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:34:58,741 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:35:00,933 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:35:00,974 INFO   15/31 done
+2026-07-05 03:35:01,296 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:35:01,848 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:35:02,361 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:35:02,832 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:35:04,713 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:35:23,831 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:35:42,761 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:35:44,315 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:35:44,724 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:35:45,380 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:35:45,455 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:35:46,285 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:36:00,902 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:36:05,616 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:36:07,592 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:36:08,096 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:36:09,415 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:36:09,421 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:36:10,117 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:36:33,171 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:36:33,740 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:36:35,509 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:36:35,891 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:36:36,578 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:36:36,727 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:36:37,459 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:36:54,414 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:37:04,871 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:37:06,830 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:37:07,221 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:37:08,199 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:37:08,208 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:37:08,789 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:37:25,281 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:37:30,558 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:37:32,334 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:37:32,334 INFO   20/31 done
+2026-07-05 03:37:32,988 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:37:33,973 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:37:34,173 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:37:34,614 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:37:48,412 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:38:01,810 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:38:03,411 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:38:03,986 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:38:05,554 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:38:05,570 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:38:05,994 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:38:20,006 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:38:21,525 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:38:21,994 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:38:22,975 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:38:23,092 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:38:23,780 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:38:25,310 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:38:38,646 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:39:07,412 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:39:09,284 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:39:09,715 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:39:10,965 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:39:12,312 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:39:12,924 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:39:18,332 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:39:20,487 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:39:20,956 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:39:21,855 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:39:23,078 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:39:23,548 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:39:29,524 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:39:45,203 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:39:59,167 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:40:00,601 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:40:00,656 INFO   25/31 done
+2026-07-05 03:40:01,093 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:40:02,662 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:40:02,668 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:40:03,360 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:40:15,964 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:40:25,522 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:40:27,632 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:40:28,111 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:40:28,794 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:40:29,373 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:40:30,056 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:40:46,887 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:40:51,809 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:40:53,608 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:40:54,161 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:40:55,076 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:40:55,101 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:40:55,905 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:41:11,988 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:41:26,074 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:41:27,864 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:41:28,194 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:41:29,607 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:41:29,607 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:41:30,226 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:41:49,220 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:41:52,470 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:41:55,189 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:41:55,970 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:41:57,416 INFO HTTP Request: POST https://mtwupbegovwbeaefzhjc.supabase.co/rest/v1/rpc/hybrid_search "HTTP/2 200 OK"
+2026-07-05 03:41:57,425 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:41:58,125 INFO HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2026-07-05 03:42:16,858 INFO HTTP Request: POST https://api.cohere.com/v2/rerank "HTTP/1.1 200 OK"
+2026-07-05 03:42:34,042 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:42:35,787 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:42:35,791 INFO   30/31 done
+2026-07-05 03:42:52,364 INFO HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-05 03:42:53,874 INFO HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-05 03:42:53,882 INFO   31/31 done
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\HP\Documents\hs\cognee-assignment\nyaya-memory-chat\scripts\eval_harness.py", line 651, in <module>
+    main()
+  File "C:\Users\HP\Documents\hs\cognee-assignment\nyaya-memory-chat\scripts\eval_harness.py", line 646, in main
+    rc = args.func(args)
+         ^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Documents\hs\cognee-assignment\nyaya-memory-chat\scripts\eval_harness.py", line 640, in <lambda>
+    r.set_defaults(func=lambda a: asyncio.run(run(a)))
+                                  ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HP\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\asyncio\base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\HP\Documents\hs\cognee-assignment\nyaya-memory-chat\scripts\eval_harness.py", line 513, in run
+    _print_report(report, results)
+  File "C:\Users\HP\Documents\hs\cognee-assignment\nyaya-memory-chat\scripts\eval_harness.py", line 557, in _print_report
+    print("  STANDARD: " + ("\u2705 MET — the AI is fulfilling."
+  File "C:\Users\HP\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u26d4' in position 12: character maps to <undefined>
+
+====================================================================
+  FULFILLMENT REPORT
+====================================================================
+  n                          : 31
+  errors                     : 0
+  fulfillment                : 0.839
+  retrieval_recall           : 0.839
+  retrieval_recall_statute   : 0.783
+  citation_rate              : 0.903
+  hallucination_rate         : 0.0
+  avg_judge_score            : 88.4
+  avg_latency_ms             : 57741
+--------------------------------------------------------------------
+  5 failures (first 8):
+   [low-score(75)   ] The Inter-State Corporations Act, 1957       :: A company operating in multiple states is facing a dispute r
+   [low-score(75)   ] THE ARUNACHAL PRADESH PUBLIC PREMISES (EVICT :: A government employee was transferred to a different locatio
+   [retrieval-miss  ] THE KERALA MINERALS (VESTING OF RIGHTS) ACT, :: A local farmer discovers a new mineral deposit on his land a
+   [low-score(85)   ] The West Bengal Maritime Board Act, 2000     :: A shipping company has caused significant damage to a dock o
+   [retrieval-miss  ] THE TAMILNADU ANCIENT AND HISTORICAL MONUMEN :: A local resident has constructed a small shed within a prote
+--------------------------------------------------------------------

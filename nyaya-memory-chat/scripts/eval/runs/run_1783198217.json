@@ -1,0 +1,357 @@
+{
+  "run_id": 1783198217,
+  "summary": {
+    "n": 12,
+    "errors": 1,
+    "fulfillment": 0.583,
+    "retrieval_recall": 0.833,
+    "retrieval_recall_statute": 0.889,
+    "citation_rate": 0.917,
+    "hallucination_rate": 0.273,
+    "avg_judge_score": 70.0,
+    "avg_latency_ms": 48176
+  },
+  "results": [
+    {
+      "qid": "stat-12",
+      "kind": "statute",
+      "question": "My husband, who was a member of Parliament, passed away last year. I want to know if I am entitled to any benefits or allowances as his spouse, and what specific provisions apply to me regarding residence and medical treatment after his death.",
+      "expected": "The Salaries and Allowances of Officers of Parliament Act, 1953",
+      "retrieval_hit": false,
+      "retrieved_acts": [],
+      "cited": false,
+      "judge": {},
+      "grounding_unsupported": 0,
+      "grounding_total": 0,
+      "latency_ms": 0,
+      "passed": false,
+      "answer_preview": "",
+      "error": "InternalServerError('(EMAXCONNSESSION) max clients reached in session mode - max clients are limited to pool_size: 15')"
+    },
+    {
+      "qid": "stat-0",
+      "kind": "statute",
+      "question": "My client purchased a flat in a newly constructed building in Mumbai, but the builder has failed to provide the possession of the flat even after the agreed timeline. What legal recourse does my client have under the relevant housing regulations in Maharashtra?",
+      "expected": "The Maharashtra Ownership Flats (Regulation of the Promotion of Construction, Sale, Management and Transfer) Act, 1963",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Maharashtra Ownership Flats (Regulation of the Promotion of Construction, Sale, Management and Transfer) Act, 1963",
+        "The Right to Fair Compensation and Transparency in Land Acquisition, Rehabilitation and Resettlement Act, 2013",
+        "The Cantonments Act, 2006",
+        "The Maharashtra Rent Control Act, 1999",
+        "The New Delhi Municipal Council Act, 1994",
+        "The Metro Railways (Construction of Works) Act, 1978"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": true,
+        "score": 45,
+        "notes": "The answer fails to identify the controlling authority, misstates the applicability of RERA, and invents a case citation."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 4,
+      "latency_ms": 68887,
+      "passed": false,
+      "answer_preview": "## Controlling law — and a corpus gap you must know\n\n**The provision that actually governs delayed possession of a newly constructed Mumbai flat today is the Real Estate (Regulation and Development) Act, 2016 (RERA) and the Maharashtra RERA Rules — and that Act is NOT in the mate",
+      "error": ""
+    },
+    {
+      "qid": "stat-15",
+      "kind": "statute",
+      "question": "My son, who is a Coast Guard officer, was recently taken into custody for a minor infraction. He has been held for over 48 hours without any investigation or charges being presented. What can we do to ensure that he is either released or that the charges are formally brought against him?",
+      "expected": "The Coast Guard Act, 1978",
+      "retrieval_hit": false,
+      "retrieved_acts": [
+        "Constitution of India",
+        "The Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "The Indo-Tibetan Border Police Force Act, 1992",
+        "The Air Force Act, 1950",
+        "The Assam Rifles Act, 2006",
+        "The Bharatiya Nyaya Sanhita, 2023"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": true,
+        "score": 45,
+        "notes": "The answer fails to cite the Coast Guard Act, 1978, and introduces irrelevant statutes, undermining its authority."
+      },
+      "grounding_unsupported": 1,
+      "grounding_total": 2,
+      "latency_ms": 72191,
+      "passed": false,
+      "answer_preview": "## Controlling law — a corpus gap you must know about\n\nThe provision that actually governs your son's detention is **not among the statutes provided to me**. Coast Guard personnel are governed by the **Coast Guard Act, 1978**, which contains its own service-law regime for arrest,",
+      "error": ""
+    },
+    {
+      "qid": "stat-1",
+      "kind": "statute",
+      "question": "My client, a minor whose estate is under the Court of Wards, has been receiving inadequate financial support for his education and living expenses. Can the Court of Wards be petitioned to increase the allowance for his family and dependants?",
+      "expected": "THE RAJASTHAN COURT OF WARDS ACT, 1951",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Central Provinces Court of Wards Act, 1899",
+        "THE RAJASTHAN COURT OF WARDS ACT, 1951",
+        "The Guardians and Wards Act, 1890",
+        "The Hindu Adoptions and Maintenance  Act, 1956",
+        "The Code of Civil Procedure, 1908",
+        "The Wealth-tax Act, 1957"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": true,
+        "score": 45,
+        "notes": "The answer fails to cite the correct controlling authority and invents a statute reference."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 0,
+      "latency_ms": 53985,
+      "passed": false,
+      "answer_preview": "## Controlling provision\n\nYes — the allowance for a Government ward and his family/dependants is a matter squarely within the Court of Wards' own power, and it is a power the Court exercises **\"from time to time.\"** That built-in flexibility is the hook for a fresh application.\n\n",
+      "error": ""
+    },
+    {
+      "qid": "jud-6",
+      "kind": "judgment",
+      "question": "What distinguishes the status of an agent from that of a servant in terms of the right to direct work and the nature of their authority in a business context?",
+      "expected": "Lakshminarayan Ram Gopaland Son Ltd. v. The Government of Hyderabad",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Lakshminarayan Ram Gopaland Son Ltd. v. The Government of Hyderabad",
+        "Shivnandan Sharma v. The Punjab National Bank Ltd.",
+        "Abdulla Ahmed v. Animendra Kissen Mitter"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer correctly identifies the controlling authority and applies relevant case law, but could be more concise."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 3,
+      "latency_ms": 38018,
+      "passed": true,
+      "answer_preview": "## Controlling Rule: The Degree of Control Test\n\nThe distinction between an agent and a servant turns on the **degree of control** the principal/master exercises over the work. The controlling authority is **[Lakshminarayan Ram Gopaland Son Ltd. v. The Government of Hyderabad, 19",
+      "error": ""
+    },
+    {
+      "qid": "stat-8",
+      "kind": "statute",
+      "question": "A member of a Grama Panchayat in Odisha has been informed that their term of office will be reduced due to a recent decision by the state government. Can they challenge this decision, and what are the implications of such a reduction on their current responsibilities?",
+      "expected": "The  Odisha Grama Panchayats (Reduction of Term of Office) Act, 1981",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The  Odisha Grama Panchayats (Reduction of Term of Office) Act, 1981",
+        "The Manipur Panchayati Raj Act, 1994",
+        "Constitution of India",
+        "The Viksit Bharat—Guarantee for Rozgar And Ajeevika Mission (Gramin): VB—G Ram G (विकसित भारत—जी राम जी)Act, 2025",
+        "Pampa River Basin Authority Act ,33 of 2009",
+        "The Cantonments Act, 2006"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer correctly identifies the controlling authority and discusses legal implications, but lacks clarity on the specific provisions of the Act."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 6,
+      "latency_ms": 47414,
+      "passed": true,
+      "answer_preview": "## Controlling law\n\nThe provision that governs your matter is **The Orissa/Odisha Grama Panchayats (Reduction of Term of Office) Act, 1981 (Act 10 of 1981)**. Its very title and table of contents (Sections 1–3: \"Short title, extent and commencement\", \"Definitions\", \"Reduction of ",
+      "error": ""
+    },
+    {
+      "qid": "stat-7",
+      "kind": "statute",
+      "question": "My uncle invested a significant amount of money in a financial establishment that has now defaulted on returning the deposits. What steps can we take to recover the money, and can we attach the properties of the establishment to secure our claim?",
+      "expected": "The Maharashtra Protection of Interest of Depositors (in Financial Establishments) Act, 1999",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Companies Act, 2013",
+        "The Banking Regulation Act, 1949",
+        "The Reserve Bank of India Act, 1934",
+        "The Banning of Unregulated Deposit Schemes Act, 2019",
+        "The Gujarat Protection of Interest of Depositors (in Financial Establishments) Act, 2003",
+        "The Maharashtra Protection of Interest of Depositors (in Financial Establishments) Act, 1999"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer correctly identifies the controlling authority and provides a comprehensive legal framework, but could be more concise."
+      },
+      "grounding_unsupported": 1,
+      "grounding_total": 1,
+      "latency_ms": 45423,
+      "passed": true,
+      "answer_preview": "## Controlling law — depends on which State the financial establishment operates in\n\nThe recovery-and-attachment machinery your uncle needs is provided by a **State \"Protection of Interest of Depositors\" (PID) Act**, not by any Central Act. The two such Acts in the material befor",
+      "error": ""
+    },
+    {
+      "qid": "jud-5",
+      "kind": "judgment",
+      "question": "Does the formal appointment as a Section Officer automatically qualify an individual for promotion to Under Secretary, regardless of merit grades?",
+      "expected": "Director General, CSIR v. J.K. Prashar & Ors.",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Director General, CSIR v. J.K. Prashar & Ors.",
+        "Radhey Shyam Yadav & Anr. v. State of U.P. & Ors.",
+        "All India Judges Association v Union of India & Ors",
+        "The State of Assam and others v. Binod Kumar and others"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer correctly identifies the controlling authority and discusses limitations, but could be more concise."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 2,
+      "latency_ms": 34146,
+      "passed": true,
+      "answer_preview": "## Controlling authority\n\nThe point you raise is squarely governed by **[Director General, CSIR v. J.K. Prashar & Ors., 2024 INSC 65, Supreme Court of India]**, which is currently **good law**. On the retrieved material, the answer is **yes, subject to the actual eligibility rule",
+      "error": ""
+    },
+    {
+      "qid": "stat-4",
+      "kind": "statute",
+      "question": "My client owns a piece of land in Kerala and has been extracting minerals from it for years. Recently, they received a notice from the government stating that all mineral rights have been vested in the government. Can you clarify if this notice is valid and what rights my client has regarding the minerals on their land?",
+      "expected": "THE KERALA MINERALS (VESTING OF RIGHTS) ACT, 2021",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Mines and Minerals (Development and Regulation) Act, 1957",
+        "The Maharashtra Land Revenue Code, 1966",
+        "The Nagaland (Ownership & Transfer of Land and its Resources Act,1990",
+        "THE KERALA MINERALS (VESTING OF RIGHTS) ACT, 2021",
+        "The Coal Bearing Areas (Acquisition and Development) Act, 1957",
+        "Constitution of India"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies the controlling authority and provides a thorough legal analysis, but could improve clarity on the limitation period."
+      },
+      "grounding_unsupported": 1,
+      "grounding_total": 5,
+      "latency_ms": 49807,
+      "passed": true,
+      "answer_preview": "## Controlling provision\n\nThe notice is grounded in **[The Kerala Minerals (Vesting of Rights) Act, 2021, s. 3]**, which is directly on point and decides the core question. That section provides:\n\n> \"Notwithstanding anything contained in any other law or in any judgment or decree",
+      "error": ""
+    },
+    {
+      "qid": "stat-10",
+      "kind": "statute",
+      "question": "My client has been repeatedly involved in public disturbances and has been warned by the police multiple times. Now, the police have issued a directive for him to leave Delhi for a specified period. Can he challenge this order, and on what grounds?",
+      "expected": "The Delhi Police Act, 1978",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "Constitution of India",
+        "The Delhi Police Act, 1978",
+        "The Cantonments Act, 2006",
+        "The Border Security Force Act, 1968",
+        "The Code of Civil Procedure, 1908"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer is thorough and correctly cites the relevant authority, but could be more concise."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 3,
+      "latency_ms": 41729,
+      "passed": true,
+      "answer_preview": "# Challenge to an Externment / Removal Order under the Delhi Police Act\n\n## Controlling provision\n\nThe order directing your client to remove himself from Delhi and not to re-enter is an **externment (removal) order under the externment provisions of the Delhi Police Act, 1978** —",
+      "error": ""
+    },
+    {
+      "qid": "stat-2",
+      "kind": "statute",
+      "question": "My employer asked me to work on a public holiday, but I had already applied for leave on that day. Can they legally require me to work despite my leave application?",
+      "expected": "The Telangana Shops and Establishments Act, 1988.",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Telangana Shops and Establishments Act, 1988.",
+        "The Occupational Safety, Health and Working Conditions Code, 2020",
+        "The Industrial Relations Code, 2020",
+        "The Labour Laws (Simplification of Procedure for Furnishing Returns and Maintaining Registers by certain Establishments) Act, 1988",
+        "The Mahatma Gandhi National Rural Employment Guarantee Act, 2005",
+        "The Supreme Court Judges (Salaries and Conditions of Service) Act, 1958"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": false,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 30,
+        "notes": "The answer fails to identify the controlling authority and misstates the legal position regarding leave on holidays."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 0,
+      "latency_ms": 36973,
+      "passed": false,
+      "answer_preview": "## Short answer\n\nYour leave-and-holiday rights are governed by the **shops/establishments or factory legislation that applies to your specific workplace and State** — and the precise controlling provisions on holidays and leave that would decide your question are **not in the mat",
+      "error": ""
+    },
+    {
+      "qid": "stat-9",
+      "kind": "statute",
+      "question": "My client, a Muslim student from Andhra Pradesh, has been denied admission to a local engineering college despite meeting all the eligibility criteria. The college claims that they have filled all reserved seats. Can we challenge this decision based on the provisions for reservation in educational institutions for the Muslim community?",
+      "expected": "The Andhra Pradesh Reservation of seats in the Educational Institutions and of appointments or posts in the Public Services under the State to Muslim Community Act, 2005.",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Central Educational Institutions (Reservation in Admission) Act, 2006",
+        "Constitution of India",
+        "The Andhra Pradesh Reservation of seats in the Educational Institutions and of appointments or posts in the Public Services under the State to Muslim Community Act, 2005.",
+        "The Central Educational Institutions (Reservation in Teachers  Cadre) Act, 2019",
+        "The National Commission for Minority Educational Institutes Act, 2004",
+        "THE UTTAR PRADESH ADMISSION TO EDUCATIONAL INSTITUTIONS ACT, 2006"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer correctly identifies the controlling authority and addresses limitations, but could be more concise."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 2,
+      "latency_ms": 41370,
+      "passed": true,
+      "answer_preview": "## Controlling provision\n\nThe provision that governs your client's claim to a Muslim-community reserved seat is **The Andhra Pradesh Reservation of seats in the Educational Institutions and of appointments or posts in the Public Services under the State to Muslim Community Act, 2",
+      "error": ""
+    }
+  ]
+}

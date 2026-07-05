@@ -1,0 +1,95 @@
+
+> nyaya-frontend@1.0.0 dev
+> vite
+
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m301[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+[2m4:32:46 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/ChatView.tsx, /src/index.css[22m
+[2m4:32:57 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/ChatView.tsx, /src/index.css[22m
+[2m4:33:25 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/ChatView.tsx, /src/index.css[22m
+[2m4:33:32 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/ChatView.tsx, /src/index.css[22m
+[2m4:33:46 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/Message.tsx, /src/index.css[22m
+[2m4:33:50 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/Message.tsx, /src/index.css[22m
+[2m4:34:00 PM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/Message.tsx, /src/index.css[22m
+[2m12:59:27 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/types.ts[22m
+[2m12:59:30 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/types.ts[22m
+[2m12:59:33 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/layout/TopBar.tsx, /src/components/chat/ChatView.tsx, /src/components/sources/SourcesDrawer.tsx, /src/components/layout/Sidebar.tsx, /src/components/chat/Composer.tsx, /src/components/chat/Message.tsx[22m
+[2m12:59:36 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/layout/TopBar.tsx, /src/components/chat/ChatView.tsx, /src/components/sources/SourcesDrawer.tsx, /src/components/layout/Sidebar.tsx, /src/components/chat/Composer.tsx, /src/components/chat/Message.tsx[22m
+[2m12:59:39 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/layout/TopBar.tsx, /src/components/chat/ChatView.tsx, /src/components/sources/SourcesDrawer.tsx, /src/components/layout/Sidebar.tsx, /src/components/chat/Composer.tsx, /src/components/chat/Message.tsx[22m
+[2m12:59:41 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/layout/TopBar.tsx, /src/components/chat/ChatView.tsx, /src/components/sources/SourcesDrawer.tsx, /src/components/layout/Sidebar.tsx, /src/components/chat/Composer.tsx, /src/components/chat/Message.tsx[22m
+[2m12:59:43 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/layout/TopBar.tsx, /src/components/chat/ChatView.tsx, /src/components/sources/SourcesDrawer.tsx, /src/components/layout/Sidebar.tsx, /src/components/chat/Composer.tsx, /src/components/chat/Message.tsx[22m
+[2m12:59:50 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/layout/TopBar.tsx, /src/components/chat/ChatView.tsx, /src/components/sources/SourcesDrawer.tsx, /src/components/layout/Sidebar.tsx, /src/components/chat/Composer.tsx, /src/components/chat/Message.tsx[22m
+[2m1:11:37 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/Message.tsx, /src/index.css[22m
+[2m1:11:42 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/Message.tsx, /src/index.css[22m
+[2m1:14:51 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css, /src/components/auth/AuthScreen.tsx, /src/components/layout/TopBar.tsx, /src/components/chat/ChatView.tsx, /src/components/sources/SourcesDrawer.tsx, /src/components/layout/Sidebar.tsx, /src/components/ui.tsx, /src/components/judgment/JudgmentReader.tsx, /src/components/chat/Composer.tsx, /src/components/chat/Message.tsx, /src/components/judgment/tabs.tsx, /src/components/judgment/blocks.tsx[22m
+[2m1:15:07 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/Message.tsx, /src/index.css[22m
+[2m1:15:12 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/Message.tsx, /src/index.css[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m changed tsconfig file detected: C:\Users\HP\Documents\hs\cognee-assignment\nyaya-memory-chat\frontend\tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/auth/AuthScreen.tsx, /src/index.css[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/layout/AppShell.tsx, /src/index.css[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/layout/Sidebar.tsx, /src/index.css[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/layout/TopBar.tsx, /src/index.css[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/sources/CitationGraph.tsx, /src/index.css[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/sources/SourcesDrawer.tsx, /src/index.css[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/judgment/blocks.tsx, /src/index.css[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/judgment/JudgmentReader.tsx, /src/index.css[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/judgment/tabs.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/judgment/tabs.tsx, /src/index.css[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/main.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/vite-env.d.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/Answer.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/ChatView.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/Composer.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/Message.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/store/auth.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/store/chat.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/store/judgment.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/store/ui.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/api.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/cn.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/format.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/icons.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/types.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mvite.config.ts changed, restarting server...[39m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mtailwind.config.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mvite.config.ts changed, restarting server...[39m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mtailwind.config.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m changed tsconfig file detected: C:\Users\HP\Documents\hs\cognee-assignment\nyaya-memory-chat\frontend\tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mvite.config.ts changed, restarting server...[39m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/main.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/vite-env.d.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/store/auth.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/store/chat.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/store/judgment.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/store/ui.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/api.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/cn.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/format.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/icons.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/lib/types.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/auth/AuthScreen.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/Answer.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/ChatView.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/Composer.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/chat/Message.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/layout/AppShell.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/layout/Sidebar.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/layout/TopBar.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/judgment/blocks.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/judgment/JudgmentReader.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/judgment/meta.ts[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/judgment/tabs.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/sources/CitationGraph.tsx[22m
+[2m1:33:05 AM[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/sources/SourcesDrawer.tsx[22m
+[2m1:33:06 AM[22m [36m[1m[vite][22m[39m server restarted.

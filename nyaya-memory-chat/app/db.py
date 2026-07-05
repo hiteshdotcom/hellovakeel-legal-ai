@@ -548,15 +548,17 @@ class LegalKnowledgeStore:
             args.append(source_type)
         try:
             async with self.db.pool.acquire() as conn:
-                # The chunks live behind an ivfflat index (lists=100). probes=1
-                # (default) badly under-recalls; but probes scales cost steeply on
-                # this remote instance (~6.3s at 40 vs ~1.7s at 10). The multi-issue
-                # query decomposition in LegalKnowledgeRetriever already turns each
-                # search into a strong, focused match, so the textbook probes≈√lists
-                # gives good recall without the latency blow-up. SET LOCAL needs a
-                # txn to take effect.
+                # The chunks live behind an ivfflat index. probes=1 (default) badly
+                # under-recalls; probes scales cost with the number of lists scanned.
+                # The index was rebuilt to lists=400 for the ~115k-chunk full corpus,
+                # so each list is ~4x smaller than the old lists=100 — a higher probe
+                # count now recalls better AND costs less per list. Tunable via
+                # IVFFLAT_PROBES (default 40 ≈ 2·√400). SET LOCAL needs a txn.
+                import os
+
+                probes = int(os.environ.get("IVFFLAT_PROBES", "40"))
                 async with conn.transaction():
-                    await conn.execute("SET LOCAL ivfflat.probes = 20")
+                    await conn.execute(f"SET LOCAL ivfflat.probes = {probes}")
                     rows = await conn.fetch(sql, *args)
             return [_jsonify(dict(r)) for r in rows]
         except Exception as exc:  # noqa: BLE001

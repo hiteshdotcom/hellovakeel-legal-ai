@@ -218,6 +218,19 @@ def _set_session_cookie(response: Response, token: str, request: Request) -> Non
     )
 
 
+def _clear_session_cookie(response: Response, request: Request) -> None:
+    # Deletion must mirror the attributes used at set time (path/samesite/secure/
+    # httponly); a mismatched Set-Cookie can be ignored by the browser, leaving a
+    # stale cookie that re-authenticates on refresh.
+    response.delete_cookie(
+        SESSION_COOKIE,
+        path="/",
+        httponly=True,
+        samesite="lax",
+        secure=_secure_cookie(request),
+    )
+
+
 def _redirect_base(request: Request) -> str:
     base = get_settings().OAUTH_REDIRECT_BASE.strip()
     if base:
@@ -309,7 +322,7 @@ async def login(req: LoginRequest, request: Request):
 async def logout(request: Request):
     await delete_session(request.cookies.get(SESSION_COOKIE, ""))
     resp = JSONResponse({"ok": True})
-    resp.delete_cookie(SESSION_COOKIE, path="/")
+    _clear_session_cookie(resp, request)
     return resp
 
 

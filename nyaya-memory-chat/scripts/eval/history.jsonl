@@ -1,0 +1,5 @@
+{"run_id": 1783198217, "n": 12, "errors": 1, "fulfillment": 0.583, "retrieval_recall": 0.833, "retrieval_recall_statute": 0.889, "citation_rate": 0.917, "hallucination_rate": 0.273, "avg_judge_score": 70.0, "avg_latency_ms": 48176}
+{"run_id": 1783198728, "n": 14, "errors": 0, "fulfillment": 0.571, "retrieval_recall": 0.857, "retrieval_recall_statute": 0.8, "citation_rate": 0.929, "hallucination_rate": 0.214, "avg_judge_score": 67.5, "avg_latency_ms": 54238}
+{"run_id": 1783199805, "n": 31, "errors": 0, "fulfillment": 0.742, "retrieval_recall": 0.806, "retrieval_recall_statute": 0.739, "citation_rate": 0.935, "hallucination_rate": 0.032, "avg_judge_score": 85.6, "avg_latency_ms": 50680}
+{"run_id": 1783203173, "n": 31, "errors": 0, "fulfillment": 0.839, "retrieval_recall": 0.839, "retrieval_recall_statute": 0.783, "citation_rate": 0.903, "hallucination_rate": 0.0, "avg_judge_score": 88.4, "avg_latency_ms": 57741}
+{"run_id": 1783282249, "n": 68, "errors": 30, "fulfillment": 0.485, "retrieval_recall": 0.456, "retrieval_recall_statute": 0.778, "citation_rate": 0.5, "hallucination_rate": 0.0, "avg_judge_score": 87.4, "avg_latency_ms": 37371}

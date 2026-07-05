@@ -1,0 +1,943 @@
+{
+  "run_id": 1783203173,
+  "summary": {
+    "n": 31,
+    "errors": 0,
+    "fulfillment": 0.839,
+    "retrieval_recall": 0.839,
+    "retrieval_recall_statute": 0.783,
+    "citation_rate": 0.903,
+    "hallucination_rate": 0.0,
+    "avg_judge_score": 88.4,
+    "avg_latency_ms": 57741
+  },
+  "results": [
+    {
+      "qid": "stat-12",
+      "kind": "statute",
+      "question": "A developer wants to initiate a land pooling scheme for a specific area but has not received consent from the local authority within the prescribed period. What steps can the developer take to proceed with the scheme?",
+      "expected": "The Rajasthan Land Pooling Scheme Act, 2016",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Hyderabad Metropolitan Development Authority Act, 2008.",
+        "The Rajasthan Land Pooling Scheme Act, 2016",
+        "The Uttar Pradesh Special Area Development Authorities Act, 1986",
+        "Jharkhand Regional Development Authority Act",
+        "The National Capital Territory of Delhi Laws (Special Provisions) Act, 2011",
+        "The National Capital Territory of Delhi Laws (Special Provisions) Second Act, 2011"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies the Rajasthan Land Pooling Scheme Act, 2016, and outlines the developer's limitations while flagging the need for timely action."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 1,
+      "latency_ms": 74171,
+      "passed": true,
+      "answer_preview": "## First: which State? This is the controlling gap\n\nLand pooling is entirely a creature of **State legislation**, and the procedure, timelines and default powers differ from State to State. Before anything else I need to know **where the land lies**, because that decides which Ac",
+      "error": ""
+    },
+    {
+      "qid": "stat-1",
+      "kind": "statute",
+      "question": "A resident of Telangana borrowed money from a money-lender who was operating without a valid license after the cancellation of licenses on 18th Khurdad 1355 F. Can the resident be compelled to repay the loan, and what are the legal consequences for the money-lender?",
+      "expected": "The Telangana Money Lenders Act, 1349 Fasli.",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Telangana Money Lenders Act, 1349 Fasli.",
+        "The Telangana Micro Finance Institutions (Regulation of Money Lending) Act, 2011.",
+        "The Reserve Bank of India Act, 1934",
+        "The Telangana Land Revenue Act, 1317 Fasli.",
+        "The Telangana Khadi and Village Industries Board Act, 1958.",
+        "THE KARNATAKA PROHIBITION OF CHARGING EXORBITANT INTEREST ACT 2004"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer correctly identifies the controlling authority and flags limitations, but lacks specific provisions from the Telangana Money Lenders Act."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 0,
+      "latency_ms": 78183,
+      "passed": true,
+      "answer_preview": "## Controlling law — corpus gap; the decisive provisions are not fully in front of me\n\nThe question turns on the licensing / registration regime of the **Telangana Money Lenders Act, 1349 Fasli**, and specifically the consequences of lending without a valid licence. **The excerpt",
+      "error": ""
+    },
+    {
+      "qid": "stat-17",
+      "kind": "statute",
+      "question": "A client has sent a shipment of perishable goods through a common carrier, but the consignee has not collected the goods within 24 hours of notice. What actions can the common carrier take regarding the unclaimed perishable consignment?",
+      "expected": "The Carriage by Road Act, 2007",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Carriage by Air Act, 1972",
+        "The Carriage by Road Act, 2007",
+        "The Carriage of Goods by Sea  Act, 2025",
+        "The Multimodal Transportation of Goods Act, 1993",
+        "KERALA MARITIME BOARD ACT",
+        "The Sale of Goods Act, 1930"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 95,
+        "notes": "The answer correctly identifies the controlling authority and provides a thorough analysis of the legal position, including necessary limitations."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 0,
+      "latency_ms": 60858,
+      "passed": true,
+      "answer_preview": "## Controlling provision\n\nThis question is governed by **Section 15 of the Carriage by Road Act, 2007** (\"Right of common carrier in case of consignee's default\"), which is directly on point.\n\n**The core rule for perishable goods:** Under [Carriage by Road Act, 2007, s.15(1)], if",
+      "error": ""
+    },
+    {
+      "qid": "stat-23",
+      "kind": "statute",
+      "question": "My client, a farmer in a state that shares a river with another state, is facing water shortages due to a recent dispute over water allocation. Can he seek a resolution through a tribunal under the provisions of this Act?",
+      "expected": "The Inter-State River Water Disputes Act, 1956",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Inter-State River Water Disputes Act, 1956",
+        "The Andhra Pradesh Reorganisation Act, 2014",
+        "THE ARUNACHAL PRADESH WATER RESOURCES REGULATORY AUTHORITY ACT, 2006",
+        "The River Boards Act, 1956",
+        "THE JAMMU AND KASHMIR WATER RESOURCES (REGULATION AND MANAGEMENT) ACT, 2010",
+        "The Andhra Pradesh Water Resources Regulatory Commission Act, 2009"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies the limitations of the Inter-State River Water Disputes Act and flags the need for state-specific statutes."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 1,
+      "latency_ms": 73088,
+      "passed": true,
+      "answer_preview": "## Controlling point first — who can invoke the Tribunal\n\nThe Inter-State River Water Disputes Act, 1956 does **not** give an individual farmer a direct right to approach a Water Disputes Tribunal. Under the scheme of that Act, a **water dispute is referred to a Tribunal on a com",
+      "error": ""
+    },
+    {
+      "qid": "jud-4",
+      "kind": "judgment",
+      "question": "Does a widow retain the power to adopt after the birth of a grandson or the presence of a son's widow capable of continuing the family line through adoption?",
+      "expected": "Gurunath alias Bhimaji v. Kamalabai, Kom Kenchangaudanadgaudar and Others",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Gurunath alias Bhimaji v. Kamalabai, Kom Kenchangaudanadgaudar and Others",
+        "Shrinivas Krishnarao Kango v. Narayan Devji Kango and Others"
+      ],
+      "cited": false,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies the controlling authority and addresses the limitations, but could clarify the impact of the 1956 Act more succinctly."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 2,
+      "latency_ms": 42755,
+      "passed": true,
+      "answer_preview": "## Controlling rule\n\n**No — a Hindu widow's power to adopt is permanently extinguished once a grandson is born or a son's widow competent to continue the family line by adoption comes into being.** This is squarely decided by [Gurunath alias Bhimaji v. Kamalabai, 1954, Supreme Co",
+      "error": ""
+    },
+    {
+      "qid": "stat-16",
+      "kind": "statute",
+      "question": "A sugar factory in your area is struggling to modernize its equipment and improve its production efficiency. Can the factory apply for financial assistance to the Central Government for this purpose, and what specific provisions of the Act would support this application?",
+      "expected": "The Sugar Development Fund Act, 1982",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Sugar Development Fund Act, 1982",
+        "The Sugar Export Promotion Act, 1958",
+        "THE UTTAR PRADESH SUGAR UNDERTAKINGS (ACQUISITION) ACT, 1971",
+        "THE KARNATAKA SUGARCANE (REGULATION OF PURCHASE AND SUPPLY) ACT, 2013",
+        "THE TAMIL NADU SUGARCANE (REGULATION OF PURCHASE PRICE) ACT, 2018",
+        "The Haryana Co-operative Societies Act, 1984"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies the Sugar Development Fund Act, 1982, and flags the limitation on the specific head for modernization, while providing a thorough procedural pathway."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 0,
+      "latency_ms": 61016,
+      "passed": true,
+      "answer_preview": "## Controlling provision\n\nThe relevant instrument here is **The Sugar Development Fund Act, 1982**, which establishes a Fund from which the Central Government may make loans or grants to sugar factories for defined purposes [Sugar Development Fund Act, 1982, s.4].\n\nThe excerpt pr",
+      "error": ""
+    },
+    {
+      "qid": "stat-25",
+      "kind": "statute",
+      "question": "A candidate from the Andaman and Nicobar Islands wants to contest in the next general election for the House of the People. Can they do so, and what is the process they must follow according to the provisions governing elections in their Union territory?",
+      "expected": "The Union Territories (Direct Election to the House of the People) Act, 1965",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Representation of the People Act, 1951",
+        "The Finance Commission (Miscellaneous Provisions) Act, 1951",
+        "The Representation of the People Act, 1950",
+        "The Presidential and Vice-Presidential Elections Act, 1952",
+        "The Government of Union Territories Act, 1963",
+        "The Union Territories (Direct Election to the House of the People) Act, 1965"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies the controlling provisions and outlines the nomination process, but could improve by explicitly stating the limitation period for election petitions."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 5,
+      "latency_ms": 48723,
+      "passed": true,
+      "answer_preview": "## Controlling provision\n\nYes — a candidate from the Andaman and Nicobar Islands can contest a House of the People seat by **direct election**. The controlling provision is **Section 3 of the Union Territories (Direct Election to the House of the People) Act, 1965**, which provid",
+      "error": ""
+    },
+    {
+      "qid": "stat-3",
+      "kind": "statute",
+      "question": "If a registered practitioner issues a medical fitness certificate for a job application, can that certificate be considered valid under the law?",
+      "expected": "THE UTTAR PRADESH HOMOEOPATHIC MEDICINE ACT, 1951",
+      "retrieval_hit": false,
+      "retrieved_acts": [
+        "The National Commission for Indian System of Medicine Act, 2020",
+        "The National Medical Commission Act, 2019",
+        "The Gujarat Emergency Medical Services Act, 2007",
+        "THE SIKKIM MEDICAL REGISTRATION ACT,2005",
+        "The Delhi Council For Physiotherapy And Occupational Therapy Act, 1997",
+        "The Code on Social Security, 2020"
+      ],
+      "cited": false,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": false,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies applicable statutes and highlights the need for specific registration details, but it could have mentioned the new 2023 codes."
+      },
+      "grounding_unsupported": 1,
+      "grounding_total": 2,
+      "latency_ms": 49750,
+      "passed": true,
+      "answer_preview": "## Controlling provision\n\nThe validity of a medical fitness certificate turns on **who issued it and under which registration regime**. Two of the provided statutes squarely empower a duly registered practitioner to sign such certificates:\n\n- Under the **National Medical Commissi",
+      "error": ""
+    },
+    {
+      "qid": "stat-22",
+      "kind": "statute",
+      "question": "A factory worker has been diagnosed with a work-related injury and is seeking benefits for medical expenses and compensation. What specific conditions must the employer meet to provide these benefits under the relevant provisions of the Act?",
+      "expected": "The Code on Social Security, 2020",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Code on Social Security, 2020",
+        "THE EMPLOYEES’ STATE INSURANCE ACT, 1948",
+        "The Occupational Safety, Health and Working Conditions Code, 2020",
+        "The Income-tax Act, 1961",
+        "The Railways Act, 1989",
+        "The Companies Act, 2013"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer correctly identifies the controlling authority and outlines the conditions for employer liability, while also flagging the limitation period."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 0,
+      "latency_ms": 48167,
+      "passed": true,
+      "answer_preview": "## Threshold: which statute governs — and one fact I need first\n\nBefore the \"specific conditions\" can be answered, one controlling fact decides *which* regime applies to your factory worker:\n\n**Is the worker an \"insured person\" covered by the Employees' State Insurance Corporatio",
+      "error": ""
+    },
+    {
+      "qid": "stat-21",
+      "kind": "statute",
+      "question": "A company operating in multiple states is facing a dispute regarding the transfer of its assets and liabilities to a newly formed inter-State corporation. What legal provisions govern the transfer of these assets and liabilities under the relevant Act?",
+      "expected": "The Inter-State Corporations Act, 1957",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Companies Act, 2013",
+        "THE UTTAR PRADESH STATE INDUSTRIAL DEVELOPMENT CORPORATION LIMITED (TRANSFER OF ASSETS AND LIABILITIES) ACT, 2018",
+        "The Income-tax Act, 1961",
+        "The Inter-State Corporations Act, 1957",
+        "The North-Eastern Areas (Reorganisation) Act, 1971",
+        "The Goa, Daman and Diu Reorganisation Act, 1987"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 75,
+        "notes": "While the answer correctly identifies the legal framework, it fails to cite the relevant 2023 codes and does not confirm the applicability of the Inter-State Corporations Act, 1957."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 3,
+      "latency_ms": 61893,
+      "passed": false,
+      "answer_preview": "## Controlling provision\n\nThe transfer of assets, rights and liabilities of an inter-State corporation is governed by **[The Inter-State Corporations Act, 1957]**. Its section (excerpt at p.3) is the operative rule:\n\n> \"Where an order is made under this section transferring the a",
+      "error": ""
+    },
+    {
+      "qid": "jud-2",
+      "kind": "judgment",
+      "question": "What is the significance of the policy commencement date in determining the applicability of the suicide exclusion clause in life insurance policies?",
+      "expected": "Reliance Life Insurance Company Ltd. & Another v. Jaya Wadhwani and The Branch Manager, Reliance Life Insurance Co. Ltd. v. Usha Soni",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Reliance Life Insurance Company Ltd. & Another v. Jaya Wadhwani and The Branch Manager, Reliance Life Insurance Co. Ltd. v. Usha Soni",
+        "Bharti Airtel Limited and Another v. Vijaykumar V. Iyer and Others",
+        "Kanwar Raj Singh (D) TH. LRS. v. Gejo. (D) TH.LRS & Ors.",
+        "Bilkis Yakub Rasool v. Union of India & Others",
+        "Vashist Narayan Kumar v. The State of Bihar & Ors."
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 95,
+        "notes": "The answer correctly identifies the controlling authority and legal principles while flagging limitation issues."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 2,
+      "latency_ms": 50241,
+      "passed": true,
+      "answer_preview": "## Controlling authority\n\nThe point is squarely governed by **[Reliance Life Insurance Company Ltd. v. Jaya Wadhwani, 2024 INSC 10, Supreme Court of India]**, which is **good law**. It settles what \"policy commencement date\" means for a suicide exclusion clause:\n\n1. **The trigger",
+      "error": ""
+    },
+    {
+      "qid": "jud-1",
+      "kind": "judgment",
+      "question": "Can a State law be invalidated by comparing it with a Central Government law under Article 14 of the Constitution?",
+      "expected": "The State of Madhya Pradesh v. G.C. Mandawar",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The State of Madhya Pradesh v. G.C. Mandawar",
+        "State of West Bengal v. Anwar Ali Sarkar",
+        "Ram Prasad Narayan Sahi and Another v. The State of Bihar and Others",
+        "Habeeb Mohamed v. The State of Hyderabad",
+        "The State of Bombay and Another v. F.N. Balsara"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 95,
+        "notes": "The answer correctly identifies the controlling authority and provides a thorough legal analysis while flagging the limitation aspect."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 4,
+      "latency_ms": 51602,
+      "passed": true,
+      "answer_preview": "## Controlling rule\n\n**No — a State law cannot be struck down under Article 14 merely by comparing it with a Central Government law.** This is directly settled by [The State of Madhya Pradesh v. G.C. Mandawar, 1954, Supreme Court of India], which holds that Article 14 does not au",
+      "error": ""
+    },
+    {
+      "qid": "stat-18",
+      "kind": "statute",
+      "question": "A local farmer has been forced to work on a neighboring farm without pay, under the threat of losing his family's home. What steps can he take to seek help from the authorities regarding this forced labor situation?",
+      "expected": "The Bonded Labour System (Abolition) Act, 1976",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Bonded Labour System (Abolition) Act, 1976",
+        "Constitution of India",
+        "THE SIKKIM LABOUR PROTECTION ACT,2005",
+        "Contract Labour(Regulation and Abolition) Act,1970",
+        "The Occupational Safety, Health and Working Conditions Code, 2020",
+        "The Nagaland Shops and Establishment Act, 1985"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 95,
+        "notes": "The answer correctly identifies the Bonded Labour System (Abolition) Act, 1976 and provides a comprehensive legal framework and practical steps for the farmer."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 0,
+      "latency_ms": 71046,
+      "passed": true,
+      "answer_preview": "## Controlling law\n\nThis situation — a person compelled to labour for a neighbour without pay under the threat of losing his family's home — is precisely the \"bonded labour system\" / \"forced labour\" that the law prohibits.\n\n**The controlling provisions are:**\n\n1. **[The Bonded La",
+      "error": ""
+    },
+    {
+      "qid": "stat-10",
+      "kind": "statute",
+      "question": "A farmer in Bihar has been facing issues with a sugar mill regarding the payment for sugarcane supplied. The mill claims that the payment is delayed due to a shortage of funds, while the farmer insists that the payment should be made as per the agreed terms. What legal recourse does the farmer have under the relevant provisions of the Act?",
+      "expected": "Bihar Sugarcane (Regulation of Supply and Purchase) Act. 1981",
+      "retrieval_hit": false,
+      "retrieved_acts": [
+        "THE U. P. SUGAR CANE (PURCHASE TAX) ACT, 1961",
+        "THE KARNATAKA SUGARCANE (REGULATION OF PURCHASE AND SUPPLY) ACT, 2013",
+        "THE TAMIL NADU SUGARCANE (REGULATION OF PURCHASE PRICE) ACT, 2018",
+        "The Punjab Sugarcane (Regulation of Purchase and Supply) Act, 1953",
+        "The Haryana Co-operative Societies Act, 1984",
+        "The Maharashtra Regulation of Sugarcane Price (Supplied to Factories) Act, 2013"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies the controlling law and flags the limitation period, while acknowledging the absence of specific Bihar provisions."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 0,
+      "latency_ms": 57265,
+      "passed": true,
+      "answer_preview": "## Controlling law is a Bihar statute that is NOT in the corpus provided\n\nThe short answer up front: this dispute is governed by **Bihar's own sugarcane / cane-supply legislation** (in practice the Bihar Sugarcane (Regulation of Supply and Purchase) Act, 1981 and rules, read with",
+      "error": ""
+    },
+    {
+      "qid": "stat-14",
+      "kind": "statute",
+      "question": "My client, who is currently holding a government office under the Government of India, wants to run for a seat in the West Bengal Legislative Assembly. Can you confirm if they will face any disqualifications due to their current position?",
+      "expected": "The West Bengal Legislature ( Removal Of Disqualifications ) Act, 1952",
+      "retrieval_hit": false,
+      "retrieved_acts": [
+        "The Finance Commission (Miscellaneous Provisions) Act, 1951",
+        "The Calcutta Municipal Corporation Act, 1980",
+        "The Gorkhaland Territorial Administration Act, 2011",
+        "The West Bengal Panchayat Act, 1973",
+        "The West Bengal State Election Commission Act, 1994",
+        "The Representation of the People Act, 1951"
+      ],
+      "cited": false,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer correctly identifies the constitutional provision and flags the corpus gap while addressing limitations."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 4,
+      "latency_ms": 48248,
+      "passed": true,
+      "answer_preview": "## Controlling provision — and the corpus gap\n\nThe disqualification you are asking about is the **\"office of profit\" bar**, governed by **Article 191(1)(a) of the Constitution of India** read with the **Representation of the People Act, 1951**. That is the provision that decides ",
+      "error": ""
+    },
+    {
+      "qid": "stat-6",
+      "kind": "statute",
+      "question": "A person finds a hidden gold coin while digging in their backyard. They want to keep the coin but are unsure if they need to report it to any authority. What steps must they take regarding the discovery of the coin under the relevant law?",
+      "expected": "THE KARNATAKA TREASURE TROVE ACT, 1962",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Indian Treasure-trove Act, 1878",
+        "THE KARNATAKA TREASURE TROVE ACT, 1962",
+        "The Jharkhand Ancient Monument and Archaeological Sites, Remains and Art Treasure Act,2016",
+        "The Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "The Antiquities and Art Treasures Act, 1972",
+        "The Kerala Escheats and Forfeitures Act, 1964 (No.4 of 1964)"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies the Karnataka Treasure Trove Act, 1962, and flags the limitation period for notice."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 0,
+      "latency_ms": 56421,
+      "passed": true,
+      "answer_preview": "## Controlling law: the finder MUST report — keeping the coin without notice is not lawful\n\n**One threshold fact decides which statute governs: In which State was the coin found?** The Treasure-trove regime is administered by the State/Collector, and the notice mechanism differs ",
+      "error": ""
+    },
+    {
+      "qid": "stat-2",
+      "kind": "statute",
+      "question": "A client wants to sell a property located in Kerala and is unsure if the sale agreement they drafted will incur stamp duty since they executed it outside of Kerala. Can you clarify if the agreement will be chargeable with duty under the provisions of the Act?",
+      "expected": "The Kerala Stamp Act, 1959 (No.17 of 1959)",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Kerala Stamp Act, 1959 (No.17 of 1959)",
+        "The Indian Stamp Act, 1899",
+        "THE KARNATAKA STAMP ACT, 1957",
+        "The Kerala Scheduled Tribes (Restriction on Transfer of Lands and Restoration of Alienated Lands) Act, 1975 (No. 31 of 1975)",
+        "The Kerala Court Fees and Suits Valuation Act, 1959 (No.10 of 1960)",
+        "The Registration Act, 1908"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies the Kerala Stamp Act, 1959 and flags the limitation of not having the operative text, while providing a thorough analysis."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 2,
+      "latency_ms": 64674,
+      "passed": true,
+      "answer_preview": "## Controlling framework — and a gap I must flag\n\nThe chargeability of an instrument executed **outside** Kerala but relating to Kerala property is governed by the **Kerala Stamp Act, 1959**, specifically its sections on instruments executed out of the State. The Contents page yo",
+      "error": ""
+    },
+    {
+      "qid": "jud-0",
+      "kind": "judgment",
+      "question": "What are the implications of the absence of independent witnesses on the credibility of weapon recovery in a criminal case?",
+      "expected": "Krishan v. State of Haryana",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Krishan v. State of Haryana",
+        "State of Haryana v. Mohd. Yunus & Ors.",
+        "Raja Naykar v. State of Chhattisgarh",
+        "Mohinder Singh v. The State",
+        "Habeeb Mohammad v The State of Hyderabad",
+        "Ramkishan Mithanlal Sharma v. The State of Bombay",
+        "Perumal Raja @ Perumal v. State, rep. by Inspector of Police",
+        "Neeraj Sharma v. State of Chhattisgarh",
+        "Pradeep Kumar v. State of Haryana",
+        "Dalip Singh and Others v. State of Punjab"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer correctly identifies the controlling authority and discusses the implications of independent witnesses on weapon recovery, but could improve clarity on limitation periods."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 7,
+      "latency_ms": 49410,
+      "passed": true,
+      "answer_preview": "## Controlling principle\n\nRecovery of a weapon \"at the instance of the accused\" is governed in substance by the disclosure-statement/recovery rule (in the classical evidence framework, the provision on how much of an information leading to discovery is admissible). None of the st",
+      "error": ""
+    },
+    {
+      "qid": "stat-9",
+      "kind": "statute",
+      "question": "A government employee was transferred to a different location and vacated his official quarters. However, he has not yet handed over the keys and continues to stay there without authorization. What steps can the Estate Officer take to evict him under the provisions of this Act?",
+      "expected": "THE ARUNACHAL PRADESH PUBLIC PREMISES (EVICTION OF UNAUTHORISED OCCUPANTS) ACT, 2003",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "THE PUBLIC PREMISES (EVICTION OF UNAUTHORIZED OCCUPANTS) ACT, 1971",
+        "The Public Premises (Eviction of Unauthorised Occupants) Act, 1971",
+        "Public Buildings ( Eviction of Unauthorised Occupants)Act",
+        "THE JAMMU AND KASHMIR HOUSING BOARD ACT, 1976",
+        "THE ARUNACHAL PRADESH PUBLIC PREMISES (EVICTION OF UNAUTHORISED OCCUPANTS) ACT, 2003",
+        "THE PUDUCHERRY BUILDINGS (LEASE AND RENT CONTROL) ACT, 1969"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 75,
+        "notes": "The answer correctly identifies the eviction process but relies on the outdated PP Act, 1971 instead of the relevant Arunachal Pradesh Act."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 2,
+      "latency_ms": 57276,
+      "passed": false,
+      "answer_preview": "## Controlling framework\n\nAn employee who has been transferred out of, and vacated, government service quarters but continues to stay there without authority is an **\"unauthorised occupant\" of \"public premises\"** — squarely within the **Public Premises (Eviction of Unauthorized O",
+      "error": ""
+    },
+    {
+      "qid": "jud-5",
+      "kind": "judgment",
+      "question": "Can a taxpayer carry forward a business loss to subsequent years if there is no income in the current year to offset against, according to the provisions of Section 24(2)?",
+      "expected": "Anglo-French Textile Co., Ltd. v. Commissioner of Income-Tax, Madras",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Anglo-French Textile Co., Ltd. v. Commissioner of Income-Tax, Madras",
+        "Executors of Estate of J.K. Dubash v. Commissioner of Income Tax, Bombay City",
+        "M/s Mangalam Publications, Kottayam v. Commissioner of Income Tax, Kottayam",
+        "The Liquidators of Pursa Limited v. Commissioner of Income-Tax, Bihar",
+        "Commissioner of Income-Tax, Madras v. K. Srinivasan and K. Gopalan"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies the controlling authority and flags the limitation period, but it could be clearer on the current applicable law."
+      },
+      "grounding_unsupported": 1,
+      "grounding_total": 2,
+      "latency_ms": 55050,
+      "passed": true,
+      "answer_preview": "## Controlling authority\n\nThe question is governed directly by **[Anglo-French Textile Co., Ltd. v. Commissioner of Income-Tax, Madras, 1952, Supreme Court of India]**, which interprets Section 24(2) of the Indian Income-tax Act, 1922.\n\n**The rule:** A loss **cannot** be carried ",
+      "error": ""
+    },
+    {
+      "qid": "stat-8",
+      "kind": "statute",
+      "question": "A primary school in Meghalaya has not received its examination results for the past academic year, and the parents are concerned about the delay. They want to know if the Board has a specific procedure for handling examination results and what actions can be taken if the results are not released in a timely manner.",
+      "expected": "The Meghalaya Board of Primary School Education Act, 1988, Act No.13 of 1988.",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Meghalaya Board of Primary School Education Act, 1988, Act No.13 of 1988.",
+        "The University Of Engineering And Management, Kolkata, Act, 2014",
+        "The Meghalaya Higher Education Council Act, 2018 (Act No. 3 of 2018)",
+        "The Chitkara University (Establishment and Regulation) Act, 2008",
+        "The Indus International University (Establishment and Regulation) Act, 2009",
+        "The APG (Alakh Prakash Goyal) Shimla University Establishment and Regulation Act, 2014"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 95,
+        "notes": "The answer correctly identifies the controlling statute and addresses the limitations while noting the absence of specific procedural details."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 1,
+      "latency_ms": 54980,
+      "passed": true,
+      "answer_preview": "## Controlling law and a candidate gap\n\nThe controlling statute for a **primary school in Meghalaya** is the **Meghalaya Board of Primary School Education Act, 1988 [Act No. 13 of 1988]**. That Act vests the Board with power \"(b) To conduct examinations and declare the results, t",
+      "error": ""
+    },
+    {
+      "qid": "jud-6",
+      "kind": "judgment",
+      "question": "Does Article 363(1) bar judicial review of disputes arising from Instruments of Accession that occurred prior to the commencement of the Constitution?",
+      "expected": "State of Seraikella v Union of India",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "State of Seraikella v Union of India",
+        "Virendra Singh and Others v. The State of Uttar Pradesh",
+        "Maharaj Umeg Singh and Others v. The State of Bombay and Others"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies the controlling authority and provides a nuanced understanding of the limitations of Article 363(1)."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 3,
+      "latency_ms": 47680,
+      "passed": true,
+      "answer_preview": "## Controlling Rule\n\n**Yes.** On the authority provided, Article 363(1) of the Constitution bars judicial review of disputes arising from Instruments of Accession, including those arising before the commencement of the Constitution.\n\nThe controlling authority is **[State of Serai",
+      "error": ""
+    },
+    {
+      "qid": "stat-4",
+      "kind": "statute",
+      "question": "A local farmer discovers a new mineral deposit on his land and wants to extract it for commercial purposes. Can he proceed with the extraction, or do the rights to the minerals belong to the government?",
+      "expected": "THE KERALA MINERALS (VESTING OF RIGHTS) ACT, 2021",
+      "retrieval_hit": false,
+      "retrieved_acts": [
+        "The Mines and Minerals (Development and Regulation) Act, 1957",
+        "The Maharashtra Land Revenue Code, 1966",
+        "The Nagaland (Ownership & Transfer of Land and its Resources Act,1990",
+        "The Maharashtra Abolition of Subsisting Proprietary Rights to Mines and Minerals in certain Lands Act, 1985",
+        "The Coal Bearing Areas (Acquisition and Development) Act, 1957",
+        "The Atomic Energy Act, 1962"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 75,
+        "notes": "The answer correctly identifies the general principle of mineral rights but fails to cite the expected Kerala statute."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 2,
+      "latency_ms": 64022,
+      "passed": false,
+      "answer_preview": "## Controlling issue: who owns the minerals under the land\n\n**First, a threshold fact I need: which State is the land in?** The answer turns almost entirely on State land-revenue / mineral-vesting law, and the provisions differ. I will branch on the two most likely scenarios belo",
+      "error": ""
+    },
+    {
+      "qid": "stat-20",
+      "kind": "statute",
+      "question": "A borrower has defaulted on a loan secured by a property, and the lender, a bank, wishes to initiate proceedings to enforce the security interest on that property. What steps must the bank take under the provisions of the Act to enforce its security interest?",
+      "expected": "The Securitisation and Reconstruction of Financial Assets and Enforcement of Security Interest Act, 2002",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Securitisation and Reconstruction of Financial Assets and Enforcement of Security Interest Act, 2002",
+        "The Protection of Interests in Aircraft Objects Act, 2025",
+        "The National Housing Bank Act, 1987",
+        "The Small Industries Development Bank of India Act, 1989",
+        "The Insolvency and Bankruptcy Code, 2016.",
+        "THE PUDUCHERRY CO-OPERATIVE SOCIETIES ACT, 1972"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies SARFAESI as the controlling law and flags the limitation period, but could improve by explicitly referencing the new 2023 codes."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 0,
+      "latency_ms": 56808,
+      "passed": true,
+      "answer_preview": "## Controlling provision: Section 13 read with Section 14 SARFAESI Act, 2002\n\nFor a bank enforcing a security interest over a defaulting borrower's mortgaged property, the governing statute is **The Securitisation and Reconstruction of Financial Assets and Enforcement of Security",
+      "error": ""
+    },
+    {
+      "qid": "stat-7",
+      "kind": "statute",
+      "question": "A medical practitioner in Sikkim has received a notice of death for a fellow practitioner who was registered under the relevant Act. What is the procedure that the Registrar of Deaths must follow upon receiving this notice?",
+      "expected": "THE SIKKIM MEDICAL REGISTRATION ACT,2005",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "THE SIKKIM ANTOMY ACT, 2014",
+        "The Registration of Births and Deaths Act, 1969",
+        "THE SIKKIM MEDICAL REGISTRATION ACT,2005",
+        "The Mumbai Municipal Corporation Act.",
+        "The Calcutta Municipal Corporation Act, 1980",
+        "The Births, Deaths and Marriages Registration Act, 1886"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": false,
+        "hallucination": false,
+        "score": 95,
+        "notes": "The answer correctly identifies the controlling authority and provides a thorough analysis of the procedure, while also acknowledging the limitations and related statutes."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 0,
+      "latency_ms": 49883,
+      "passed": true,
+      "answer_preview": "## Controlling provision\n\nThe point is governed directly by **Section 22 of the Sikkim Medical Registration Act, 2005** [THE SIKKIM MEDICAL REGISTRATION ACT, 2005, s.22, p.6-7]. On the facts you give (death of a practitioner *registered under this Act*, notice received by the Reg",
+      "error": ""
+    },
+    {
+      "qid": "jud-3",
+      "kind": "judgment",
+      "question": "What are the implications of the requirement for material evidence in income tax assessments under Section 23(3) as established in this case?",
+      "expected": "Dhakeswar Cotton Mills Ltd. v. Commissioner of Income Tax, West Bengal",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Dhakeswar Cotton Mills Ltd. v. Commissioner of Income Tax, West Bengal",
+        "India United Mills Ltd. v. Commissioner of Excess Profits Tax, Bombay",
+        "M/s Mangalam Publications, Kottayam v. Commissioner of Income Tax, Kottayam",
+        "Sir Kikabhai Premchand v. Commissioner of Income Tax (Central), Bombay",
+        "Messrs Chatturam Horilram Ltd. v. Commissioner of Income Tax, Bihar and Orissa",
+        "Chainrup Sampatram v. Commissioner of Income-tax, West Bengal",
+        "Suraj Mall Mohta and Co. v. A. V. Visvanatha Sastri and Another",
+        "Commissioner of Income-Tax, Madras v. K. Srinivasan and K. Gopalan",
+        "Keshav Mills Ltd. v. Commissioner of Income-tax, Bombay",
+        "Commissioner of Income-Tax, West Bengal v. H. Hirjee"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer correctly identifies the controlling authority and discusses the implications of material evidence, while appropriately flagging limitations."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 4,
+      "latency_ms": 65033,
+      "passed": true,
+      "answer_preview": "## Controlling authority\n\nThe controlling authority on your question is **[Dhakeswar Cotton Mills Ltd. v. CIT, West Bengal, 1954, Supreme Court]** (1955 AIR 65). It lays down that an assessment under **Section 23(3)** (the \"best judgment\"/regular assessment provision of the Incom",
+      "error": ""
+    },
+    {
+      "qid": "stat-0",
+      "kind": "statute",
+      "question": "A shipping company has caused significant damage to a dock owned by the West Bengal Maritime Board due to the negligence of its captain. What steps can the Board take to recover the damages, and what conditions must be met before a Magistrate can issue a warrant for the recovery of the damages from the vessel?",
+      "expected": "The West Bengal Maritime Board Act, 2000",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Merchant Shipping Act, 2025",
+        "The West Bengal Maritime Board Act, 2000",
+        "The Carriage of Goods by Sea  Act, 2025",
+        "The Admiralty (Jurisdiction and Settlement of Maritime Claims) Act, 2017",
+        "The Coastal Shipping Act, 2025",
+        "The Carriage by Air Act, 1972"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 85,
+        "notes": "The answer correctly identifies the absence of the controlling provision and provides a thorough analysis of related legal principles."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 1,
+      "latency_ms": 51166,
+      "passed": false,
+      "answer_preview": "## Short answer up front — the controlling provision is not in front of me\n\nThe specific mechanism you are asking about — the **procedure by which a Magistrate issues a warrant to recover damage caused to a dock/port property from the offending vessel, and the conditions preceden",
+      "error": ""
+    },
+    {
+      "qid": "stat-15",
+      "kind": "statute",
+      "question": "A family in Andhra Pradesh has not received the financial incentives promised for their girl child under the provisions of the Act, despite meeting all eligibility criteria. What steps can they take to ensure the timely disbursal of these incentives?",
+      "expected": "The Andhra Pradesh Bangaru Talli Girl Child Promotion and Empowerment Act, 2013",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Andhra Pradesh Bangaru Talli Girl Child Promotion and Empowerment Act, 2013",
+        "The Andhra Pradesh Scheduled Castes Sub-Plan and Tribal Sub-Plan (Planning, Allocation and Utilization of Financial Resources) Act, 2013.",
+        "The Commission for Development of Backward Areas of Andhra Pradesh Act, 2008",
+        "The Viksit Bharat—Guarantee for Rozgar And Ajeevika Mission (Gramin): VB—G Ram G (विकसित भारत—जी राम जी)Act, 2025",
+        "The Mahatma Gandhi National Rural Employment Guarantee Act, 2005",
+        "The Andhra Pradesh Prevention of Begging Act, 1977."
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 95,
+        "notes": "The answer correctly identifies the controlling authority and provides a thorough analysis while flagging limitations and acknowledging missing provisions."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 4,
+      "latency_ms": 58381,
+      "passed": true,
+      "answer_preview": "## Controlling law\n\nThe scheme you describe is governed by **The Andhra Pradesh Bangaru Talli Girl Child Promotion and Empowerment Act, 2013**. The excerpt provided shows only the definitions clause (ss. 10–18) and the opening of the \"Services provided to the girl children and th",
+      "error": ""
+    },
+    {
+      "qid": "stat-13",
+      "kind": "statute",
+      "question": "A member of a community has been ostracized by others for marrying outside their caste, and they are being prevented from participating in community events and social gatherings. Can this member seek legal action against those imposing the social boycott?",
+      "expected": "The Maharashtra Protection of People from Social Boycott (Prevention, Prohibition and Redressal) Act, 2016",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "The Protection of Civil Rights Act, 1955",
+        "Constitution of India",
+        "The Scheduled Castes and the Scheduled Tribes (Prevention of Atrocities) Act, 1989",
+        "The Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "The Maharashtra Protection of People from Social Boycott (Prevention, Prohibition and Redressal) Act, 2016",
+        "The Rights of Persons with Disabilities Act, 2016."
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 95,
+        "notes": "The answer correctly identifies the controlling law and flags the limitation period, but could be more concise."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 1,
+      "latency_ms": 58844,
+      "passed": true,
+      "answer_preview": "## Controlling law\n\nThe provision that governs this squarely is the **Maharashtra Protection of People from Social Boycott (Prevention, Prohibition and Redressal) Act, 2016** — *if the member and the boycotters are in Maharashtra*. That statute expressly makes social boycott an o",
+      "error": ""
+    },
+    {
+      "qid": "stat-5",
+      "kind": "statute",
+      "question": "A local resident has constructed a small shed within a protected area without obtaining the necessary permissions from the Government. What actions can the Government take regarding the unauthorized construction?",
+      "expected": "THE TAMILNADU ANCIENT AND HISTORICAL MONUMENTS AND ARCHAEOLOGICAL SITES AND REMAINS ACT,1966",
+      "retrieval_hit": false,
+      "retrieved_acts": [
+        "The Ancient Monuments & Archaeological Sites Remains Act 1958 (Amendment & Validation- 2010)",
+        "THE ARUNACHAL PRADESH LAND AND ECOLOGICAL SITES (PROTECTION AND MANAGEMENT) ACT, 2018",
+        "THE SIKKIM FORESTS, WATER COURSES AND ROAD RESERVE (PRESERVATION AND PROTECTION) ACT,1988",
+        "The Ancient Monuments and Archaeological Sites and Remains Act, 1958",
+        "BIHAR REGIONAL AREA DEVLOPMENT AUTHORITY ACT 1974",
+        "The Chhattisgarh Municipalities Act 1961"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": false,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 75,
+        "notes": "The answer correctly identifies the need for a specific statute but incorrectly cites the 1958 Act instead of the relevant 2023 laws."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 2,
+      "latency_ms": 66172,
+      "passed": false,
+      "answer_preview": "## Controlling provision\n\nIf the \"protected area\" is one under the **Ancient Monuments and Archaeological Sites and Remains Act, 1958** (a Central protected monument/protected area), the controlling provision is **Section 19** of that Act as reflected in the excerpt before you [A",
+      "error": ""
+    },
+    {
+      "qid": "jud-7",
+      "kind": "judgment",
+      "question": "What are the circumstances under which a certiorari can be issued to quash a decision made by an inferior tribunal, particularly in the context of the Labour Commissioner's authority under the Madras Shops Act?",
+      "expected": "Parry & Co. Ltd. v. Commercial Employees' Association, Madras",
+      "retrieval_hit": true,
+      "retrieved_acts": [
+        "Parry & Co. Ltd. v. Commercial Employees' Association, Madras",
+        "Hari Vishnu Kamath v. Syed Ahmad Ishaque and Others",
+        "T. C. Basappa v. T. Nagappa and Another",
+        "Province of Bombay v. Kusaldas S. Advani and Others",
+        "The Bharat Bank Ltd., Delhi v. Employees of The Bharat Bank Ltd., Delhi"
+      ],
+      "cited": true,
+      "judge": {
+        "cites_controlling": true,
+        "legally_correct": true,
+        "limitation_flagged": true,
+        "hallucination": false,
+        "score": 90,
+        "notes": "The answer correctly identifies the controlling authority and provides a thorough analysis, but could improve clarity on the current statutory framework."
+      },
+      "grounding_unsupported": 0,
+      "grounding_total": 4,
+      "latency_ms": 57177,
+      "passed": true,
+      "answer_preview": "## Controlling Rule\n\nCertiorari is a supervisory writ, not an appeal. On the authorities before us, it lies against an inferior tribunal **only** where the tribunal (a) acted without jurisdiction, (b) acted in excess of jurisdiction, (c) breached natural justice, or (d) committed",
+      "error": ""
+    }
+  ]
+}

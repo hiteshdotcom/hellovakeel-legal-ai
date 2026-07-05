@@ -28,6 +28,9 @@ COPY web/ ./web/
 COPY --from=frontend /fe/dist ./frontend/dist
 
 # Render injects $PORT; bind to it (fallback 8000 for local `docker run`).
+# --proxy-headers + --forwarded-allow-ips="*" make the app trust Render's
+# X-Forwarded-Proto, so request.url.scheme is "https" behind the TLS-terminating
+# edge. Without this the session cookie is issued WITHOUT the Secure flag.
 ENV PORT=8000
 EXPOSE 8000
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000} --proxy-headers --forwarded-allow-ips=*"]
