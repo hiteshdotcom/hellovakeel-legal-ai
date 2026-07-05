@@ -71,20 +71,31 @@ async def healthz():
 
 
 # ---- static chat UI ----
-if _WEB.exists():
-    app.mount("/web", StaticFiles(directory=str(_WEB)), name="web")
+# Prefer the built React app (frontend/dist) when present; otherwise fall back to
+# the legacy single-file web/index.html. Build it with: cd frontend && npm run build
+_DIST = Path(__file__).resolve().parents[1] / "frontend" / "dist"
+_STATIC_ROOT = _DIST if (_DIST / "index.html").exists() else _WEB
 
-    def _serve_index():
-        idx = _WEB / "index.html"
-        if idx.exists():
-            return FileResponse(
-                str(idx),
-                headers={
-                    "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-                    "Pragma": "no-cache",
-                },
-            )
-        return JSONResponse({"service": "nyaya-memory-chat", "docs": "/docs"})
+_INDEX_HEADERS = {
+    "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+    "Pragma": "no-cache",
+}
+
+
+def _serve_index():
+    idx = _STATIC_ROOT / "index.html"
+    if idx.exists():
+        return FileResponse(str(idx), headers=_INDEX_HEADERS)
+    return JSONResponse({"service": "nyaya-memory-chat", "docs": "/docs"})
+
+
+if _STATIC_ROOT.exists():
+    # Vite emits hashed bundles under /assets referenced by absolute path.
+    _assets = _STATIC_ROOT / "assets"
+    if _assets.exists():
+        app.mount("/assets", StaticFiles(directory=str(_assets)), name="assets")
+    if _WEB.exists():
+        app.mount("/web", StaticFiles(directory=str(_WEB)), name="web")
 
     @app.get("/")
     async def index():
@@ -94,6 +105,17 @@ if _WEB.exists():
     @app.get("/sso-callback")
     async def sso_callback():
         return _serve_index()
+
+    # SPA history fallback: serve real root files (favicon, etc.) or index.html.
+    @app.get("/{full_path:path}")
+    async def spa_fallback(full_path: str):
+        if full_path.startswith(("api/", "healthz", "assets/", "web/", "docs", "openapi.json")):
+            return JSONResponse({"error": "not found"}, status_code=404)
+        candidate = _STATIC_ROOT / full_path
+        if candidate.is_file() and candidate.resolve().is_relative_to(_STATIC_ROOT.resolve()):
+            return FileResponse(str(candidate))
+        return _serve_index()
+
 else:  # pragma: no cover
 
     @app.get("/")

@@ -71,6 +71,28 @@ def _ministry_category(ministry: str) -> str:
     return m or "General Law"
 
 
+# Indian States / UTs — used to tag a state act's jurisdiction from its ministry
+# line (e.g. "Maharashtra State Legislature" -> "Maharashtra"), so the answer
+# layer can tell state law from Central law.
+_STATES_UTS = [
+    "Maharashtra", "Delhi", "Karnataka", "Tamil Nadu", "Kerala", "Gujarat",
+    "Rajasthan", "Punjab", "Haryana", "Uttar Pradesh", "Uttarakhand", "West Bengal",
+    "Bihar", "Jharkhand", "Telangana", "Andhra Pradesh", "Madhya Pradesh",
+    "Chhattisgarh", "Odisha", "Assam", "Goa", "Himachal Pradesh", "Jammu and Kashmir",
+    "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Tripura", "Sikkim", "Arunachal Pradesh",
+    "Puducherry", "Chandigarh",
+]
+
+
+def _jurisdiction(ministry: str) -> str:
+    """India for Central Acts; the state name for a state legislature's act."""
+    m = ministry or ""
+    for s in _STATES_UTS:
+        if s.lower() in m.lower():
+            return s
+    return "India"
+
+
 async def _download_pdf(client, act: ActRecord, pdf_dir: Path, force: bool) -> Path:
     """Download (and cache) the act PDF. Raises ActFailure on a dead/blocked URL."""
     if not act.pdf_url:
@@ -119,6 +141,7 @@ async def _process_act(
     max_chars: int,
     overlap_chars: int,
     force_download: bool,
+    purge_pdf: bool = False,
 ) -> tuple[str, str]:
     """Process one act. Returns (act_id, status). Never raises."""
     log = get_act_log()
@@ -161,7 +184,7 @@ async def _process_act(
                 category=_ministry_category(act.ministry),
                 source_type="act",
                 act_name=act.title,
-                jurisdiction="India",
+                jurisdiction=_jurisdiction(act.ministry),
                 source_path=str(pdf_path),
                 metadata={
                     "act_id": act.act_id,
@@ -183,6 +206,15 @@ async def _process_act(
                 key, "done", doc_id=doc_id,
                 pages=len(pages), chunks=len(chunks), chars=chars,
             )
+            # For a bulk 7k-act run the PDF cache (2GB+) fills a full disk. Once the
+            # text is chunked and embedded into the DB, the PDF is dead weight — drop
+            # it so the cache stays tiny. Resume relies on act_ingest_log, not the
+            # cached file, so a purged 'done' act is never re-downloaded.
+            if purge_pdf:
+                try:
+                    pdf_path.unlink(missing_ok=True)
+                except Exception:  # noqa: BLE001 - cleanup must never fail an act
+                    pass
             logger.info(
                 "OK   %-9s %-55s %2d pg / %2d ch  %.1fs",
                 key, act.title[:55], len(pages), len(chunks), time.time() - t0,
@@ -273,6 +305,7 @@ async def run(args: argparse.Namespace) -> int:
                 embed=not args.no_embeddings,
                 max_chars=args.max_chars, overlap_chars=args.overlap_chars,
                 force_download=args.force_download,
+                purge_pdf=args.purge_pdf,
             )
             for a in acts
         ]
@@ -325,6 +358,9 @@ def main(argv: Optional[list[str]] = None) -> None:
                     help="re-process acts previously failed/no_text/skipped")
     ap.add_argument("--force", action="store_true", help="ignore 'done' and reprocess all selected")
     ap.add_argument("--force-download", action="store_true", help="ignore the PDF cache")
+    ap.add_argument("--purge-pdf", action="store_true",
+                    help="delete each PDF after it is ingested (keeps the cache tiny "
+                         "on a big run; resume uses the DB log, not cached files)")
     ap.add_argument("--dry-run", action="store_true", help="list what would be processed")
     args = ap.parse_args(argv)
     if args.catalog is None:

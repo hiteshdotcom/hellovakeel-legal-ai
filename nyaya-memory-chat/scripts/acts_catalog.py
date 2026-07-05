@@ -46,6 +46,84 @@ def _slug(s: str) -> str:
     return s or "act"
 
 
+# --- State / UT detection for the pipe-delimited catalog ------------------
+# Maps a canonical jurisdiction name to the aliases that may appear in an act
+# title (including historical names: Bombay->Maharashtra, Madras->Tamil Nadu,
+# Orissa->Odisha, Pondicherry->Puducherry, Uttaranchal->Uttarakhand, …).
+# Longest alias wins so "Andhra Pradesh" beats "Andhra" and "Madhya Pradesh"
+# is never shadowed by a bare "Pradesh".
+_STATE_ALIASES: dict[str, list[str]] = {
+    "Andhra Pradesh": ["Andhra Pradesh", "Andhra"],
+    "Arunachal Pradesh": ["Arunachal Pradesh", "Arunachal"],
+    "Assam": ["Assam"],
+    "Bihar": ["Bihar"],
+    "Chhattisgarh": ["Chhattisgarh", "Chattisgarh"],
+    "Goa": ["Goa"],
+    "Gujarat": ["Gujarat"],
+    "Haryana": ["Haryana"],
+    "Himachal Pradesh": ["Himachal Pradesh", "Himachal"],
+    "Jammu and Kashmir": ["Jammu and Kashmir", "Jammu & Kashmir", "Jammu"],
+    "Jharkhand": ["Jharkhand"],
+    "Karnataka": ["Karnataka", "Mysore"],
+    "Kerala": ["Kerala", "Travancore-Cochin", "Travancore Cochin"],
+    "Madhya Pradesh": ["Madhya Pradesh"],
+    "Maharashtra": ["Maharashtra", "Bombay"],
+    "Manipur": ["Manipur"],
+    "Meghalaya": ["Meghalaya"],
+    "Mizoram": ["Mizoram"],
+    "Nagaland": ["Nagaland"],
+    "Odisha": ["Odisha", "Orissa"],
+    "Punjab": ["Punjab"],
+    "Rajasthan": ["Rajasthan"],
+    "Sikkim": ["Sikkim"],
+    "Tamil Nadu": ["Tamil Nadu", "Tamilnadu", "Madras"],
+    "Telangana": ["Telangana"],
+    "Tripura": ["Tripura"],
+    "Uttar Pradesh": ["Uttar Pradesh"],
+    "Uttarakhand": ["Uttarakhand", "Uttaranchal"],
+    "West Bengal": ["West Bengal", "Bengal"],
+    "Delhi": ["Delhi"],
+    "Puducherry": ["Puducherry", "Pondicherry"],
+    "Chandigarh": ["Chandigarh"],
+    "Andaman and Nicobar Islands": ["Andaman and Nicobar", "Andaman"],
+    "Dadra and Nagar Haveli": ["Dadra and Nagar Haveli", "Dadra"],
+    "Lakshadweep": ["Lakshadweep"],
+    "Ladakh": ["Ladakh"],
+}
+# Pre-sort every (alias, canonical) pair by descending alias length so the most
+# specific match wins, and compile a word-boundary matcher for each.
+_STATE_MATCHERS: list[tuple[re.Pattern[str], str]] = sorted(
+    (
+        (re.compile(r"\b" + re.escape(alias) + r"\b", re.IGNORECASE), canonical)
+        for canonical, aliases in _STATE_ALIASES.items()
+        for alias in aliases
+    ),
+    key=lambda pair: -len(pair[0].pattern),
+)
+
+
+def detect_state(title: str) -> str:
+    """Return the canonical State/UT named in an act title, or "" if the act
+    reads as Central (no state named)."""
+    for pattern, canonical in _STATE_MATCHERS:
+        if pattern.search(title):
+            return canonical
+    return ""
+
+
+# indiacode bitstream URL: .../bitstream/123456789/<handle>/<seq>/<file>.pdf
+# The (handle, seq) pair is a stable, unique id for the specific PDF — far more
+# reliable than a title slug (which can collide after truncation).
+_BITSTREAM_RE = re.compile(r"/bitstream/\d+/(\d+)/(\d+)/", re.IGNORECASE)
+
+
+def _act_id_from_url(url: str) -> str:
+    m = _BITSTREAM_RE.search(url or "")
+    if m:
+        return f"ic-{m.group(1)}-{m.group(2)}"
+    return ""
+
+
 @dataclass
 class ActRecord:
     title: str
@@ -77,16 +155,66 @@ class ActRecord:
 
     @property
     def pdf_filename(self) -> str:
-        tail = self.pdf_url.rstrip("/").split("/")[-1] or f"{self.stable_key}.pdf"
+        # Use only the URL path's basename (drop any query string) and sanitise to
+        # Windows-safe chars — state-act downloads come from the `showfile?...`
+        # endpoint whose raw tail contains ? & = , which are illegal in filenames.
+        from urllib.parse import urlsplit
+
+        tail = urlsplit(self.pdf_url).path.rstrip("/").split("/")[-1]
+        tail = re.sub(r"[^A-Za-z0-9._-]+", "_", tail).strip("_")
         if not tail.lower().endswith(".pdf"):
-            tail += ".pdf"
+            tail = (tail or "act") + ".pdf"
         # Prefix with the stable key so cached files never collide.
         return f"{self.stable_key}__{tail}"
 
 
 def parse_catalog(path: str | Path = DEFAULT_CATALOG) -> list[ActRecord]:
     text = Path(path).read_text(encoding="utf-8", errors="replace")
-    return list(_iter_records(text))
+    # Two supported formats:
+    #  1. The block format ("Act Title:" / "Ministry:" / "PDF Download:" …).
+    #  2. The flat pipe format, one act per line:  "<Act Title> | <PDF URL>".
+    # Auto-detect: the block format always has "Act Title:" markers.
+    if "Act Title:" in text:
+        return list(_iter_records(text))
+    return list(_iter_pipe_records(text))
+
+
+def _iter_pipe_records(text: str) -> Iterator[ActRecord]:
+    """Parse the flat `<Act Title> | <PDF URL>` catalog.
+
+    Derives a stable, unique Act ID from the bitstream (handle, seq) in the URL,
+    and tags the jurisdiction from the State/UT named in the title so the answer
+    layer can tell state law from Central law. De-duplicates by stable key so a
+    repeated URL / act never seeds the ingest log twice.
+    """
+    seen: set[str] = set()
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or "|" not in line:
+            continue
+        title, _, url = line.partition("|")
+        title = title.strip()
+        url = url.strip()
+        if not title or not url.lower().startswith("http"):
+            continue
+
+        act_id = _act_id_from_url(url)
+        state = detect_state(title)
+        # Ministry carries the state so _jurisdiction()/_ministry_category() in the
+        # pipeline resolve to the right jurisdiction, mirroring the block-format
+        # convention ("<State> State Legislature").
+        ministry = f"{state} State Legislature" if state else ""
+        rec = ActRecord(
+            title=title,
+            act_id=act_id,
+            ministry=ministry,
+            pdf_url=url,
+        )
+        key = rec.stable_key
+        if key in seen:
+            continue
+        seen.add(key)
+        yield rec
 
 
 def _iter_records(text: str) -> Iterator[ActRecord]:

@@ -38,10 +38,17 @@ class Database:
             return
         try:
             is_supabase = "supabase" in dsn
+            # Pool size is capped by the Supabase pooler (session mode allows only
+            # ~15 client connections total across ALL processes on this DSN). When
+            # a long ingest and the eval harness run at once they share that budget,
+            # so make the ceiling overridable per process via DB_POOL_MAX.
+            import os
+
+            max_size = int(os.environ.get("DB_POOL_MAX", "8"))
             self.pool = await asyncpg.create_pool(
                 dsn,
                 min_size=1,
-                max_size=8,
+                max_size=max_size,
                 command_timeout=30,
                 # Supabase requires SSL; the pgbouncer pooler needs prepared
                 # statements disabled.
@@ -407,30 +414,39 @@ class LegalKnowledgeStore:
     async def replace_chunks(self, doc_id: str, chunks: list[dict[str, Any]]) -> None:
         if not self.db.pool:
             return
+        # Build all rows first, then insert them with a single pipelined
+        # executemany. Over a high-latency pooler (this Supabase instance is in
+        # Australia), one round-trip-per-chunk dominated ingest time — an act with
+        # 20 chunks paid 20 sequential ~250ms round-trips. executemany batches them.
+        records = [
+            (
+                c["id"],
+                doc_id,
+                c["chunk_index"],
+                c.get("heading"),
+                c["content"],
+                c.get("page_start"),
+                c.get("page_end"),
+                _vec_literal(c["embedding"]) if c.get("embedding") else None,
+                json.dumps(c.get("metadata") or {}),
+            )
+            for c in chunks
+        ]
         async with self.db.pool.acquire() as conn:
             async with conn.transaction():
                 await conn.execute(
                     "DELETE FROM memchat.legal_knowledge_chunks WHERE knowledge_id = $1",
                     doc_id,
                 )
-                for c in chunks:
-                    emb = c.get("embedding")
-                    await conn.execute(
+                if records:
+                    await conn.executemany(
                         """
                         INSERT INTO memchat.legal_knowledge_chunks
                             (id, knowledge_id, chunk_index, heading, content, page_start,
                              page_end, embedding, metadata)
                         VALUES ($1, $2, $3, $4, $5, $6, $7, $8::vector, $9::jsonb)
                         """,
-                        c["id"],
-                        doc_id,
-                        c["chunk_index"],
-                        c.get("heading"),
-                        c["content"],
-                        c.get("page_start"),
-                        c.get("page_end"),
-                        _vec_literal(emb) if emb else None,
-                        json.dumps(c.get("metadata") or {}),
+                        records,
                     )
 
     async def document_summary(self, doc_id: str) -> dict[str, Any]:
@@ -520,7 +536,7 @@ class LegalKnowledgeStore:
         SELECT c.id AS chunk_id, c.knowledge_id, c.chunk_index, c.heading,
                c.content, c.page_start, c.page_end,
                lk.title, lk.act_name, lk.category, lk.source_type,
-               lk.section_number, lk.source_path, lk.metadata AS doc_metadata,
+               lk.section_number, lk.source_path, lk.jurisdiction, lk.metadata AS doc_metadata,
                f.rrf_score
         FROM fused f
         JOIN memchat.legal_knowledge_chunks c ON c.id = f.chunk_id
@@ -532,9 +548,13 @@ class LegalKnowledgeStore:
             args.append(source_type)
         try:
             async with self.db.pool.acquire() as conn:
-                # The chunks live behind an ivfflat index (lists=100). Its default
-                # of probing ONE list badly under-recalls a small/medium corpus, so
-                # widen the probe count for this query only (SET LOCAL in a txn).
+                # The chunks live behind an ivfflat index (lists=100). probes=1
+                # (default) badly under-recalls; but probes scales cost steeply on
+                # this remote instance (~6.3s at 40 vs ~1.7s at 10). The multi-issue
+                # query decomposition in LegalKnowledgeRetriever already turns each
+                # search into a strong, focused match, so the textbook probes≈√lists
+                # gives good recall without the latency blow-up. SET LOCAL needs a
+                # txn to take effect.
                 async with conn.transaction():
                     await conn.execute("SET LOCAL ivfflat.probes = 20")
                     rows = await conn.fetch(sql, *args)

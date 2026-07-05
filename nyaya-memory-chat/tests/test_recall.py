@@ -73,8 +73,11 @@ async def test_user_isolation(db, fake_llm):
         # User B has stored nothing — must recall nothing of A's.
         recalled_b = await backend.recall_user(b, "sb", "cheque dispute Maharashtra")
         assert recalled_b == [], "user B must not see user A's memory"
-        # And A still has it.
-        recalled_a = await backend.recall_user(a, "sa2", "cheque")
+        # A's own private matter is gated: a bare topical query must NOT surface it.
+        generic = await backend.recall_user(a, "sa2", "cheque bounce penalties in India")
+        assert generic == [], "a generic topical query must not surface A's private matter"
+        # But A still has it when A references the matter (intent / named attribute).
+        recalled_a = await backend.recall_user(a, "sa2", "what happened in my Maharashtra matter?")
         assert any("cheque" in r.lower() for r in recalled_a)
     finally:
         await _clean(db, a); await _clean(db, b)

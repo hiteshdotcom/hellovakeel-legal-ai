@@ -95,6 +95,29 @@ class LLMClients:
         )
         return "".join(b.text for b in msg.content if getattr(b, "type", None) == "text")
 
+    # ----- cheap structured JSON (OpenAI gpt-4o-mini, JSON mode) -----
+    async def complete_json(self, system: str, user: str, max_tokens: int = 300) -> dict:
+        """Fast, cheap structured JSON via gpt-4o-mini. Returns {} on any failure
+        so callers can fall back. Used for latency-sensitive helpers like query
+        decomposition where a full Claude call would dominate retrieval time."""
+        if not self.settings.OPENAI_API_KEY:
+            return {}
+        try:
+            resp = await self.openai.chat.completions.create(
+                model=self.settings.LLM_MODEL,
+                response_format={"type": "json_object"},
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user},
+                ],
+                temperature=0,
+                max_tokens=max_tokens,
+            )
+            return json.loads(resp.choices[0].message.content or "{}")
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("complete_json failed: %s", exc)
+            return {}
+
     # ----- cheap structured fact extraction (OpenAI gpt-4o-mini, JSON mode) -----
     async def extract_facts(self, text: str) -> list[dict]:
         """Pull durable, user-specific facts out of a user message. Returns a

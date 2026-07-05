@@ -825,10 +825,6 @@ function mainCol(){
         el("div",{style:"font-weight:700;font-size:12.5px;color:var(--color-ink)"},t),
         el("div",{class:"desktop-only",style:"font-size:11.5px;color:var(--color-ink-tertiary);line-height:1.4;max-width:160px"},d))));
     hero.append(pillars);
-    const chips=el("div",{style:"display:flex;flex-direction:column;gap:8px;width:100%;max-width:430px;margin-top:8px"});
-    EXAMPLES.slice(0,3).forEach(t=>chips.append(el("button",{class:"tap",style:"display:flex;align-items:center;gap:10px;text-align:left;border:1px solid var(--color-brand-gold);background:var(--nyaya-gold-soft);color:var(--color-ink);border-radius:11px;padding:11px 14px;font-size:13.5px;cursor:pointer;line-height:1.4",
-      onclick:()=>send(t)}, ICON(I.sparkle,{w:15,stroke:"var(--color-brand-gold)",sw:1.8}), el("span",{style:"min-width:0"},t))));
-    hero.append(chips);
     col.append(hero);
   }
   S.messages.forEach((m,i)=>col.append(messageEl(m,i)));
@@ -900,16 +896,6 @@ function messageSourceStrip(sources){
 function composer(){
   const wrap=el("div",{class:"composer-wrap",style:"flex:none;padding:12px 24px 16px;border-top:1px solid var(--color-divider);background:var(--color-surface)"});
   const inner=el("div",{style:"max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:10px"});
-  if(!S.streaming && S.messages.length){
-    const ex=el("div",{style:"display:flex;gap:8px;flex-wrap:wrap"});
-    const shown=S.pillsExpanded?EXAMPLES:EXAMPLES.slice(0,2);
-    shown.forEach(t=>ex.append(el("button",{class:"tap",title:t,style:"font-size:12.5px;color:var(--color-ink-secondary);background:transparent;border:1px dashed var(--color-divider);border-radius:999px;padding:7px 13px;cursor:pointer;text-align:left;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis",
-      onclick:()=>send(t)},t)));
-    if(!S.pillsExpanded && EXAMPLES.length>2)
-      ex.append(el("button",{"aria-label":"Show more suggestions",style:"font-size:12.5px;color:var(--accent-ink);font-weight:700;background:transparent;border:1px dashed var(--color-divider);border-radius:999px;padding:6px 11px;cursor:pointer",
-        onclick:()=>{S.pillsExpanded=true;render();}},"+"+(EXAMPLES.length-2)+" more"));
-    inner.append(ex);
-  }
   const cognee=el("button",{class:"tap","aria-label":"Cognee retrieval",title:"Cognee retrieves relevant judgments from its corpus",
     style:"flex:none;display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 11px;border-radius:10px;border:1px solid var(--color-divider);background:var(--color-surface);color:var(--accent-ink);font-weight:700;font-size:12.5px;cursor:pointer"},
     ICON(I.zap,{w:15,fill:"var(--color-brand-gold)",stroke:"var(--color-brand-gold)",sw:1.5}), el("span",{class:"desktop-only"},"Cognee"));

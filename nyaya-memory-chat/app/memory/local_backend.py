@@ -24,6 +24,79 @@ logger = logging.getLogger("nyaya.memory.local")
 
 _CATEGORY_ORDER = ["Matter", "Money", "Jurisdiction", "Status", "Parties", "Research", "Preference"]
 
+# Recall gate for a user's private matter facts (amount, jurisdiction, parties,
+# status, prior queries). A generic legal question — "penalties for cheque
+# bounce under Indian law?" — must NOT drag these in, even though it shares the
+# topic "cheque bounce" with the user's stored matter. Same topic is not "about
+# my case". Matter facts surface only on one of two explicit signals:
+#   1. continuity intent — the user is asking about THEIR situation, or
+#   2. a distinctive attribute of the matter is named — the state, the amount, a
+#      party name (not a generic topic word).
+# Preferences are exempt from this gate (see recall_user) and always surface.
+
+# 1) Continuity intent. "my"/"our" covers "my case", "my client", "for my
+# matter"; the rest catch follow-ups ("what should I do next", "as I mentioned").
+_INTENT_RE = re.compile(
+    r"\bmy\b|\bour\b|\bmine\b"
+    r"|\bwhat (?:should|do|can|would) i\b|\bwhat'?s next\b|\bnext step"
+    r"|\bas i (?:said|mentioned|told|explained)\b|\bwe (?:discussed|talked|spoke)\b"
+    r"|\bfor me\b|\bearlier i\b|\blast time\b|\bcontinue\b",
+    re.I,
+)
+
+# 2) Distinctive tokens: numbers/amounts and proper nouns that identify a
+# specific matter — NOT common topic or question words. Overlap on one of these
+# means the user named part of their own matter, so recall it.
+_NUM_RE = re.compile(r"\d[\d,]{2,}")
+_COMMON_CAPS = {
+    "what", "when", "where", "which", "who", "why", "how", "should", "would",
+    "could", "please", "indian", "india", "under", "section", "act", "law",
+    "the", "this", "that", "does", "there", "these", "those", "explain",
+}
+
+
+def _wants_continuity(query: str) -> bool:
+    return bool(query and _INTENT_RE.search(query))
+
+
+def _distinctive_tokens(text: str) -> set[str]:
+    """Amounts and proper-noun-ish identifiers in `text`, lowercased. These are
+    the words that pin a fact to a specific matter (Maharashtra, 2,00,000, a
+    party name) rather than to a legal topic."""
+    toks = {m.group(0).replace(",", "") for m in _NUM_RE.finditer(text)}
+    for w in re.findall(r"\b[A-Z][a-zA-Z]{3,}\b", text):
+        if w.lower() not in _COMMON_CAPS:
+            toks.add(w.lower())
+    return toks
+
+
+# Preference / durable-identity detection. These facts describe how the user
+# wants answers, or who the user IS — not their case. They are exempt from the
+# recall gate (always surface), so we must classify them reliably even when the
+# LLM extractor drops them or labels an identity as a case attribute. The regexes
+# match both first-person ("I am a lawyer") and the extractor's normalised third
+# person ("User is a lawyer"). A matter's own jurisdiction ("the matter is in
+# Maharashtra") does NOT match here, so it stays gated.
+_STYLE_RE = re.compile(
+    r"\b(?:always|never|please|kindly)\b[^.]*\b(?:answer|respond|reply|format|cite|"
+    r"citation|bullet|number|numbered|concise|brief|detail|detailed|short|plain|tone|style)"
+    r"|\b(?:i|user)\s+(?:prefer|prefers|like|likes|want|wants|expect|expects)\b[^.]*"
+    r"\b(?:answer|response|format|cite|citation|bullet|number|concise|brief|detail|tone|style|language)"
+    r"|\b(?:answer|respond|reply)\s+in\s+(?:a\s+)?(?:concise|brief|detailed|numbered|bullet|plain|short)",
+    re.I,
+)
+_IDENTITY_RE = re.compile(
+    r"\bmy name is\b|\bcall me\b"
+    r"|\b(?:i\s*a?m|user is|user's)\s+(?:a\s+|an\s+|the\s+)?(?:lawyer|advocate|attorney|"
+    r"counsel|paralegal|law student|solicitor|litigator|judge|in-house)"
+    r"|\b(?:i|user)\s+practi[cs]es?\b",
+    re.I,
+)
+
+
+def _is_preference(text: str) -> bool:
+    return bool(text) and bool(_STYLE_RE.search(text) or _IDENTITY_RE.search(text))
+
 # Indian-state heuristic safety net (used only if the LLM extractor is unavailable).
 _STATES = [
     "Maharashtra", "Delhi", "Karnataka", "Tamil Nadu", "Kerala", "Gujarat",
@@ -60,6 +133,12 @@ class LocalBackend(MemoryBackend):
         facts = await self.llm.extract_facts(content)
         if not facts:
             facts = self._heuristic_facts(content)
+        # Promote answer-style / durable-identity facts to 'Preference' so recall
+        # always surfaces them, regardless of how the extractor labelled them (it
+        # drops some style instructions and files identity under Jurisdiction).
+        for f in facts:
+            if _is_preference(f["fact"]):
+                f["category"] = "Preference"
         if not facts:
             return []
 
@@ -131,22 +210,36 @@ class LocalBackend(MemoryBackend):
             return []
 
         q_emb = await self.llm.embed(query) if query else []
-        scored: list[tuple[float, str]] = []
+        intent = _wants_continuity(query)
+        q_dist = _distinctive_tokens(query)
+
+        scored: list[tuple[float, str, str]] = []
         for r in rows:
             emb = list(r["embedding"]) if r["embedding"] else []
             score = _cosine(q_emb, emb) if q_emb and emb else 0.0
-            # keyword fallback / boost
-            if query and any(w in r["fact"].lower() for w in _norm_words(query)):
-                score = max(score, 0.55)
-            scored.append((score, r["fact"]))
+            scored.append((score, r["fact"], (r["category"] or "Matter")))
+        # Order by semantic similarity so the most on-point facts come first when
+        # we do surface them; the gate below decides *whether* to surface, not the
+        # ordering.
         scored.sort(key=lambda x: x[0], reverse=True)
 
-        # Return the top-k facts by relevance. We deliberately do NOT drop
-        # low-scoring facts below a threshold: a user's durable matter facts are
-        # few and must surface for continuity even on generic follow-ups
-        # ("what should I do next?"). Bounding at k keeps the context window
-        # fixed regardless of how long the conversation grows.
-        return [f for _, f in scored][:k]
+        # Preferences (answer style, who the user is) shape every answer — they
+        # are exempt from the gate and always surface.
+        prefs = [f for _, f, c in scored if c.lower() == "preference"]
+
+        # Matter facts surface only when the user is asking about THEIR situation
+        # (continuity intent) or has named a distinctive attribute of the matter.
+        # Bare topical overlap ("cheque bounce") does NOT qualify — that is what
+        # kept polluting generic legal questions with the user's private facts.
+        matter: list[str] = []
+        for _, f, c in scored:
+            if c.lower() == "preference":
+                continue
+            if intent or (q_dist & _distinctive_tokens(f)):
+                matter.append(f)
+
+        # Preferences first (they frame the answer), then any relevant matter.
+        return (prefs + matter)[:k]
 
     async def memory_view(self, user_id: str) -> MemoryView:
         if not self.db.pool:
@@ -241,7 +334,3 @@ class LocalBackend(MemoryBackend):
         # No-op for the local backend beyond the ingest-log bookkeeping done by
         # the ingestion script: the corpus graph is the existing Postgres tables.
         return len(judgments)
-
-
-def _norm_words(q: str) -> list[str]:
-    return [w for w in re.sub(r"[^a-z0-9 ]", " ", q.lower()).split() if len(w) > 3]
